@@ -1,0 +1,4 @@
+[ClalarcoPDOAccessBundle]
+    git=git://github.com/clalarco/PDOAccessBundle.git
+    target=/bundles/Clalarco/PDOAccessBundle 
+    version=origin/master

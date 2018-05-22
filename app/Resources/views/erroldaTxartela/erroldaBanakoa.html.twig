@@ -1,0 +1,79 @@
+{% extends 'pdf.html.twig' %}
+
+{% block title %}Banako errolda-txartela/Volante de empadronamiento individual{% endblock %}
+
+{% block pdftitle %}Errolda-Txartel Banakoa<br/>Volante de empadronamiento individual{% endblock %}
+
+{% block body %}
+{#{{ dump(habitante,variacion) }}
+#}
+<div>
+    <table>
+	<tr>
+	    <td style="width: 49%"></td>
+	    <td style="width: 49%;"><b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}</b><br/>
+		<b>{{ variacion.calle.tipoVia.claveCas }}/{{ variacion.calle.tipoVia.claveEus }} {{ variacion.calle.descripcion }}, {{ variacion.portal | trim | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim }}-{{ variacion.mano }}</b><br/>
+		{{ variacion.codigoPostal }} - {{ habitante.literalMunicipioNacimiento }}
+	    </td>
+	</tr>
+    </table>
+</div>
+
+<div>
+    <table>
+	<tr>
+	    <td style="width: 49%;">     1996ko maiatzaren 1eko udalerri honetako Biztanleen Udal Erroldan eta bertan egunerarte egindako zuzenketetan ageri denez, jarraiko persona erroldatuta dagoela eta honako bizilekua daukala:</td>
+	    <td style="width: 49%;">     Que examinado el Padrón Municipal de Habitantes de este Ayuntamiento, referido al 1 de mayo de 1996 y rectificaciones realizadas hasta la fecha, aparece incluido en el mismo y tiene el siguiente domicilio.</td>
+	</tr>
+    </table>
+</div>
+
+<hr>	    
+<div class="container border-top p-2 mt-4 mb-4 border-bottom pb-2">
+    <table style="border-spacing: 7px;">
+	<tr>
+	    <th style="width: 25%;">N.A.N.:<br/>D.N.I.:</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.numDocumento | number_format(0,'.','.')}} {{ habitante.claveDocumento }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">Izen-Abizenak:<br/>Nombre y apellidos:</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">Helbidea:<br/>Dirección:</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ variacion.calle.tipoVia.claveCas }} / {{ variacion.calle.tipoVia.claveEus }} {{ variacion.calle.descripcion }}, {{ variacion.portal | trim | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim }}-{{ variacion.mano }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">Jaioteguna:<br/>Fecha de Nacimiento:</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.fechaNacimiento[:4] }}-{{ habitante.fechaNacimiento|slice(-4,-2) }}-{{ habitante.fechaNacimiento|slice(-2) }}/{{ habitante.fechaNacimiento|slice(-2) }}-{{ habitante.fechaNacimiento|slice(-4,-2) }}-{{ habitante.fechaNacimiento[:4] }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">Jaioterria:<br/>Lugar de Nacimiento:</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.literalMunicipioNacimiento }}
+		    {% if habitante.paisNacimiento.id == '108' %}
+			({{ habitante.provinciaNacimiento.descripcionCas }})
+		    {% else %}
+			({{ habitante.paisNacimiento.descripcionCas }})</b>
+		    {% endif %}
+	    </b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">Udalerri honetan:<br/>En el municipio desdes:</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.anoLlegada }} - tik bizi da</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">Eskariaren zioa:<br/>Motivo de la petición:</th>
+	    <td style="width: 75%; background-color: #ddd"></td>
+	</tr>
+    </table>
+</div>
+<hr>
+<div>
+    <table style="padding-top: 10px;">
+	<tr>
+	    <td style="width: 49%;">     Eta hala ager dadin eta ondorietarako honako hau.</td>
+	    <td style="width: 49%;">     Y para que así conste, y surta los efectos oportunos.</td>
+	</tr>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+	<style>
+	    .logo {
+		height: 100px;
+		width: auto;
+	    }
+	    .text-center {
+		text-align: center;
+	    }
+	    .text-uppercase {
+		text-transform: uppercase;
+	    }
+	    .h5 {
+		font-size: 10px;
+		font-weight: bold;
+	    }
+	</style>
+    </head>
+    <body id="content">
+    {% block header %}
+	<header id="header" style="width: 100%">
+	    <table>
+		<tr>
+		    <td class="text-center" style="width: 30%"><img class="logo" alt="Amorebieta-Etxanoko Armarria" src="{{ asset('/images/armarriabn.jpg') }}"></td>
+		    <td style="width: 80%;"><span  style="vertical-align: middle"><h1 class="h5 text-center text-uppercase">{% block pdftitle %}{% endblock %}</h1></span></td>
+		</tr>
+	    </table>
+	</header>
+    {% endblock %}
+	<main>
+	    {% block body %}{% endblock %}
+	    <table>
+		<tr><td class="text-center" colspan="2">Amorebieta-Etxanon, {{ "now" | date ('Y-m-d') }}.<br/>En Amorebieta-Etxano, {{ "now" |date ("d-m-Y")}}</td></tr>
+		<tr><td class="text-center" colspan="2"><img style="height: 80px;" alt="Amorebieta-Etxanoko Sigilua" src="{{ asset('/images/sigilua.jpg') }}"></td></tr>
+	    </table>
+	</main>
+    </body>
+</html>

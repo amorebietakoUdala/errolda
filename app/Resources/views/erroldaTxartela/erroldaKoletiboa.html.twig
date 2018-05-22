@@ -1,0 +1,54 @@
+{% extends 'pdf.html.twig' %}
+
+{% block pdftitle %}
+    <b>Errolda-Txartel kolektiboa</b><br/>Volante de empadronamiento colectivo
+{% endblock %}
+
+
+{% block message %}
+    {% for msg in app.session.flashBag.get('success') %}
+	<div class="alert alert-success margin-top-13">
+	    {{ msg | trans}}
+	</div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('error') %}
+	<div class="alert alert-danger margin-top-13">
+	    {{ msg | trans}}
+	</div>
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+Errolda Txartela <br/>
+
+Entidad: <b>{{ entidad.descripcionCas }}</b><br/>
+Núcleo: <b>{{ entidad.descripcionEus }}</b><br/>
+Distrito: <b>{{ variacion.claveDistrito }}</b><br/>
+Seccion: <b>{{ variacion.claveSeccion }}</b><br/>
+
+Dirección de la vivienda: <b>{{ variacion.calle.tipoVia.claveCas }}/{{ variacion.calle.tipoVia.claveEus }} {{ variacion.calle.descripcion }}, {{ variacion.portal | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim | number_format(0, '.', ',') }}-{{ variacion.mano }}</b>Personas: <b> {{ habitantes | length | number_format(0, '.', ',') }}</b><br/><br/>
+
+Datos de inscripciones: <b></b><br/>
+{% for habitante in habitantes %}
+<b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}, ({{habitante.sexo == 'M' ? 'E/M' : 'G/V'}}), 
+{% if habitante.paisNacionalidadExtranjera == '000'%}
+    {{ habitante.paisNacionalidadExtranjera.descripcionCas }} ({{ habitante.paisNacionalidadExtranjera.id }}) <br/>
+{% else %}
+    {{ habitante.paisNacimiento.descripcionCas }} ({{ habitante.paisNacimiento.id }}) <br/>
+{% endif %}
+<b>Jaiotza / Nacimiento: 
+    {% if habitante.paisNacimiento.id == '108' %}
+	{{ habitante.provinciaNacimiento.descripcionCas }} ({{ habitante.provinciaNacimiento.id }})</b>, <b>{{ habitante.literalMunicipioNacimiento }}</b><b>({{ habitante.municipioNacimiento }})</b>
+	{% else %}
+	<b>{{ habitante.literalMunicipioNacimiento }}({{ habitante.paisNacimiento.id }})</b>
+    {% endif %}
+    {% set anyo=habitante.fechaNacimiento[:4] %}
+    {% set mes=habitante.fechaNacimiento|slice(-4,-2) %}
+    {% set dia=habitante.fechaNacimiento|slice(-2) %}
+, {{ anyo }}-{{ mes }}-{{ dia }}/{{ dia }}-{{ mes }}-{{ anyo }}<br/>
+N.A.N / D.N.I.: <b>{{ habitante.numDocumento }} {{ habitante.claveDocumento }}, Udal ident. / Identi. Ayto: {{habitante.municipio}}-{{habitante.claveVivienda}}-{{habitante.numOrdenHabitante}}</b><br/>
+<b>Egoitza (e)tik / Residencia Desde: {{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}</b><br/>
+{#Domicilio Desde: <b>VAFECHAVA</b><br/>
+#}</b>
+{% endfor %}
+{% endblock %}
