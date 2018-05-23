@@ -61,6 +61,9 @@
 	    $this->descripcionEus = $descripcionEus;
 	}
 
+	public function __toString() {
+	    return $this->descripcionCas;
+	}
 
 
 }

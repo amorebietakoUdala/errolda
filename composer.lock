@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "14de9bf2e32c5e4caf1b20480fed7400",
+    "content-hash": "00183a8c0e0dcf1f82c7ff0913a52fc1",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2281,6 +2281,64 @@
             "time": "2017-10-11 12:05:26"
         },
         {
+            "name": "symfony/polyfill-ctype",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-ctype.git",
+                "reference": "9d31bef82d2e9b033f335d60b96611757f98c605"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/9d31bef82d2e9b033f335d60b96611757f98c605",
+                "reference": "9d31bef82d2e9b033f335d60b96611757f98c605",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-ctype": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Ctype\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                },
+                {
+                    "name": "Gert de Pagter",
+                    "email": "BackEndTea@gmail.com"
+                }
+            ],
+            "description": "Symfony polyfill for ctype functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "ctype",
+                "polyfill",
+                "portable"
+            ],
+            "time": "2018-05-17 18:32:56"
+        },
+        {
             "name": "symfony/polyfill-intl-icu",
             "version": "dev-master",
             "source": {
@@ -2629,12 +2687,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "22a6a7e4c5858d3d34267af740f08438451b194b"
+                "reference": "c2f15afdc2cfcf942b4b6b0141f95259755ab6ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/22a6a7e4c5858d3d34267af740f08438451b194b",
-                "reference": "22a6a7e4c5858d3d34267af740f08438451b194b",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/c2f15afdc2cfcf942b4b6b0141f95259755ab6ca",
+                "reference": "c2f15afdc2cfcf942b4b6b0141f95259755ab6ca",
                 "shasum": ""
             },
             "require": {
@@ -2648,11 +2706,11 @@
                 "psr/log": "~1.0",
                 "psr/simple-cache": "^1.0",
                 "symfony/polyfill-apcu": "~1.1",
+                "symfony/polyfill-ctype": "~1.8",
                 "symfony/polyfill-intl-icu": "~1.0",
                 "symfony/polyfill-mbstring": "~1.0",
                 "symfony/polyfill-php56": "~1.0",
                 "symfony/polyfill-php70": "~1.6",
-                "symfony/polyfill-util": "~1.0",
                 "twig/twig": "^1.35|^2.4.4"
             },
             "conflict": {
@@ -2776,7 +2834,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-12-05 00:17:08"
+            "time": "2018-05-22 17:17:49"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -3350,6 +3408,7 @@
     "stability-flags": {
         "friendsofsymfony/rest-bundle": 20,
         "nelmio/api-doc-bundle": 20,
+        "symfony/translation": 20,
         "twig/extensions": 20,
         "whiteoctober/tcpdf-bundle": 20,
         "wiz/pdodblib-bundle": 20,

@@ -1,1 +1,7 @@
-"Ez da herritarra aurkitu": "No se ha encontrado el habitante con DNI {{ dni }}"
+"messages.aplikazioa": Errolda kontsulta zerbitzua
+"Ez da herritarra aurkitu": No se ha encontrado el habitante con DNI {{ dni }}
+"MC": HELBIDE ALDAKETA/CAMBIOS DE DOMICLIO
+"AN": ALTA (JAIOTZA)/ALTA (NACIMIENTO)
+"AM": ALTA (ETORRERA UDALERRIRA)/ALTA (INMIGRACION MUNICIPIO)
+"BM": BAJA (ERRALDA UDALERRIRA)/BAJA (EMIGRACION MUNICIPIO)
+"BF": BAJA (HERIOTZA)/BAJA (DEFUNCION)

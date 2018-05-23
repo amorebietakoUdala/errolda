@@ -126,4 +126,7 @@
 	    return $this->PROVINCIACODE;
 	}
 
+	public function __toString() {
+	    return $this->tipoVia.' '.trim($this->descripcion);
+	}
 }

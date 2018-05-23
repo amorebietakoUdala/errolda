@@ -15,20 +15,24 @@ class ViviendaRepository extends EntityRepository
 {
 
     /**
-    * @return QueryBuilder
+    * @return Vivienda
     */
-    public function findAllLikeQueryBuilder( $criteriaLike = null )
+    public function findVivienda ( $claveActual )
     {
-        $qb = $this->createQueryBuilder('e');
-        
-        if ( $criteriaLike ) {
-            foreach ( $criteriaLike as $eremua => $filtroa ) {
-                $qb->andWhere('e.'.$eremua.' LIKE :'.$eremua)
-                    ->setParameter($eremua, '%'.$filtroa.'%');
-            }
-        }
-//	$qb->orderBy('e.noizInformatua', 'DESC');
-        return $qb;
+	$municipio = substr($claveActual,0,3);
+	$claveVivienda = substr($claveActual,3,8);
+	$orden = substr($claveActual,11);
+//	dump($claveActual,$municipio,$claveVivienda,$orden);die;
+	$qb = $this->createQueryBuilder('v')
+		->select('v')
+		->andWhere('v.claveVivienda = :claveVivienda')
+		->andWhere('v.municipio = :municipio');
+	
+        $qb->setParameter( 'claveVivienda', $claveVivienda );
+	$qb->setParameter( 'municipio', $municipio );
+//	dump($qb->getQuery());die;
+        $result = $qb->getQuery()->getSingleResult();
+//	dump($result);die;
+	return $result;
     }
-    
 }

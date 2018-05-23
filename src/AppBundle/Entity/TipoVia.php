@@ -65,7 +65,7 @@
          * @ORM\Column(name="TVDESCRE", type="string", nullable=true)
          */
         private $descripcionEus;
-
+	
 	public function getCodVia() {
 	    return $this->codVia;
 	}
@@ -122,6 +122,7 @@
 	    $this->descripcionEus = $descripcionEus;
 	}
 
-
-
+	public function __toString() {
+	    return $this->claveEus.'/'.$this->claveCas;
+	}
 }

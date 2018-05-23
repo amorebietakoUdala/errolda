@@ -91,7 +91,11 @@
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VICCALLE", type="string", nullable=true)
+	 * @ORM\ManyToOne(targetEntity="Calle")
+         * @ORM\JoinColumns({
+         *   @ORM\JoinColumn(name="VICCALLE", referencedColumnName="CACLACAL"),
+         *   @ORM\JoinColumn(name="VICLAMUN", referencedColumnName="CACLAMUN")
+	 * })
          */
         private $calle;
 
@@ -161,7 +165,7 @@
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VIDIRECCION", type="string", nullable=true)
+         * @ORM\Column(name="VIDIRECC", type="string", nullable=true)
          */
         private $direccion;
 
@@ -325,6 +329,8 @@
          * @ORM\Column(name="VIHORAOV", type="string", nullable=true)
          */
         private $horaOperacion;
+	
+	private $direccionCompleta;
 
 	public function getId() {
 	    return $this->id;
@@ -395,7 +401,7 @@
 	}
 
 	public function getEscalera() {
-	    return $this->escalera;
+	    return trim($this->escalera);
 	}
 
 	public function getPiso() {
@@ -681,5 +687,36 @@
 	public function setHoraOperacion($horaOperacion) {
 	    $this->horaOperacion = $horaOperacion;
 	}
+	/**
+	 * 
+	 * @return String
+	 */
+	public function getDireccionCompleta() {
+	    $direccionCompleta = $this->calle.', ';
+	    $direccionCompleta = (trim($this->caserio) != '000' ? $direccionCompleta.trim($this->caserio) : $direccionCompleta);
+	    $direccionCompleta = $direccionCompleta.$this->kilometro;
+	    $direccionCompleta = (trim($this->bloque) != '' ? $direccionCompleta.trim($this->bloque) : $direccionCompleta);
+	    $direccionCompleta = ( is_numeric(trim($this->portal)) ? $direccionCompleta.' '.intval($this->portal) : $direccionCompleta.' '.trim($this->portal));
+	    $direccionCompleta = (trim($this->bis) == 'Y' ? $direccionCompleta.' BIS' : $direccionCompleta);
+	    $direccionCompleta = $direccionCompleta.', ';
+	    $direccionCompleta = (trim($this->escalera) != '' ? $direccionCompleta.' ESK/ESC: '.trim($this->escalera) : $direccionCompleta);
+	    if (!is_numeric(trim($this->piso))) {
+		$direccionCompleta = (trim($this->piso) != '' ? $direccionCompleta.' '.trim($this->piso) : $direccionCompleta);
+	    } else {
+		$direccionCompleta = $direccionCompleta.' '.intval($this->piso);
+	    }
+	    $direccionCompleta = (trim($this->mano) != '' ? $direccionCompleta.'-'.trim($this->mano) : $direccionCompleta);
+	    $direccionCompleta = (trim($this->puerta) != '' ? $direccionCompleta.'-'.trim($this->puerta) : $direccionCompleta);
+	    $this->direccionCompleta = $direccionCompleta;
+	    return $this->direccionCompleta;
+	}
 
+	/**
+	 * 
+	 * @return String
+	 */
+	public function __toString() {
+	    return $this->getDireccionCompleta();
+	}
+	
     }

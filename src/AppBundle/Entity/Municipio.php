@@ -97,6 +97,9 @@
 	    $this->claveMunicipio = $claveMunicipio;
 	}
 
+	public function __toString() {
+	    return $this->descripcionCas;
+	}
 
 
 }

@@ -520,21 +520,27 @@
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VAPAISPR", type="string", nullable=true)
+	 * @ORM\ManyToOne (targetEntity="Pais")
+         * @ORM\JoinColumn (name="VAPAISPR", referencedColumnName="NACLANAC")
          */
 	private $paisProcedencia;
 
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VAPROVPR", type="string", nullable=true)
+	 * @ORM\ManyToOne (targetEntity="Provincia")
+         * @ORM\JoinColumn (name="VAPROVPR", referencedColumnName="PRCLAPRO")
          */
 	private $provinciaProcedencia;
 
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VAMUNIPR", type="string", nullable=true)
+	 * @ORM\ManyToOne (targetEntity="Municipio")
+         * @ORM\JoinColumns({
+         *   @ORM\JoinColumn(name="VAPROVPR", referencedColumnName="MUCLAPRO"),
+         *   @ORM\JoinColumn(name="VAMUNIPR", referencedColumnName="MUCLAMUN")
+	 * })
          */
 	private $municipioProcedencia;
 
@@ -675,21 +681,27 @@
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VAPAISDE", type="string", nullable=true)
+	 * @ORM\ManyToOne (targetEntity="Pais")
+         * @ORM\JoinColumn (name="VAPAISDE", referencedColumnName="NACLANAC")
          */
         private $paisDestino;
 
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VAPROVDE", type="string", nullable=true)
+	 * @ORM\ManyToOne (targetEntity="Provincia")
+         * @ORM\JoinColumn (name="VAPROVDE", referencedColumnName="PRCLAPRO")
          */
         private $provinciaDestino;
 
 	/**
          * @var string
          * @Expose
-         * @ORM\Column(name="VAMUNIDE", type="string", nullable=true)
+	 * @ORM\ManyToOne (targetEntity="Municipio")
+         * @ORM\JoinColumns({
+         *   @ORM\JoinColumn(name="VAPROVDE", referencedColumnName="MUCLAPRO"),
+         *   @ORM\JoinColumn(name="VAMUNIDE", referencedColumnName="MUCLAMUN")
+	 * })
          */
         private $municipioDestino;
 

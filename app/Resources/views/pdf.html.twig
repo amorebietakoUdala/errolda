@@ -37,8 +37,8 @@
 	<main>
 	    {% block body %}{% endblock %}
 	    <table>
-		<tr><td class="text-center" colspan="2">Amorebieta-Etxanon, {{ "now" | date ('Y-m-d') }}.<br/>En Amorebieta-Etxano, {{ "now" |date ("d-m-Y")}}</td></tr>
-		<tr><td class="text-center" colspan="2"><img style="height: 80px;" alt="Amorebieta-Etxanoko Sigilua" src="{{ asset('/images/sigilua.jpg') }}"></td></tr>
+		<tr><td class="text-center">Amorebieta-Etxanon, {{ "now" | date ('Y-m-d') }}.<br/>En Amorebieta-Etxano, {{ "now" |date ("d-m-Y")}}</td>
+		<td class="text-center"><img style="height: 80px;" alt="Amorebieta-Etxanoko Sigilua" src="{{ asset('/images/sigilua.jpg') }}"></td></tr>
 	    </table>
 	</main>
     </body>

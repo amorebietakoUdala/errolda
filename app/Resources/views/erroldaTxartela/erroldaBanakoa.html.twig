@@ -59,7 +59,8 @@
 	</tr>
 	<tr>
 	    <th style="width: 25%;">Udalerri honetan:<br/>En el municipio desdes:</th>
-	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.anoLlegada }} - tik bizi da</b></td>
+	    <td style="width: 75%; background-color: #ddd"><b>{% if habitante.tipoAlta != 'AN' %}{{ habitante.anoLlegada }}{% else %}{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}{% endif %}
+	    - tik bizi da</b></td>
 	</tr>
 	<tr>
 	    <th style="width: 25%;">Eskariaren zioa:<br/>Motivo de la petición:</th>
