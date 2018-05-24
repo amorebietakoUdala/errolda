@@ -12,6 +12,8 @@ use AppBundle\Entity\Habitante;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Auditoria;
+use AppBundle\Utilities\MYPDF;
 
 /**
  * Description of ErroldaTxartelaController
@@ -26,8 +28,13 @@ class ErroldaTxartelaController extends Controller {
     /**
      * @Route("/kolektiboa/{numDocumento}", name="errolda_kolektiboa"))
      */
-    public function erroldaKoletiboaAction ($numDocumento){
+    public function erroldaKoletiboaAction (Request $request, $numDocumento){
 	$this->get('logger')->debug('ErroldaTxartelaController->erroldaKoletiboaAction->numDocumento->'.$numDocumento);
+	$parametros = $request->query->all();
+	$zertarako = null;
+	if (array_key_exists('zertarako', $parametros) ) {
+	    $zertarako = $parametros['zertarako'];
+	}
 	$em = $this->getDoctrine()->getManager();
 	$bilaketa = ['numDocumento' => $numDocumento];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
@@ -53,11 +60,14 @@ class ErroldaTxartelaController extends Controller {
 	
 	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
 	
+	$auditoria = $this->guardarRegistroAuditoria('colectivo',$numDocumento,$zertarako);
+
 	$this->get('logger')->debug('ErroldaTxartelaController->erroldaKoletiboaAction->render: /show.html.twig');
 	$html = $this->render('erroldaTxartela/erroldaKoletiboa.html.twig', [
 	    'entidad' => $entidad,
 	    'variacion' => $ultimaVariacion,
 	    'habitantes' => $habitantes,
+	    'auditoria' => $auditoria,
 	]);
 	
 	$this->sortuPDFa($html);
@@ -68,8 +78,13 @@ class ErroldaTxartelaController extends Controller {
     /**
      * @Route("/banakoa/{numDocumento}", name="errolda_banakoa"))
      */
-    public function erroldaBanakoaAction ($numDocumento){
+    public function erroldaBanakoaAction (Request $request, $numDocumento){
 	$this->get('logger')->debug('ErroldaTxartelaController->erroldaBanakoaAction->numDocumento->'.$numDocumento);
+	$parametros = $request->query->all();
+	$zertarako = null;
+	if (array_key_exists('zertarako', $parametros) ) {
+	    $zertarako = $parametros['zertarako'];
+	}
 	$em = $this->getDoctrine()->getManager();
 	$bilaketa = ['numDocumento' => $numDocumento];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
@@ -83,11 +98,14 @@ class ErroldaTxartelaController extends Controller {
 	$claveVivienda = $habitante->getClaveVivienda();
 	$bilaketa = ['claveVivienda' => $claveVivienda];
 	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
+	$auditoria = $this->guardarRegistroAuditoria('individual',$numDocumento,$zertarako);
+
 	$this->get('logger')->debug('ErroldaTxartelaController->erroldaBanakoaAction->render: erroldaTxartela/erroldaBanakoa.html.twig');
 	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig', [
 	    'entidad' => $entidad,
 	    'variacion' => $ultimaVariacion,
 	    'habitante' => $habitante,
+	    'auditoria' => $auditoria,
 	]);
 	$this->sortuPDFa($html);
 	return $html;
@@ -96,10 +114,13 @@ class ErroldaTxartelaController extends Controller {
     /**
      * @Route("/mugimenduak/{numDocumento}", name="errolda_mugimenduak"))
      */
-
     public function erroldaMugimenduakAction (Request $request, $numDocumento){
-	$parametros = $request->query->all();
 	$this->get('logger')->debug('ErroldaTxartelaController->erroldaMugimenduakAction->numDocumento->'.$numDocumento);
+	$parametros = $request->query->all();
+	$zertarako = null;
+	if (array_key_exists('zertarako', $parametros) ) {
+	    $zertarako = $parametros['zertarako'];
+	}
 	$em = $this->getDoctrine()->getManager();
 	$bilaketa = ['numDocumento' => $numDocumento];
 	$habitantes = $em->getRepository('AppBundle:Habitante')->findBy($bilaketa);
@@ -120,17 +141,32 @@ class ErroldaTxartelaController extends Controller {
 	    $domicilios[$i] = $vivienda;
 	    $i = $i +1;
 	}
+	$auditoria = $this->guardarRegistroAuditoria('movimientos',$numDocumento,$zertarako);
 	$this->get('logger')->debug('ErroldaTxartelaController->erroldaMugimenduakAction->render: erroldaTxartela/erroldaMugimenduak.html.twig');
 	$html = $this->render('erroldaTxartela/erroldaMugimenduak.html.twig', [
 	    'movimientos' => $movimientos,
 	    'domicilios' => $domicilios,
 	    'habitante' => $habitante,
+	    'auditoria' => $auditoria,
+	    'zertarako' => $zertarako,
 	]);
 	
 	$this->sortuPDFa($html);
 	return $html;
     }
 
+    private function guardarRegistroAuditoria ($tipo,$dni,$motivo = null) {
+	$em = $this->getDoctrine()->getManager();
+	$auditoria = new Auditoria();
+	$auditoria->setFecha(new \DateTime());
+	$auditoria->setTipo('movimientos');
+	$auditoria->setDni($dni);
+	$auditoria->setMotivo($motivo);
+	$em->persist($auditoria);
+	$em->flush();
+	return $auditoria;
+    }
+    
     private function combinarMovimientosParciales ($movimientos_parciales){
 	foreach ($movimientos_parciales as $clave => $valor) {
 	    foreach ($valor as $clave2 => $valor2) {
@@ -150,13 +186,14 @@ class ErroldaTxartelaController extends Controller {
             false
         );
 	$pdf->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
+	$pdf->SetHeaderMargin(0);
 	$pdf->SetFooterMargin(0);
 	$pdf->SetAutoPageBreak(TRUE, 0);
         $pdf->SetAuthor( 'Amorebitako-Etxanoko Udala' );
         $pdf->SetTitle( 'Errolda Ziurtagiria' );
         $pdf->SetSubject( 'Errolda Ziurtagiria' );
 	$pdf->setPrintHeader(false);
-	$pdf->setPrintFooter(false);
+	$pdf->setPrintFooter(true);
         $pdf->setFontSubsetting( true );
         $pdf->SetFont( 'helvetica', '', 11, '', true );
         $pdf->AddPage();
