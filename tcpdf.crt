@@ -1,0 +1,42 @@
+Bag Attributes
+    localKeyID: 6F 34 A0 B7 38 6A FB 5F C5 72 08 8B BA 07 14 4A 74 74 15 BD 
+subject=/C=ES/ST=Bizkaia/L=Amorebieta-Etxano/O=Ayuntamiento de Amorebieta-Etxano/OU=Informatika/CN=www.amorebieta-etxano.eus/emailAddress=informatika@amorebieta.eus
+issuer=/C=ES/ST=Bizkaia/L=Amorebieta-Etxano/O=Ayuntamiento de Amorebieta-Etxano/OU=Informatika/CN=www.amorebieta-etxano.eus/emailAddress=informatika@amorebieta.eus
+-----BEGIN CERTIFICATE-----
+MIIDEzCCAnwCCQD7m+HDUTDJtjANBgkqhkiG9w0BAQsFADCBzDELMAkGA1UEBhMC
+RVMxEDAOBgNVBAgMB0JpemthaWExGjAYBgNVBAcMEUFtb3JlYmlldGEtRXR4YW5v
+MSowKAYDVQQKDCFBeXVudGFtaWVudG8gZGUgQW1vcmViaWV0YS1FdHhhbm8xFDAS
+BgNVBAsMC0luZm9ybWF0aWthMSIwIAYDVQQDDBl3d3cuYW1vcmViaWV0YS1ldHhh
+bm8uZXVzMSkwJwYJKoZIhvcNAQkBFhppbmZvcm1hdGlrYUBhbW9yZWJpZXRhLmV1
+czAgFw0xODA1MjQxMTQ5MDdaGA8zMDE3MDkyNDExNDkwN1owgcwxCzAJBgNVBAYT
+AkVTMRAwDgYDVQQIDAdCaXprYWlhMRowGAYDVQQHDBFBbW9yZWJpZXRhLUV0eGFu
+bzEqMCgGA1UECgwhQXl1bnRhbWllbnRvIGRlIEFtb3JlYmlldGEtRXR4YW5vMRQw
+EgYDVQQLDAtJbmZvcm1hdGlrYTEiMCAGA1UEAwwZd3d3LmFtb3JlYmlldGEtZXR4
+YW5vLmV1czEpMCcGCSqGSIb3DQEJARYaaW5mb3JtYXRpa2FAYW1vcmViaWV0YS5l
+dXMwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMsKe4nA+ShGek8mp5JA8sFg
+xSROQ1FBdzyZ4RQFu67Gy6PVtOsSqBJP/BD7Qrl+9ZD+5Fw/+Q7hPUYmeTMh9hmK
+gOkgBUYut2FBxzaHrVnQcwr9F7Upd6oi+xQz3k9nlZTk09TUpisYfPDG77cxUXLS
+EvOONaxLqBdtXoxAFBcxAgMBAAEwDQYJKoZIhvcNAQELBQADgYEATCITq+37lwog
+vd04Ko/0VC1yjwJLLgk09Tf7tcubt/dIqDGlIod8C1yCip4RgILjFQnjG0XHN9To
+CuLdBSPo+rtS1RhaXlxysjkEZenCRAxEskMJuUh60n2T8mMZPP+t4dv2KLbq6MAR
+uuu3v9802cwHLdShR8wsMzmW4XoOLj0=
+-----END CERTIFICATE-----
+Bag Attributes
+    localKeyID: 6F 34 A0 B7 38 6A FB 5F C5 72 08 8B BA 07 14 4A 74 74 15 BD 
+Key Attributes: <No Attributes>
+-----BEGIN PRIVATE KEY-----
+MIICeQIBADANBgkqhkiG9w0BAQEFAASCAmMwggJfAgEAAoGBAMsKe4nA+ShGek8m
+p5JA8sFgxSROQ1FBdzyZ4RQFu67Gy6PVtOsSqBJP/BD7Qrl+9ZD+5Fw/+Q7hPUYm
+eTMh9hmKgOkgBUYut2FBxzaHrVnQcwr9F7Upd6oi+xQz3k9nlZTk09TUpisYfPDG
+77cxUXLSEvOONaxLqBdtXoxAFBcxAgMBAAECgYEAkxIJwBNuprS+PX0DXlX7QQWG
+ZzDlZAMmilfwCB/K/eNzeD4BKVE/OtyC+g32HAURfTCUWxnfnt6aEqklm1sbNcSH
+nVi9xFCvXHr1NmVJy8NyxdSTcWZowImxM2Tt5rkiufB3zPUqmr//7UUp8IUXv52u
+XxzGPV0dWQyeSrIrSZ0CQQDqs0kbOS/m5OZbGEdnaZwubcDh5AYlW2clcONZl40X
+spwsr0TpwI8/+d7GHsS4OAiVunK6WLR3QofSIrGun3wnAkEA3XeqQJYRQIcLkNOm
+ykgEVgzEiq9grnjyi0pCVdV4PKBp5A65fZaAs2EP5OWPXVdc/oHGcom64PPgC4lM
+L5Zw5wJBAJ58SM6wVE+HnKJBB96mK0gS5x/i2d+aFFHtJCkYtLce7mUiSdfLJzCd
+a7i/iDmZ5PouuFBrnBm4fH0C3pc7rRsCQQDchys+MvCs64yFw2wDYyEGOqJ/YtGI
+CqGiN+jEJdQbsrSexlbIitRPSqiUCk7u6G6Oc9WS+jjfhZikhCwb+tcjAkEAuYfW
++Us2FnbswgbxtXn9ssEqomDh+EJ7czrlxqRM0XvTetQ1homkwBlcQeLxpV1wnEvu
+v4DUgZOULLoip1XXfw==
+-----END PRIVATE KEY-----

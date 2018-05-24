@@ -79,36 +79,44 @@ class ErroldaTxartelaController extends Controller {
      * @Route("/banakoa/{numDocumento}", name="errolda_banakoa"))
      */
     public function erroldaBanakoaAction (Request $request, $numDocumento){
-	$this->get('logger')->debug('ErroldaTxartelaController->erroldaBanakoaAction->numDocumento->'.$numDocumento);
+	$em = $this->getDoctrine()->getManager();
+	$bilaketa = ['numDocumento' => $numDocumento];
+	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
+	if ($habitante == null ) {
+	    $this->addFlash('error', 'Ez da herritarra aurkitu',['dni' => $numDocumento]);
+	    return $this->render('erroldaTxartela/error.html.twig',['dni' => $numDocumento]);
+	}
+	$emaitza = $this->erroldaBanakoaSortu($request, $habitante);
+	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig', [
+	    'entidad' => $emaitza['entidad'],
+	    'variacion' => $emaitza['variacion'],
+	    'habitante' => $emaitza['habitante'],
+	    'auditoria' => $emaitza['auditoria'],
+	]);
+	$this->sortuPDFa($html);
+	return $html;
+    }
+
+    public function erroldaBanakoaSortu (Request $request, $habitante){
 	$parametros = $request->query->all();
 	$zertarako = null;
 	if (array_key_exists('zertarako', $parametros) ) {
 	    $zertarako = $parametros['zertarako'];
 	}
 	$em = $this->getDoctrine()->getManager();
-	$bilaketa = ['numDocumento' => $numDocumento];
-	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
-	if ($habitante == null ) {
-	    $this->addFlash('error', 'Momentu honetan ez dago NAN {{ dni }} hori daukan pertsonarik',['dni' => $numDocumento]);
-	    return $this->render('erroldaTxartela/error.html.twig');
-	}
 	$bilaketa = ['municipio' => '003','entidad' => '0002']; // AMOREBIETA
 	$entidadesActivas = $em->getRepository('AppBundle:Entidad')->findAllActive($bilaketa);
 	$entidad = $entidadesActivas[0];
 	$claveVivienda = $habitante->getClaveVivienda();
 	$bilaketa = ['claveVivienda' => $claveVivienda];
 	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
-	$auditoria = $this->guardarRegistroAuditoria('individual',$numDocumento,$zertarako);
-
-	$this->get('logger')->debug('ErroldaTxartelaController->erroldaBanakoaAction->render: erroldaTxartela/erroldaBanakoa.html.twig');
-	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig', [
-	    'entidad' => $entidad,
+	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako);
+	$emaitza = ['entidad' => $entidad,
 	    'variacion' => $ultimaVariacion,
 	    'habitante' => $habitante,
 	    'auditoria' => $auditoria,
-	]);
-	$this->sortuPDFa($html);
-	return $html;
+	];
+	return $emaitza;
     }
 
     /**
@@ -148,7 +156,6 @@ class ErroldaTxartelaController extends Controller {
 	    'domicilios' => $domicilios,
 	    'habitante' => $habitante,
 	    'auditoria' => $auditoria,
-	    'zertarako' => $zertarako,
 	]);
 	
 	$this->sortuPDFa($html);
@@ -185,6 +192,20 @@ class ErroldaTxartelaController extends Controller {
             'UTF-8',
             false
         );
+	$certificate = 'file://C:/Netbeans/Padron-MySql/tcpdf.crt';
+	
+//	dump($certificate);die;
+
+	// set additional information
+	$info = array(
+	    'Name' => 'Iker Bilbao',
+	    'Location' => 'Ayuntamiento de Amorebieta-Etxano',
+	    'Reason' => 'Firma PDF',
+	    'ContactInfo' => 'informatika@amorebieta.eus',
+	    );
+
+	// set document signature
+	$pdf->setSignature($certificate, $certificate, 'kk', '', 2, $info);
 	$pdf->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
 	$pdf->SetHeaderMargin(0);
 	$pdf->SetFooterMargin(0);
@@ -213,6 +234,12 @@ class ErroldaTxartelaController extends Controller {
             $align = '',
             $autopadding = true
         );
+	// create content for signature (image and/or text)
+	$pdf->Image('images/sigilua.jpg', 180, 200, 20, 20, 'JPG');
+
+	// define active area for signature appearance
+//	$pdf->setSignatureAppearance(180, 60, 20, 20);
+
         $pdf->Output( $filename . ".pdf", 'I' );    
     }
 	

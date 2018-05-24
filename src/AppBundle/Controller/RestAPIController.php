@@ -8,6 +8,8 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Habitante;
+use AppBundle\Entity\Auditoria;
+use AppBundle\Entity\Variacion;
 use Psr\Log\LoggerInterface;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
@@ -65,5 +67,5 @@ class RestAPIController extends FOSRestController
 
 	return $view;
     }
-    
+
 }
