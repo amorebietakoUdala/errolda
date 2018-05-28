@@ -1,0 +1,112 @@
+{% extends 'pdf.html.twig' %}
+
+{% block pdftitle %}Errolda-Txartel kolektiboa<br/>Volante de empadronamiento colectivo{% endblock %}
+
+{% block message %}
+    {% for msg in app.session.flashBag.get('success') %}
+	<div class="alert alert-success margin-top-13">
+	    {{ msg | trans}}
+	</div>
+    {% endfor %}
+    {% for msg in app.session.flashBag.get('error') %}
+	<div class="alert alert-danger margin-top-13">
+	    {{ msg | trans}}
+	</div>
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+<div>
+    <table>
+	<tr>
+	    <td style="width: 48%">   Udal honen Udal Erroldan adierazitako datako egunean eta orrialdean inskripzioak azaltzen dira, zeinen datual eta txartel honetan jasotzen diren.</td>
+	    <td style="width: 48%">   En el Padrón Municipal de este municipio aparecen en el día de la fecha y hora que se indica, las incripciones cuyos datos se recogen en este volante.</td>
+	</tr>
+    </table>
+</div>
+
+<div>
+    <table style="width: 100%">
+	<tr><td>BIZTANLEEN ERROLDAREN DATUAK / DATOS DEL PADRON MUNICIPAL</td></tr>
+	<tr>
+	    <td>
+		Entitatea / Entidad: <b>{{ entidad.descripcionCas }}</b><br/>
+		Herrigunea / Núcleo: <b>{{ entidad.descripcionEus }}</b><br/>
+		Barrutia / Distrito: <b>{{ variacion.claveDistrito }}</b>  Atala / Seccion: <b>{{ variacion.claveSeccion }}</b><br/>
+	    </td>
+	</tr>
+	<tr><td>ETXEBIZITZAREN HELBIDEA / DATOS DE LA VIVIENDA</td></tr>
+	<tr><td><b>{{ variacion.calle.tipoVia.claveCas }}/{{ variacion.calle.tipoVia.claveEus }} {{ variacion.calle.descripcion }}, {{ variacion.portal | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim | number_format(0, '.', ',') }}-{{ variacion.mano }}</b></td></tr>
+    </table>
+</div>
+<div>
+    <table style="width: 100%">
+	<tr><td>INSKRIPZIO DATUAK / DATOS DE INSCRIPCIONES</td><td style="text-align: right;">Personas: <b> {{ habitantes | length | number_format(0, '.', ',') }}</b></td></tr>
+    </table>
+    <hr/>
+</div>
+
+<div>
+    <table style="border-spacing: 7px;" class="taula-datuak">
+	{% for habitante in habitantes %}
+		<tr>
+		    <td style="background-color: #ddd">{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}, ({{habitante.sexo == 'M' ? 'E/M' : 'G/V'}}),
+	{% if habitante.paisNacionalidadExtranjera == '000'%}
+	    {{ habitante.paisNacionalidadExtranjera.descripcionCas }} ({{ habitante.paisNacionalidadExtranjera.id }}) <br/>
+	{% else %}
+	    {{ habitante.paisNacimiento.descripcionCas }} ({{ habitante.paisNacimiento.id }}) <br/>
+	{% endif %}
+
+	Jaiotza / Nacimiento: 
+	    {% if habitante.paisNacimiento.id == '108' %}
+		    {{ habitante.provinciaNacimiento.descripcionCas }} ({{ habitante.provinciaNacimiento.id }}), {{ habitante.literalMunicipioNacimiento }} ({{ habitante.municipioNacimiento }})
+		{% else %}
+		    {{ habitante.literalMunicipioNacimiento }}({{ habitante.paisNacimiento.id }})
+	    {% endif %}
+
+	    {% set anyo=habitante.fechaNacimiento[:4] %}
+	    {% set mes=habitante.fechaNacimiento|slice(-4,-2) %}
+	    {% set dia=habitante.fechaNacimiento|slice(-2) %}
+	, {{ anyo }}-{{ mes }}-{{ dia }}/{{ dia }}-{{ mes }}-{{ anyo }}<br/>
+	N.A.N / D.N.I.: {{ habitante.numDocumento }} {{ habitante.claveDocumento }}, Udal ident. / Identi. Ayto: {{habitante.municipio}}-{{habitante.claveVivienda}}-{{habitante.numOrdenHabitante}}<br/>
+	{% if ( ( habitante.fechaAlta | trim ) != '' ) %}
+	    Egoitza (e)tik / Residencia Desde: {{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}
+	{% elseif ( (habitante.anoLlegada | trim ) != '0000')%}
+	    Egoitza (e)tik / Residencia Desde: {{ habitante.anoLlegada }}
+	{% endif %}
+	{% if ( variacionesVivienda[loop.index-1] != null ) %}
+	    {% set fechaVariacion=variacionesVivienda[loop.index-1].fechaVariacion %}
+	, Bizilekua (e)tik / Domicilio Desde: {{ fechaVariacion[:4] }}-{{ fechaVariacion|slice(-4,-2) }}-{{ fechaVariacion|slice(-2) }}/{{ fechaVariacion|slice(-2) }}-{{ fechaVariacion|slice(-4,-2) }}-{{ fechaVariacion[:4] }}
+	{% endif %}
+	<br/>
+		    </td>
+		</tr>
+	{% endfor %}
+    </table>
+    <hr/>
+</div>
+<div>
+    <table style="padding-top: 10px;">
+	<tr>
+	    <td>ZERTARAKO LUZATZEN DEN / EFECTO PARA EL QUE SE EXPIDE</td>
+	</tr>
+	<tr>
+	    <td>{{ auditoria.motivo }}</td>
+	</tr>
+    </table>
+</div>
+{% endblock %}
+
+
+{% block oharra %}
+
+<div>
+<br/><br/>
+    <table>
+	<tr>
+	    <td style="width: 48%"><br/>OHARRA: agiri hau argibideak emateko, Udalerri honetako ohiko egoitzari eta helbideari dagokienean.</td>
+	    <td style="width: 48%"><br/>NOTA: Este documento tiene caracter informativo en relación con la residencia y el domicilio habitual en este municipio.</td>
+	</tr>
+    </table>
+</div>
+{% endblock %}

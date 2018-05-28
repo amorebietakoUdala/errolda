@@ -7,6 +7,10 @@
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 	<style>
+	    body {
+		font-size: 9px;
+		height: 100%;
+	    }
 	    .logo {
 		height: 100px;
 		width: auto;
@@ -22,6 +26,10 @@
 	    }
 	    .h5 {
 		font-size: 10px;
+		font-weight: bold;
+	    }
+	    .taula-datuak {
+		font-size: 8px;
 		font-weight: bold;
 	    }
 	</style>
@@ -42,10 +50,11 @@
 	    {% block body %}{% endblock %}
 	    <table>
 		<tr><td class="text-center">Amorebieta-Etxanon, {{ "now" | date ('Y-m-d') }}.<br/>En Amorebieta-Etxano, {{ "now" |date ("d-m-Y")}}</td>
-{#		<td class="text-center"><img style="height: 80px;" alt="Amorebieta-Etxanoko Sigilua" src="{{ asset('/images/sigilua.jpg') }}"></td>
-#}		</tr>
+		<td class="text-center"><img style="height: 80px;" alt="Amorebieta-Etxanoko Sigilua" src="{{ asset('/images/sigilua.jpg') }}"></td>
+		</tr>
 	    </table>
 	</main>
+	{% block oharra %}{% endblock %}
 {#	<footer style="vertical-align: bottom">
 	    <table>
 		<tr><td class="text-right">{{auditoria.fecha | date('YmdHi','Europe/Madrid')}}{{}}</td></tr>

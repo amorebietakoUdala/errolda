@@ -3,7 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Entity\Variacion;
+use AppBundle\Entity\Habitante;
 use Doctrine\ORM\Query;
 
 /**
@@ -34,6 +34,40 @@ class VariacionRepository extends EntityRepository
 	return $result[0];
     }
 
+    public function findUltimaVariacionHabitante ( Habitante $habitante )
+    {
+	$claveInicialHabitante = $habitante->getClaveInicialHabitante();
+	$qb = $this->createQueryBuilder('v')
+		->select('v')
+		->andWhere('v.claveInicialHabitante = :claveInicialHabitante')
+		->andWhere('v.tipoVariacion <> :tipoVariacion')
+
+		->orderBy('v.fechaVariacion','DESC');
+	
+	$qb->setParameter( 'tipoVariacion', 'MD' );
+	$qb->setParameter( 'claveInicialHabitante', $claveInicialHabitante );
+        $result = $qb->getQuery()->getResult();
+//	dump($result[0]);die;
+	return $result[0];
+    }
+
+    public function findUltimoCambioDomicilio ( Habitante $habitante )
+    {
+	$claveInicialHabitante = $habitante->getClaveInicialHabitante();
+	$qb = $this->createQueryBuilder('v')
+		->select('v')
+		->andWhere('v.claveInicialHabitante = :claveInicialHabitante')
+		->andWhere('v.tipoVariacion = :tipoVariacion')
+
+		->orderBy('v.fechaVariacion','DESC');
+	$qb->setParameter( 'tipoVariacion', 'MC' );
+	$qb->setParameter( 'claveInicialHabitante', $claveInicialHabitante );
+	$result = $qb->getQuery()->getResult();
+	if ( count($result) > 0)
+	    return $result[0];
+	else return null;
+    }
+
     /**
     * @return Array
     */
@@ -52,7 +86,7 @@ class VariacionRepository extends EntityRepository
 			    ->setParameter($eremua, $filtroa);
 		    }
 		}
-		$qb->andWhere('v.tipoVariacion <> :tipoVariacion');
+		$qb->andWhere('v.tipoVariacion = :tipoVariacion');
 		$qb->orderBy('v.fechaVariacion','ASC');
 	if ( $fechaVariacion !== null ) {
 	    $qb->andWhere('v.fechaVariacion >= :fechaVariacion');

@@ -8,12 +8,11 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Habitante;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Auditoria;
-use AppBundle\Utilities\MYPDF;
+use AppBundle\Services\ErroldaService;
+use AppBundle\Utils\Balidazioak;
 
 /**
  * Description of ErroldaTxartelaController
@@ -28,65 +27,40 @@ class ErroldaTxartelaController extends Controller {
     /**
      * @Route("/kolektiboa/{numDocumento}", name="errolda_kolektiboa"))
      */
-    public function erroldaKoletiboaAction (Request $request, $numDocumento){
-	$this->get('logger')->debug('ErroldaTxartelaController->erroldaKoletiboaAction->numDocumento->'.$numDocumento);
-	$parametros = $request->query->all();
-	$zertarako = null;
-	if (array_key_exists('zertarako', $parametros) ) {
-	    $zertarako = $parametros['zertarako'];
-	}
+    public function erroldaKoletiboaAction (Request $request, $numDocumento, ErroldaService $erroldaService){
 	$em = $this->getDoctrine()->getManager();
-	$bilaketa = ['numDocumento' => $numDocumento];
+	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
-	
-	if ($habitante == null ) {
-	    $this->addFlash('error', 'Ez da herritarra aurkitu',[
-		'dni' => $numDocumento
-	    ]);
+	if ( $habitante == null ) {
+	    $this->addFlash('error', 'Ez da herritarra aurkitu',['dni' => $numDocumento]);
 	    return $this->render('erroldaTxartela/error.html.twig');
 	}
-
-	$bilaketa = ['municipio' => '003','entidad' => '0002']; // AMOREBIETA
-	$entidadesActivas = $em->getRepository('AppBundle:Entidad')->findAllActive($bilaketa);
-	$entidad = $entidadesActivas[0];
-	
-	$claveVivienda = $habitante->getClaveVivienda();
-	
-	$bilaketa = [
-	    'claveVivienda' => $claveVivienda
-	];
-
-	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
-	
-	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
-	
-	$auditoria = $this->guardarRegistroAuditoria('colectivo',$numDocumento,$zertarako);
-
-	$this->get('logger')->debug('ErroldaTxartelaController->erroldaKoletiboaAction->render: /show.html.twig');
-	$html = $this->render('erroldaTxartela/erroldaKoletiboa.html.twig', [
-	    'entidad' => $entidad,
-	    'variacion' => $ultimaVariacion,
-	    'habitantes' => $habitantes,
-	    'auditoria' => $auditoria,
+	$emaitza = $erroldaService->erroldaKolektiboa($request, $habitante);
+	$html = $this->render('erroldaTxartela/erroldaKolektiboa.html.twig', [
+	    'entidad' => $emaitza['entidad'],
+	    'variacion' => $emaitza['variacion'],
+	    'habitantes' => $emaitza['habitantes'],
+	    'auditoria' => $emaitza['auditoria'],
+	    'variacionesVivienda' => $emaitza['variacionesVivienda'],
 	]);
-	
 	$this->sortuPDFa($html);
-	
 	return $html;
     }
 
     /**
      * @Route("/banakoa/{numDocumento}", name="errolda_banakoa"))
      */
-    public function erroldaBanakoaAction (Request $request, $numDocumento){
+    public function erroldaBanakoaAction (Request $request, $numDocumento, ErroldaService $erroldaService ){
 	$em = $this->getDoctrine()->getManager();
-	$bilaketa = ['numDocumento' => $numDocumento];
+	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
 	if ($habitante == null ) {
 	    $this->addFlash('error', 'Ez da herritarra aurkitu',['dni' => $numDocumento]);
 	    return $this->render('erroldaTxartela/error.html.twig',['dni' => $numDocumento]);
 	}
-	$emaitza = $this->erroldaBanakoaSortu($request, $habitante);
+	$emaitza = $erroldaService->erroldaBanakoa($request, $habitante);
 	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig', [
 	    'entidad' => $emaitza['entidad'],
 	    'variacion' => $emaitza['variacion'],
@@ -94,95 +68,40 @@ class ErroldaTxartelaController extends Controller {
 	    'auditoria' => $emaitza['auditoria'],
 	]);
 	$this->sortuPDFa($html);
-	return $html;
-    }
-
-    public function erroldaBanakoaSortu (Request $request, $habitante){
-	$parametros = $request->query->all();
-	$zertarako = null;
-	if (array_key_exists('zertarako', $parametros) ) {
-	    $zertarako = $parametros['zertarako'];
-	}
-	$em = $this->getDoctrine()->getManager();
-	$bilaketa = ['municipio' => '003','entidad' => '0002']; // AMOREBIETA
-	$entidadesActivas = $em->getRepository('AppBundle:Entidad')->findAllActive($bilaketa);
-	$entidad = $entidadesActivas[0];
-	$claveVivienda = $habitante->getClaveVivienda();
-	$bilaketa = ['claveVivienda' => $claveVivienda];
-	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
-	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako);
-	$emaitza = ['entidad' => $entidad,
-	    'variacion' => $ultimaVariacion,
-	    'habitante' => $habitante,
-	    'auditoria' => $auditoria,
-	];
-	return $emaitza;
     }
 
     /**
      * @Route("/mugimenduak/{numDocumento}", name="errolda_mugimenduak"))
      */
-    public function erroldaMugimenduakAction (Request $request, $numDocumento){
-	$this->get('logger')->debug('ErroldaTxartelaController->erroldaMugimenduakAction->numDocumento->'.$numDocumento);
-	$parametros = $request->query->all();
-	$zertarako = null;
-	if (array_key_exists('zertarako', $parametros) ) {
-	    $zertarako = $parametros['zertarako'];
-	}
+    public function erroldaMugimenduakAction (Request $request, $numDocumento, ErroldaService $erroldaService ){
 	$em = $this->getDoctrine()->getManager();
-	$bilaketa = ['numDocumento' => $numDocumento];
+	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitantes = $em->getRepository('AppBundle:Habitante')->findBy($bilaketa);
 	if ( count($habitantes) == 0 ) {
 	    $this->addFlash('error', 'Ez da herritarra aurkitu',['dni' => $numDocumento]);
 	    return $this->render('erroldaTxartela/error.html.twig');
 	}
-	foreach ($habitantes as $habitante) {
-	    $bilaketa = ['claveInicialHabitante' => $habitante->getClaveInicialHabitante()];
-	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findVariaciones($bilaketa);
-	}
-	$movimientos = $this->combinarMovimientosParciales($movimientos_parciales);
-	$domicilios = [];
-	$i = 1;
-	foreach ( $movimientos as $movimiento ){
-	    $claveDomicilioDestino = $movimiento->getClaveActual();
-	    $vivienda = $em->getRepository('AppBundle:Vivienda')->findVivienda($claveDomicilioDestino);
-	    $domicilios[$i] = $vivienda;
-	    $i = $i +1;
-	}
-	$auditoria = $this->guardarRegistroAuditoria('movimientos',$numDocumento,$zertarako);
-	$this->get('logger')->debug('ErroldaTxartelaController->erroldaMugimenduakAction->render: erroldaTxartela/erroldaMugimenduak.html.twig');
+	$emaitza = $erroldaService->erroldaMugimenduak($request, $habitantes, $zenbakia);
 	$html = $this->render('erroldaTxartela/erroldaMugimenduak.html.twig', [
-	    'movimientos' => $movimientos,
-	    'domicilios' => $domicilios,
-	    'habitante' => $habitante,
-	    'auditoria' => $auditoria,
+	    'movimientos' => $emaitza['movimientos'],
+	    'domicilios' => $emaitza['domicilios'],
+	    'habitante' => $emaitza['habitante'],
+	    'auditoria' => $emaitza['auditoria'],
 	]);
-	
 	$this->sortuPDFa($html);
-	return $html;
     }
 
-    private function guardarRegistroAuditoria ($tipo,$dni,$motivo = null) {
-	$em = $this->getDoctrine()->getManager();
-	$auditoria = new Auditoria();
-	$auditoria->setFecha(new \DateTime());
-	$auditoria->setTipo('movimientos');
-	$auditoria->setDni($dni);
-	$auditoria->setMotivo($motivo);
-	$em->persist($auditoria);
-	$em->flush();
-	return $auditoria;
+    private function getDNIZenbakia ($numDocumento) {
+	$zenbakia = substr($numDocumento, 0, -1);
+	return $zenbakia;
     }
-    
-    private function combinarMovimientosParciales ($movimientos_parciales){
-	foreach ($movimientos_parciales as $clave => $valor) {
-	    foreach ($valor as $clave2 => $valor2) {
-		$movimientos[] = $valor2;
-	    }
-	}
-	return $movimientos;
+
+    private function getDNILetra ($numDocumento) {
+	$letra = substr($numDocumento, -1);
+	return $letra;
     }
-    
+
     private function sortuPDFa($html) {
         $pdf = $this->get( "white_october.tcpdf" )->create(
             'vertical',
@@ -205,7 +124,7 @@ class ErroldaTxartelaController extends Controller {
 	    );
 
 	// set document signature
-	$pdf->setSignature($certificate, $certificate, 'kk', '', 2, $info);
+//	$pdf->setSignature($certificate, $certificate, 'kk', '', 2, $info);
 	$pdf->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
 	$pdf->SetHeaderMargin(0);
 	$pdf->SetFooterMargin(0);
@@ -234,8 +153,8 @@ class ErroldaTxartelaController extends Controller {
             $align = '',
             $autopadding = true
         );
-	// create content for signature (image and/or text)
-	$pdf->Image('images/sigilua.jpg', 180, 200, 20, 20, 'JPG');
+//	// create content for signature (image and/or text)
+//	$pdf->Image('images/sigilua.jpg', 180, 200, 20, 20, 'JPG');
 
 	// define active area for signature appearance
 //	$pdf->setSignatureAppearance(180, 60, 20, 20);
