@@ -86,7 +86,7 @@ class VariacionRepository extends EntityRepository
 			    ->setParameter($eremua, $filtroa);
 		    }
 		}
-		$qb->andWhere('v.tipoVariacion = :tipoVariacion');
+		$qb->andWhere('v.tipoVariacion <> :tipoVariacion');
 		$qb->orderBy('v.fechaVariacion','ASC');
 	if ( $fechaVariacion !== null ) {
 	    $qb->andWhere('v.fechaVariacion >= :fechaVariacion');
