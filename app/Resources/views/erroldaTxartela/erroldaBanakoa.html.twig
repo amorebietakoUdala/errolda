@@ -12,7 +12,7 @@
 	<tr>
 	    <td style="width: 49%"></td>
 	    <td style="width: 49%;"><b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}</b><br/>
-		<b>{{ variacion.calle.tipoVia.claveCas }}/{{ variacion.calle.tipoVia.claveEus }} {{ variacion.calle.descripcion }}, {{ variacion.portal | trim | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim }}-{{ variacion.mano }}</b><br/>
+		<b>{{ variacion.calle }}, {{ variacion.portal | trim | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim }}-{{ variacion.mano }}</b><br/>
 		{{ variacion.codigoPostal }} - {{ habitante.literalMunicipioNacimiento }}
 	    </td>
 	</tr>
@@ -28,9 +28,11 @@
     </table>
 </div>
 
-<hr>	    
+<hr/>
+
 <div class="container border-top p-2 mt-4 mb-4 border-bottom pb-2">
     <table style="border-spacing: 7px;">
+
 	<tr>
 	    <th style="width: 25%;">N.A.N.:<br/>D.N.I.:</th>
 	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.numDocumento | number_format(0,'.','.')}} {{ habitante.claveDocumento }}</b></td>
@@ -41,7 +43,7 @@
 	</tr>
 	<tr>
 	    <th style="width: 25%;">Helbidea:<br/>Dirección:</th>
-	    <td style="width: 75%; background-color: #ddd"><b>{{ variacion.calle.tipoVia.claveCas }} / {{ variacion.calle.tipoVia.claveEus }} {{ variacion.calle.descripcion }}, {{ variacion.portal | trim | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim }}-{{ variacion.mano }}</b></td>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ variacion.calle }}, {{ variacion.portal | trim | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim }}-{{ variacion.mano }}</b></td>
 	</tr>
 	<tr>
 	    <th style="width: 25%;">Jaioteguna:<br/>Fecha de Nacimiento:</th>
@@ -49,22 +51,18 @@
 	</tr>
 	<tr>
 	    <th style="width: 25%;">Jaioterria:<br/>Lugar de Nacimiento:</th>
-	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.literalMunicipioNacimiento }}
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.literalMunicipioNacimiento | trim }}
 		    {% if habitante.paisNacimiento.id == '108' %}
-			({{ habitante.provinciaNacimiento.descripcionCas }})
+			({{ habitante.provinciaNacimiento.descripcionCas | trim }})
 		    {% else %}
-			({{ habitante.paisNacimiento.descripcionCas }})</b>
+			({{ habitante.paisNacimiento.descripcionCas | trim }})
 		    {% endif %}
 	    </b></td>
 	</tr>
 	<tr>
 	    <th style="width: 25%;">Udalerri honetan:<br/>En el municipio desdes:</th>
-	    <td style="width: 75%; background-color: #ddd"><b>
-			{% if habitante.tipoAlta != 'AN' %}
-			    {% if (( habitante.anoLlegada | trim ) != '0000') %}
-				{{ habitante.anoLlegada }}- tik bizi da
-			    {% endif %}
-			{% else %}{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da{% endif %}
+	    <td style="width: 75%; background-color: #ddd"><b>{% if habitante.tipoAlta != 'AN' %}{% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da{% else %}{{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da{% endif %}
+		    {% else %}{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da{% endif %}
 	    </b></td>
 	</tr>
 	<tr>
@@ -73,7 +71,8 @@
 	</tr>
     </table>
 </div>
-<hr>
+
+<hr/>
 <div>
     <table style="padding-top: 10px;">
 	<tr>

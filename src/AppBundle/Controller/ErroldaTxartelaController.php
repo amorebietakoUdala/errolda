@@ -61,6 +61,7 @@ class ErroldaTxartelaController extends Controller {
 	    return $this->render('erroldaTxartela/error.html.twig',['dni' => $numDocumento]);
 	}
 	$emaitza = $erroldaService->erroldaBanakoa($request, $habitante);
+//	dump($emaitza);die;
 	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig', [
 	    'entidad' => $emaitza['entidad'],
 	    'variacion' => $emaitza['variacion'],
