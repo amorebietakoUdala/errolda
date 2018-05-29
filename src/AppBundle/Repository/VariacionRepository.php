@@ -87,12 +87,14 @@ class VariacionRepository extends EntityRepository
 		    }
 		}
 		$qb->andWhere('v.tipoVariacion <> :tipoVariacion');
+		$qb->andWhere('v.tipoVariacion <> :tipoVariacion2');
 		$qb->orderBy('v.fechaVariacion','ASC');
 	if ( $fechaVariacion !== null ) {
 	    $qb->andWhere('v.fechaVariacion >= :fechaVariacion');
 	    $qb->setParameter( 'fechaVariacion', $fechaVariacion );
 	}
 	$qb->setParameter( 'tipoVariacion', 'MD' );
+	$qb->setParameter( 'tipoVariacion2', 'MI' );
         $result = $qb->getQuery()->getResult();
 	return $result;
     }
