@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Services\ErroldaService;
-use AppBundle\Utils\Balidazioak;
 
 /**
  * Description of ErroldaTxartelaController
@@ -112,20 +111,7 @@ class ErroldaTxartelaController extends Controller {
             'UTF-8',
             false
         );
-	$certificate = 'file://C:/Netbeans/Padron-MySql/tcpdf.crt';
-	
-//	dump($certificate);die;
 
-	// set additional information
-	$info = array(
-	    'Name' => 'Iker Bilbao',
-	    'Location' => 'Ayuntamiento de Amorebieta-Etxano',
-	    'Reason' => 'Firma PDF',
-	    'ContactInfo' => 'informatika@amorebieta.eus',
-	    );
-
-	// set document signature
-//	$pdf->setSignature($certificate, $certificate, 'kk', '', 2, $info);
 	$pdf->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
 	$pdf->SetHeaderMargin(0);
 	$pdf->SetFooterMargin(0);
@@ -154,13 +140,28 @@ class ErroldaTxartelaController extends Controller {
             $align = '',
             $autopadding = true
         );
-//	// create content for signature (image and/or text)
-//	$pdf->Image('images/sigilua.jpg', 180, 200, 20, 20, 'JPG');
-
-	// define active area for signature appearance
-//	$pdf->setSignatureAppearance(180, 60, 20, 20);
-
+	$sinatu = $this->getParameter('sign_pdf');
+	if ( $sinatu == TRUE ) {
+	    $pdf = $this->sinatuPDFa($pdf);
+	}
         $pdf->Output( $filename . ".pdf", 'I' );    
     }
 	
+    private function sinatuPDFa ($pdf) {
+	$certificate = $this->getParameter('certificate_file');
+	// set additional information
+	$info = array(
+	    'Name' => $this->getParameter('certificate_name'),
+	    'Location' => $this->getParameter('certificate_location'),
+	    'Reason' => $this->getParameter('certificate_reason'),
+	    'ContactInfo' => $this->getParameter('certificate_contactInfo'),
+	    );
+	// set document signature
+	$pdf->setSignature($certificate, $certificate, 'kk', '', 2, $info);
+//	// create content for signature (image and/or text)
+	$pdf->Image('images/sigilua.jpg', 180, 200, 20, 20, 'JPG');
+	// define active area for signature appearance
+	$pdf->setSignatureAppearance(180, 60, 20, 20);
+	return $pdf;
+    } 
 }

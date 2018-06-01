@@ -17,3 +17,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    # Certificate file for Signing PDF files
+    certificate_file: "file://C:/Netbeans/Padron-MySql/tcpdf.crt"
+    certificate_name: Iker Bilbao
+    certificate_location: Ayuntamiento de Amorebieta-Etxano
+    certificate_reason: Firma PDF
+    certificate_contactInfo: informatika@amorebieta.eus
+    sign_pdf: FALSE
