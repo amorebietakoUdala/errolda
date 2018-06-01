@@ -1,12 +1,10 @@
 {% extends 'pdf.html.twig' %}
 
-{% block title %}Banako errolda-txartela/Volante de empadronamiento individual{% endblock %}
+{% block title %}{{'orri.izenburua' | trans }}{% endblock %}
 
-{% block pdftitle %}Errolda-Txartel Banakoa<br/>Volante de empadronamiento individual{% endblock %}
+{% block pdftitle %}{{'pdf.izenburua-eu' | trans }}<br/>{{'pdf.izenburua-es' | trans }}{% endblock %}
 
 {% block body %}
-{#{{ dump(habitante,variacion) }}
-#}
 <div>
     <table>
 	<tr>
@@ -22,8 +20,8 @@
 <div>
     <table>
 	<tr>
-	    <td style="width: 49%;">     1996ko maiatzaren 1eko udalerri honetako Biztanleen Udal Erroldan eta bertan egunerarte egindako zuzenketetan ageri denez, jarraiko persona erroldatuta dagoela eta honako bizilekua daukala:</td>
-	    <td style="width: 49%;">     Que examinado el Padrón Municipal de Habitantes de este Ayuntamiento, referido al 1 de mayo de 1996 y rectificaciones realizadas hasta la fecha, aparece incluido en el mismo y tiene el siguiente domicilio.</td>
+	    <td style="width: 49%;">{{'pdf.taula-aurreko-testua-eu' | trans }}</td>
+	    <td style="width: 49%;">{{'pdf.taula-aurreko-testua-es' | trans }}</td>
 	</tr>
     </table>
 </div>
@@ -34,23 +32,23 @@
     <table style="border-spacing: 7px;">
 
 	<tr>
-	    <th style="width: 25%;">N.A.N.:<br/>D.N.I.:</th>
+	    <th style="width: 25%;">{{'pdf.nan-eu' | trans }}<br/>{{'pdf.nan-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.numDocumento | number_format(0,'.','.')}} {{ habitante.claveDocumento }}</b></td>
 	</tr>
 	<tr>
-	    <th style="width: 25%;">Izen-Abizenak:<br/>Nombre y apellidos:</th>
+	    <th style="width: 25%;">{{'pdf.izen-abizenak-eu' | trans }}<br/>{{'pdf.izen-abizenak-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}</b></td>
 	</tr>
 	<tr>
-	    <th style="width: 25%;">Helbidea:<br/>Dirección:</th>
+	    <th style="width: 25%;">{{'pdf.helbidea-eu' | trans }}<br/>{{'pdf.helbidea-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd"><b>{{ variacion.calle }}, {{ variacion.portal | trim | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim }}-{{ variacion.mano }}</b></td>
 	</tr>
 	<tr>
-	    <th style="width: 25%;">Jaioteguna:<br/>Fecha de Nacimiento:</th>
+	    <th style="width: 25%;">{{'pdf.jaioteguna-eu' | trans }}<br/>{{'pdf.jaioteguna-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.fechaNacimiento[:4] }}-{{ habitante.fechaNacimiento|slice(-4,-2) }}-{{ habitante.fechaNacimiento|slice(-2) }}/{{ habitante.fechaNacimiento|slice(-2) }}-{{ habitante.fechaNacimiento|slice(-4,-2) }}-{{ habitante.fechaNacimiento[:4] }}</b></td>
 	</tr>
 	<tr>
-	    <th style="width: 25%;">Jaioterria:<br/>Lugar de Nacimiento:</th>
+	    <th style="width: 25%;">{{'pdf.jaioterria-eu' | trans }}<br/>{{'pdf.jaioterria-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.literalMunicipioNacimiento | trim }}
 		    {% if habitante.paisNacimiento.id == '108' %}
 			({{ habitante.provinciaNacimiento.descripcionCas | trim }})
@@ -60,13 +58,13 @@
 	    </b></td>
 	</tr>
 	<tr>
-	    <th style="width: 25%;">Udalerri honetan:<br/>En el municipio desdes:</th>
+	    <th style="width: 25%;">{{'pdf.udalerrian-noiztik-eu' | trans }}<br/>{{'pdf.udalerrian-noiztik-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd"><b>{% if habitante.tipoAlta != 'AN' %}{% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da{% else %}{{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da{% endif %}
 		    {% else %}{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da{% endif %}
 	    </b></td>
 	</tr>
 	<tr>
-	    <th style="width: 25%;">Eskariaren zioa:<br/>Motivo de la petición:</th>
+	    <th style="width: 25%;">{{'pdf.eskariaren-zioa-eu' | trans }}<br/>{{'pdf.eskariaren-zioa-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd">{{ auditoria.motivo }}</td>
 	</tr>
     </table>
@@ -76,8 +74,8 @@
 <div>
     <table style="padding-top: 10px;">
 	<tr>
-	    <td style="width: 49%;">     Eta hala ager dadin eta ondorietarako honako hau.</td>
-	    <td style="width: 49%;">     Y para que así conste, y surta los efectos oportunos.</td>
+	    <td style="width: 49%;">{{'pdf.taula-atzeko-testua-eu' | trans }}</td>
+	    <td style="width: 49%;">{{'pdf.taula-atzeko-testua-es' | trans }}</td>
 	</tr>
     </table>
 </div>

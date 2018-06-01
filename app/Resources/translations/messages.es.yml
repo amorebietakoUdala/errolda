@@ -1,7 +1,34 @@
 "messages.aplikazioa": Errolda kontsulta zerbitzua
+"pdf.erreferentzia": "Erref./Ref.:"
+"orri.izenburua": Banako errolda-txartela/Volante de empadronamiento individual
+"pdf.izenburua-eu": Errolda-Txartel Banakoa
+"pdf.izenburua-es": Volante de empadronamiento individual
+"pdf.taula-aurreko-testua-eu": "      1996ko maiatzaren 1eko udalerri honetako Biztanleen Udal Erroldan eta bertan egunerarte egindako zuzenketetan ageri denez, jarraiko persona erroldatuta dagoela eta honako bizilekua daukala:"
+"pdf.taula-aurreko-testua-es": "     Que examinado el Padrón Municipal de Habitantes de este Ayuntamiento, referido al 1 de mayo de 1996 y rectificaciones realizadas hasta la fecha, aparece incluido en el mismo y tiene el siguiente domicilio."
+"pdf.taula-atzeko-testua-eu": "     Eta hala ager dadin eta ondorietarako honako hau."
+"pdf.taula-atzeko-testua-es": "     Y para que así conste, y surta los efectos oportunos."
+"pdf.nan-eu": "N.A.N.:"
+"pdf.nan-es": "D.N.I.:"
+"pdf.izen-abizenak-eu": "Izen-Abizenak:"
+"pdf.izen-abizenak-es": "Nombre y apellidos:"
+"pdf.helbidea-eu": "Helbidea:"
+"pdf.helbidea-es": "Dirección:"
+"pdf.jaioteguna-eu": "Jaioteguna:"
+"pdf.jaioteguna-es": "Fecha de Nacimiento:"
+"pdf.jaioterria-eu": "Jaioterria:"
+"pdf.jaioterria-es": "Lugar de Nacimiento:"
+"pdf.udalerrian-noiztik-eu": "Udalerri honetan:"
+"pdf.udalerrian-noiztik-es": "En el municipio desde:"
+"pdf.eskariaren-zioa-eu": "Eskariaren zioa:"
+"pdf.eskariaren-zioa-es": "Motivo de la petición:"
+"pdf.non-eu": "Amorebieta-Etxanon, "
+"pdf.non-es": "En Amorebieta-Etxano, "
 "Ez da herritarra aurkitu": "No se ha encontrado el habitante con DNI:{{dni}}"
 "MC": HELBIDE ALDAKETA/CAMBIOS DE DOMICLIO
 "AN": ALTA (JAIOTZA)/ALTA (NACIMIENTO)
 "AM": ALTA (ETORRERA UDALERRIRA)/ALTA (INMIGRACION MUNICIPIO)
 "BM": BAJA (ERRALDA UDALERRIRA)/BAJA (EMIGRACION MUNICIPIO)
 "BF": BAJA (HERIOTZA)/BAJA (DEFUNCION)
+"AE": ALTA (ETORRERA ATZERRIRA)/ALTA (INMIGRACION EXTRANJERO)
+"BI": BAJA (INSKRIPZIOA OKER)/BAJA (INSCRIPCION INDEBIDA)
+"MI": CONFIRMACIÓN INSCRIPCIÓN PADRONAL EXTRANJERO
