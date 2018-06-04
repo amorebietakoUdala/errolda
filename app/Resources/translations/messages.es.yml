@@ -1,14 +1,23 @@
 "messages.aplikazioa": Errolda kontsulta zerbitzua
 "pdf.erreferentzia": "Erref./Ref.:"
 "orri.izenburua": Banako errolda-txartela/Volante de empadronamiento individual
+"orri.kolektiboa.izenburua": Errolda-Txartel kolektiboa/Volante de empadronamiento colectivo
 "pdf.izenburua-eu": Errolda-Txartel Banakoa
 "pdf.izenburua-es": Volante de empadronamiento individual
 "pdf.taula-aurreko-testua-eu": "      1996ko maiatzaren 1eko udalerri honetako Biztanleen Udal Erroldan eta bertan egunerarte egindako zuzenketetan ageri denez, jarraiko persona erroldatuta dagoela eta honako bizilekua daukala:"
 "pdf.taula-aurreko-testua-es": "     Que examinado el Padrón Municipal de Habitantes de este Ayuntamiento, referido al 1 de mayo de 1996 y rectificaciones realizadas hasta la fecha, aparece incluido en el mismo y tiene el siguiente domicilio."
+"pdf.kolektiboa.taula-aurreko-testua-eu": "   Udal honen Udal Erroldan adierazitako datako egunean eta orrialdean inskripzioak azaltzen dira, zeinen datual eta txartel honetan jasotzen diren."
+"pdf.kolektiboa.taula-aurreko-testua-es": "   En el Padrón Municipal de este municipio aparecen en el día de la fecha y hora que se indica, las incripciones cuyos datos se recogen en este volante."
 "pdf.taula-atzeko-testua-eu": "     Eta hala ager dadin eta ondorietarako honako hau."
 "pdf.taula-atzeko-testua-es": "     Y para que así conste, y surta los efectos oportunos."
+"pdf.kolektiboa.biztaleen-errolda-datuak": "BIZTANLEEN ERROLDAREN DATUAK / DATOS DEL PADRON MUNICIPAL"
+"pdf.kolektiboa.etxebizitzaren-helbidea": "ETXEBIZITZAREN HELBIDEA / DATOS DE LA VIVIENDA"
+"pdf.kolektiboa.inskripzio-datuak": "INSKRIPZIO DATUAK / DATOS DE INSCRIPCIONES"
+"pdf.kolektiboa.taula-atzeko-testua-eu": "      1996ko maiatzaren 1eko udalerri honetako Biztanleen Udal Erroldan eta bertan egunerarte egindako zuzenketetan ageri denez, jarraiko persona erroldatuta dagoela eta honako bizilekua daukala:"
+"pdf.kolektiboa.taula-atzeko-testua-es": "     Que examinado el Padrón Municipal de Habitantes de este Ayuntamiento, referido al 1 de mayo de 1996 y rectificaciones realizadas hasta la fecha, aparece incluido en el mismo y tiene el siguiente domicilio."
 "pdf.nan-eu": "N.A.N.:"
 "pdf.nan-es": "D.N.I.:"
+"pdf.nan-dni": "N.A.N / D.N.I.:"
 "pdf.izen-abizenak-eu": "Izen-Abizenak:"
 "pdf.izen-abizenak-es": "Nombre y apellidos:"
 "pdf.helbidea-eu": "Helbidea:"
@@ -23,6 +32,18 @@
 "pdf.eskariaren-zioa-es": "Motivo de la petición:"
 "pdf.non-eu": "Amorebieta-Etxanon, "
 "pdf.non-es": "En Amorebieta-Etxano, "
+"pdf.entitatea": "Entitatea / Entidad:"
+"pdf.herrigunea": "Herrigunea / Núcleo: "
+"pdf.barrutia": "Barrutia / Distrito:"
+"pdf.atala": "Atala / Seccion:"
+"pdf.jaiotza": "Jaiotza / Nacimiento:"
+"pdf.kolektiboa.personas": "Personas:"
+"pdf.kolektiboa.udal-identi": "Udal ident. / Identi. Ayto:"
+"pdf.kolektiboa.egoitza-noiztik": "Egoitza (e)tik / Residencia Desde:"
+"pdf.kolektiboa.bizilekua-noiztik": "Bizilekua (e)tik / Domicilio Desde:"
+"pdf.kolektiboa.zertarako": "ZERTARAKO LUZATZEN DEN / EFECTO PARA EL QUE SE EXPIDE"
+"pdf.kolektiboa.oharra-eu": "OHARRA: agiri hau argibideak emateko, Udalerri honetako ohiko egoitzari eta helbideari dagokienean."
+"pdf.kolektiboa.oharra-es": "NOTA: Este documento tiene caracter informativo en relación con la residencia y el domicilio habitual en este municipio."
 "Ez da herritarra aurkitu": "No se ha encontrado el habitante con DNI:{{dni}}"
 "MC": HELBIDE ALDAKETA/CAMBIOS DE DOMICLIO
 "AN": ALTA (JAIOTZA)/ALTA (NACIMIENTO)
