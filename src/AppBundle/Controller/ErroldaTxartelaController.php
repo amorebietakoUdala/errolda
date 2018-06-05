@@ -44,7 +44,6 @@ class ErroldaTxartelaController extends Controller {
 	    'variacionesVivienda' => $emaitza['variacionesVivienda'],
 	]);
 	$this->sortuPDFa($html);
-	return $html;
     }
 
     /**
@@ -159,7 +158,7 @@ class ErroldaTxartelaController extends Controller {
 	// set document signature
 	$pdf->setSignature($certificate, $certificate, 'kk', '', 2, $info);
 //	// create content for signature (image and/or text)
-	$pdf->Image('images/sigilua.jpg', 180, 200, 20, 20, 'JPG');
+	$pdf->Image('images/zigilua.jpg', 180, 200, 20, 20, 'JPG');
 	// define active area for signature appearance
 	$pdf->setSignatureAppearance(180, 60, 20, 20);
 	return $pdf;
