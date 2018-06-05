@@ -1,16 +1,15 @@
 {% extends 'pdf.html.twig' %}
 
-{% block title %}Errolda mugimenduak/Movimientos padronales{% endblock %}
+{% block title %}{{'orri.mugimenduak.izenburua' | trans }}{% endblock %}
 
-{% block pdftitle %}Errolda mugimenduak<br/>Movimientos padronales{% endblock %}
+{% block pdftitle %}{{'pdf.mugimenduak.izenburua-eu' | trans }}<br/>{{'pdf.mugimenduak.izenburua-es' | trans }}{% endblock %}
 
 {% block body %}
-
 <div>
     <table>
 	<tr>
-	    <td style="width: 49%;">     Udal honetan Udal Erroldan adierazi datako egunean eta orrian txartel honetan jasotako datuen mugimenduak azaltzen dira.</td>
-	    <td style="width: 49%;">     En el Padrón Municipal de este municipio aparecen en el día de la fecha y de la hora que se indica, los movimientos cuyos datos se recogen en este certificado</td>
+	    <td style="width: 49%;">{{'pdf.mugimenduak.taula-aurreko-testua-eu' | trans }}</td>
+	    <td style="width: 49%;">{{'pdf.mugimenduak.taula-aurreko-testua-es' | trans }}</td>
 	</tr>
     </table>
 </div>
@@ -18,19 +17,19 @@
 <div>
     <table>
 	<tr>
-	    <td colspan="2">BIZTANLEEN ERROLDAREN DATUAK / DATOS DEL PADRON MUNICIPAL</td>
+	    <td colspan="2">{{'pdf.kolektiboa.biztaleen-errolda-datuak' | trans }}</td>
 	</tr>
 	<tr>
-	    <th style="width: 49%">   Izen-Abizenak:</th>
+	    <th style="width: 49%">{{'pdf.izen-abizenak-eu' | trans }}</th>
 	    <td style="width: 49%;"><b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}</b>
 	    </td>
 	</tr>
 	<tr>
-	    <th style="width: 49%">   Identifikazio agiria / Documento identificación:</th>
-	    <td style="width: 49%;"><b>{{ habitante.numDocumento | number_format(0,'.','.')}} {{ habitante.claveDocumento }}</b></td>
+	    <th style="width: 49%">{{'pdf.mugimenduak.dokumentazio-agiria' | trans }}</th>
+	    <td style="width: 49%;"><b>{{ habitante.numDocumento }} {{ habitante.claveDocumento }}</b></td>
 	</tr>
 	<tr>
-	    <th style="width: 49%">   Etxebizitzaren helbidea / Dirección de la vivienda:</th>
+	    <th style="width: 49%">{{'pdf.mugimenduak.etxebizitzaren-helbidea' | trans }}</th>
 	    <td style="width: 49%;"><b>{{ domicilios[domicilios | length] }}</b></td>
 	</tr>
     </table>
@@ -44,17 +43,21 @@
 	<tr>
 	    <td style="background-color: #ddd">
 		{% if movimiento.tipoVariacion matches '/M.+/' %}
-		<b>Bizileku aldaketaren data/Fecha de cambio de domicilio: {{ movimiento.fechaVariacion[:4] }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion|slice(-2) }}/{{ movimiento.fechaVariacion|slice(-2) }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion[:4] }}</b><br/>
+		<b>{{ 'pdf.mugimenduak.bizileku-aldaketa-data' | trans }} {{ movimiento.fechaVariacion[:4] }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion|slice(-2) }}/{{ movimiento.fechaVariacion|slice(-2) }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion[:4] }}</b><br/>
 		{% elseif movimiento.tipoVariacion matches '/A.+/' %}
-		<b>Alta Data/Fecha de alta: {{ movimiento.fechaVariacion[:4] }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion|slice(-2) }}/{{ movimiento.fechaVariacion|slice(-2) }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion[:4] }}</b><br/>
-		<b>Jatorria/Origen: {%if movimiento.municipioProcedencia != ''%}{{movimiento.municipioProcedencia}} ({{movimiento.provinciaProcedencia|trim}}){% endif %}</b><br/>
+		<b>{{ 'pdf.mugimenduak.alta-data' | trans }} {{ movimiento.fechaVariacion[:4] }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion|slice(-2) }}/{{ movimiento.fechaVariacion|slice(-2) }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion[:4] }}</b><br/>
+		<b>{{ 'pdf.mugimenduak.jatorria' | trans }} {%if movimiento.paisProcedencia == '000'%}
+					{%if movimiento.municipioProcedencia != ''%}{{movimiento.municipioProcedencia}} ({{movimiento.provinciaProcedencia|trim}}){% endif %}
+				    {% else %}
+					{{ movimiento.paisProcedencia.descripcionCas }}({{movimiento.paisProcedencia.id}})
+				    {% endif %}</b><br/>
 		{% else %}
-		<b>Baja Data/Fecha de baja: {{ movimiento.fechaVariacion[:4] }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion|slice(-2) }}/{{ movimiento.fechaVariacion|slice(-2) }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion[:4] }}</b><br/>
-		<b>Nora/Destino:{% if movimiento.municipioDestino != '' %}{{movimiento.municipioDestino}} ({{movimiento.provinciaDestino|trim}}){% endif %}</b><br/>
+		<b>{{ 'pdf.mugimenduak.baja-data' | trans }} {{ movimiento.fechaVariacion[:4] }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion|slice(-2) }}/{{ movimiento.fechaVariacion|slice(-2) }}-{{ movimiento.fechaVariacion|slice(-4,-2) }}-{{ movimiento.fechaVariacion[:4] }}</b><br/>
+		<b>{{ 'pdf.mugimenduak.destino' | trans }} {% if movimiento.municipioDestino != '' %}{{movimiento.municipioDestino}} ({{movimiento.provinciaDestino|trim}}){% endif %}</b><br/>
 		{% endif %}
-		<b>Mugimendua/Movimiento: {{ movimiento.tipoVariacion | trans }}</b><br/>
+		<b>{{ 'pdf.mugimenduak.mugimendua' | trans }} {{ movimiento.tipoVariacion | trans }}</b><br/>
 		{% if not (movimiento.tipoVariacion matches '/B.+/') %}
-		<b>Helmugako bizilekua/Domicilio destino:  {{ domicilios[loop.index]}}</b>
+		<b>{{ 'pdf.mugimenduak.domicilio-destino' | trans }} {{ domicilios[loop.index]}}</b>
 		{% endif %}
 	    </td>
 	</tr>
@@ -68,7 +71,7 @@
 	    <td>{#OHARRA#}</td>
 	</tr>
 	<tr>
-	    <td>ZERTARAKO LUZATZEN DEN / EFECTO PARA EL QUE SE EXPIDE</td>
+	    <td>{{ 'pdf.kolektiboa.zertarako' | trans }}</td>
 	</tr>
 	<tr>
 	    <td>{{ auditoria.motivo }}</td>
