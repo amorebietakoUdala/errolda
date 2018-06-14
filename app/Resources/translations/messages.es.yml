@@ -60,7 +60,7 @@
 "pdf.kolektiboa.zertarako": "ZERTARAKO LUZATZEN DEN / EFECTO PARA EL QUE SE EXPIDE"
 "pdf.kolektiboa.oharra-eu": "OHARRA: agiri hau argibideak emateko, Udalerri honetako ohiko egoitzari eta helbideari dagokienean."
 "pdf.kolektiboa.oharra-es": "NOTA: Este documento tiene caracter informativo en relación con la residencia y el domicilio habitual en este municipio."
-"Ez da herritarra aurkitu": "No se ha encontrado el habitante con DNI:{{dni}}"
+"Ez da herritarra aurkitu": "No se ha encontrado el habitante con DNI: {{dni}}"
 "MC": HELBIDE ALDAKETA/CAMBIOS DE DOMICLIO
 "AN": ALTA (JAIOTZA)/ALTA (NACIMIENTO)
 "AM": ALTA (ETORRERA UDALERRIRA)/ALTA (INMIGRACION MUNICIPIO)

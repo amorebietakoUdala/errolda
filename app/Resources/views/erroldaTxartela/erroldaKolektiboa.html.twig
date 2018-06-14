@@ -34,11 +34,11 @@
 	    <td>
 		{{'pdf.entitatea' | trans }} <b>{{ entidad.descripcionCas }}</b><br/>
 		{{'pdf.herrigunea' | trans }}<b>{{ entidad.descripcionEus }}</b><br/>
-		{{'pdf.barrutia' | trans }} <b>{{ variacion.claveDistrito }}</b> {{'pdf.atala' | trans }} <b>{{ variacion.claveSeccion }}</b><br/>
+		{{'pdf.barrutia' | trans }} <b>{{ vivienda.distrito }}</b> {{'pdf.atala' | trans }} <b>{{ vivienda.seccion }}</b><br/>
 	    </td>
 	</tr>
 	<tr><td>{{'pdf.kolektiboa.etxebizitzaren-helbidea' | trans }}</td></tr>
-	<tr><td><b>{{ variacion.calle.tipoVia.claveCas }}/{{ variacion.calle.tipoVia.claveEus }} {{ variacion.calle.descripcion }}, {{ variacion.portal | number_format(0, '.', ',') }}{{ variacion.bis }}, {{ variacion.piso | trim | number_format(0, '.', ',') }}-{{ variacion.mano }}</b></td></tr>
+	<tr><td><b>{{ vivienda }}</b></td></tr>
     </table>
 </div>
 <div>

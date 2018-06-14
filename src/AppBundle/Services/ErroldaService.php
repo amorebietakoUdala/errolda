@@ -30,28 +30,24 @@ class ErroldaService {
     public function erroldaKolektiboa (Request $request, Habitante $habitante) {
 	$zertarako = $request->query->get('zertarako');
 	$em = $this->em;
-
-	$bilaketa = ['municipio' => '003','entidad' => '0002']; // AMOREBIETA
+	$claveVivienda = $habitante->getClaveVivienda();
+	$bilaketa = ['municipio' => '003', 'claveVivienda' => $claveVivienda];
+	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
+	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy($bilaketa);
+	$bilaketa = ['municipio' => $vivienda->getMunicipio(),'entidad' => $vivienda->getEntidad()]; // AMOREBIETA
 	$entidadesActivas = $em->getRepository('AppBundle:Entidad')->findAllActive($bilaketa);
 	$entidad = $entidadesActivas[0];
-
-	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacionHabitante($habitante);
-	$claveVivienda = $habitante->getClaveVivienda();
-	$bilaketa = ['claveVivienda' => $claveVivienda];
-	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
 	$movimientos_parciales = [];
 	foreach ($habitantes as $habitante) {
 	    $bilaketa = ['claveInicialHabitante' => $habitante->getClaveInicialHabitante()];
 	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimoCambioDomicilio($habitante);
 	}
-//	dump($habitantes, $movimientos_parciales);die;
 	$auditoria = $this->guardarRegistroAuditoria('colectivo',$habitante->getNumDocumento(),$zertarako);
 	$emaitza = ['entidad' => $entidad,
-	    'variacion' => $ultimaVariacion,
+	    'vivienda' => $vivienda,
 	    'habitantes' => $habitantes,
 	    'auditoria' => $auditoria,
 	    'variacionesVivienda' => $movimientos_parciales,
-
 	];
 	return $emaitza;
     }
@@ -63,14 +59,11 @@ class ErroldaService {
 	if (array_key_exists('zertarako', $parametros) ) {
 	    $zertarako = $parametros['zertarako'];
 	}
-	$bilaketa = ['municipio' => '003','entidad' => '0002']; // AMOREBIETA
-	$entidadesActivas = $em->getRepository('AppBundle:Entidad')->findAllActive($bilaketa);
-	$entidad = $entidadesActivas[0];
 	$claveVivienda = $habitante->getClaveVivienda();
 	$bilaketa = ['claveVivienda' => $claveVivienda];
 	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
 	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako);
-	$emaitza = ['entidad' => $entidad,
+	$emaitza = [
 	    'variacion' => $ultimaVariacion,
 	    'habitante' => $habitante,
 	    'auditoria' => $auditoria,

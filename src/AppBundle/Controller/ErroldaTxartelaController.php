@@ -32,17 +32,13 @@ class ErroldaTxartelaController extends Controller {
 	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
 	if ( $habitante == null ) {
-	    $this->addFlash('error', 'Ez da herritarra aurkitu',['dni' => $numDocumento]);
-	    return $this->render('erroldaTxartela/error.html.twig');
+	    return $this->json([
+		'dni' => $numDocumento,
+		'msg' => 'Ez da herritarra aurkitu',
+		]);
 	}
 	$emaitza = $erroldaService->erroldaKolektiboa($request, $habitante);
-	$html = $this->render('erroldaTxartela/erroldaKolektiboa.html.twig', [
-	    'entidad' => $emaitza['entidad'],
-	    'variacion' => $emaitza['variacion'],
-	    'habitantes' => $emaitza['habitantes'],
-	    'auditoria' => $emaitza['auditoria'],
-	    'variacionesVivienda' => $emaitza['variacionesVivienda'],
-	]);
+	$html = $this->render('erroldaTxartela/erroldaKolektiboa.html.twig', $emaitza);
 	$this->sortuPDFa($html);
     }
 
@@ -55,17 +51,14 @@ class ErroldaTxartelaController extends Controller {
 	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
 	if ($habitante == null ) {
-	    $this->addFlash('error', 'Ez da herritarra aurkitu',['dni' => $numDocumento]);
-	    return $this->render('erroldaTxartela/error.html.twig',['dni' => $numDocumento]);
+	    return $this->json([
+		'dni' => $numDocumento,
+		'msg' => 'Ez da herritarra aurkitu',
+		]);
 	}
 	$emaitza = $erroldaService->erroldaBanakoa($request, $habitante);
 //	dump($emaitza);die;
-	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig', [
-	    'entidad' => $emaitza['entidad'],
-	    'variacion' => $emaitza['variacion'],
-	    'habitante' => $emaitza['habitante'],
-	    'auditoria' => $emaitza['auditoria'],
-	]);
+	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig',$emaitza);
 	$this->sortuPDFa($html);
     }
 
@@ -78,16 +71,13 @@ class ErroldaTxartelaController extends Controller {
 	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitantes = $em->getRepository('AppBundle:Habitante')->findBy($bilaketa);
 	if ( count($habitantes) == 0 ) {
-	    $this->addFlash('error', 'Ez da herritarra aurkitu',['dni' => $numDocumento]);
-	    return $this->render('erroldaTxartela/error.html.twig');
+	    return $this->json([
+		'dni' => $numDocumento,
+		'msg' => 'Ez da herritarra aurkitu',
+		]);
 	}
 	$emaitza = $erroldaService->erroldaMugimenduak($request, $habitantes, $zenbakia);
-	$html = $this->render('erroldaTxartela/erroldaMugimenduak.html.twig', [
-	    'movimientos' => $emaitza['movimientos'],
-	    'domicilios' => $emaitza['domicilios'],
-	    'habitante' => $emaitza['habitante'],
-	    'auditoria' => $emaitza['auditoria'],
-	]);
+	$html = $this->render('erroldaTxartela/erroldaMugimenduak.html.twig', $emaitza);
 	$this->sortuPDFa($html);
     }
 
