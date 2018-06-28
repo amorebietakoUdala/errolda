@@ -32,4 +32,22 @@ class HabitanteRepository extends EntityRepository
 //	dump($result);die;
 	return $result;
     }
+
+        /**
+    * @return QueryBuilder
+    */
+    public function findHabitantes( $criteria = null )
+    {
+	$qb = $this->createQueryBuilder('h')->select('h');
+	foreach ( $criteria as $eremua => $filtroa ) {
+	    $qb->andWhere('h.'.$eremua.' = :'.$eremua)
+		->setParameter($eremua, $filtroa);
+	}
+	$qb->andWhere('h.fechaBaja = :fechaBaja');
+	$qb->orderBy('h.numOrdenHabitante','ASC');
+	$qb->setParameter( 'fechaBaja', '' );
+        $result = $qb->getQuery()->getResult();
+	return $result;
+    }
+
 }
