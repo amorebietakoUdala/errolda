@@ -60,11 +60,16 @@ class ErroldaService {
 	    $zertarako = $parametros['zertarako'];
 	}
 	$claveVivienda = $habitante->getClaveVivienda();
-	$bilaketa = ['claveVivienda' => $claveVivienda];
+	$bilaketa = [
+	    'claveVivienda' => $claveVivienda,
+	    'claveInicialHabitante' => $habitante->getClaveInicialHabitante(),
+	];
 	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
+	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy(['claveVivienda' => $claveVivienda]);
 	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako);
 	$emaitza = [
 	    'variacion' => $ultimaVariacion,
+	    'vivienda' => $vivienda,
 	    'habitante' => $habitante,
 	    'auditoria' => $auditoria,
 	];

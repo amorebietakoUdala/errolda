@@ -21,13 +21,17 @@ class VariacionRepository extends EntityRepository
     public function findUltimaVariacion ( $criteria )
     {
 	$claveVivienda = $criteria['claveVivienda'];
+	$claveInicialHabitante = $criteria['claveInicialHabitante'];
 	$qb = $this->createQueryBuilder('v')
 		->select('v')
-		->andWhere('v.claveVivienda = :claveVivienda')
+		->andWhere('v.habitante = :habitante')
+		->andWhere('v.claveVivienda = :claveVivienda OR v.claveActual LIKE :claveActual')
 		->andWhere('v.tipoVariacion <> :tipoVariacion')
 		->orderBy('v.fechaVariacion','DESC');
 	
         $qb->setParameter( 'claveVivienda', $claveVivienda );
+        $qb->setParameter( 'claveActual', '%'.$claveVivienda.'%' );
+        $qb->setParameter( 'habitante', $claveInicialHabitante );
 	$qb->setParameter( 'tipoVariacion', 'BM' );
         $result = $qb->getQuery()->getResult();
 //	dump($result[0]);die;
