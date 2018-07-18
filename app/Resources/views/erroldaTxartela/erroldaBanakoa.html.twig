@@ -59,13 +59,22 @@
 	</tr>
 	<tr>
 	    <th style="width: 25%;">{{'pdf.udalerrian-noiztik-eu' | trans }}<br/>{{'pdf.udalerrian-noiztik-es' | trans }}</th>
-	    <td style="width: 75%; background-color: #ddd"><b>{% if habitante.tipoAlta != 'AN' %}{% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da{% else %}{{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da{% endif %}
-		    {% else %}{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da{% endif %}
+	    <td style="width: 75%; background-color: #ddd"><b>
+		    {% if habitante.tipoAlta != 'AN' %}
+			{% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da
+			{% else %}
+			    {% if ( (variacion.fechaAltaHabitante| trim) != '' )%}
+				{{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da
+			    {% endif %}
+			{% endif %}
+		    {% else %}
+			{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da
+		    {% endif %}
 	    </b></td>
 	</tr>
 	<tr>
 	    <th style="width: 25%;">{{'pdf.eskariaren-zioa-eu' | trans }}<br/>{{'pdf.eskariaren-zioa-es' | trans }}</th>
-	    <td style="width: 75%; background-color: #ddd">{{ auditoria.motivo }}</td>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ auditoria.motivo }}</b></td>
 	</tr>
     </table>
 </div>
