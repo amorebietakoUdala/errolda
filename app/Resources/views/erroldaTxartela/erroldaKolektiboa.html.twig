@@ -72,13 +72,13 @@
 	, {{ anyo }}-{{ mes }}-{{ dia }}/{{ dia }}-{{ mes }}-{{ anyo }}<br/>
 	{{'pdf.nan-dni' | trans }} {{ habitante.numDocumento }} {{ habitante.claveDocumento }}, {{'pdf.kolektiboa.udal-identi' | trans }} {{habitante.municipio}}-{{habitante.claveVivienda}}-{{habitante.numOrdenHabitante}}<br/>
 	{% if ( ( habitante.fechaAlta | trim ) != '' ) %}
-	    {{'pdf.kolektiboa.egoitza-noiztik' | trans }} {{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}
+	    {{'pdf.kolektiboa.egoitza-noiztik' | trans }} {{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}{% if ( variacionesVivienda[loop.index-1] != null ) %},{% endif %}
 	{% elseif ( (habitante.anoLlegada | trim ) != '0000')%}
-	    {{'pdf.kolektiboa.egoitza-noiztik' | trans }} {{ habitante.anoLlegada }}
+	    {{'pdf.kolektiboa.egoitza-noiztik' | trans }} {{ habitante.anoLlegada }}{% if ( variacionesVivienda[loop.index-1] != null ) %},{% endif %}
 	{% endif %}
 	{% if ( variacionesVivienda[loop.index-1] != null ) %}
 	    {% set fechaVariacion=variacionesVivienda[loop.index-1].fechaVariacion %}
-	, {{'pdf.kolektiboa.bizilekua-noiztik' | trans }} {{ fechaVariacion[:4] }}-{{ fechaVariacion|slice(-4,-2) }}-{{ fechaVariacion|slice(-2) }}/{{ fechaVariacion|slice(-2) }}-{{ fechaVariacion|slice(-4,-2) }}-{{ fechaVariacion[:4] }}
+	{{'pdf.kolektiboa.bizilekua-noiztik' | trans }} {{ fechaVariacion[:4] }}-{{ fechaVariacion|slice(-4,-2) }}-{{ fechaVariacion|slice(-2) }}/{{ fechaVariacion|slice(-2) }}-{{ fechaVariacion|slice(-4,-2) }}-{{ fechaVariacion[:4] }}
 	{% endif %}
 	<br/>
 		    </td>
