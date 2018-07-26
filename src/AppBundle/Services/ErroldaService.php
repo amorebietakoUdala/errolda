@@ -73,6 +73,7 @@ class ErroldaService {
 	    'habitante' => $habitante,
 	    'auditoria' => $auditoria,
 	];
+//	dump($emaitza);die;
 	return $emaitza;
     }
 

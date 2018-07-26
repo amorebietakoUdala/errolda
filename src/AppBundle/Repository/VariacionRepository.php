@@ -34,7 +34,7 @@ class VariacionRepository extends EntityRepository
         $qb->setParameter( 'habitante', $claveInicialHabitante );
 	$qb->setParameter( 'tipoVariacion', 'BM' );
         $result = $qb->getQuery()->getResult();
-//	dump($result[0]);die;
+//	dump($result);die;
 	return $result[0];
     }
 
