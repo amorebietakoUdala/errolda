@@ -27,7 +27,7 @@ class SoapErroldaServiceController extends Controller
      */
     public function soapErroldaBanakakoaAction(SoapErroldaService $soapErroldaService)
     {
-        $soapServer = new \SoapServer($this->get('kernel')->getRootDir().'\Resources\config\soap\x53jiServicioIntermediacion.wsdl');
+        $soapServer = new \SoapServer($this->get('kernel')->getRootDir().'/Resources/config/soap/x53jiServicioIntermediacion.wsdl');
 //        $soapServer = new \SoapServer();
         $soapServer->setObject($soapErroldaService);
 
