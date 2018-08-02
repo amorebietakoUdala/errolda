@@ -34,6 +34,7 @@ use AppBundle\Entity\Vivienda;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use AppBundle\Utils\Balidazioak;
 
 class SoapErroldaService
 {
@@ -70,7 +71,7 @@ class SoapErroldaService
     ];
 
     const TERRITORIO = '48';
-    const MUNICIPIO = '340';
+    const MUNICIPIO = '003';
 
     const TERRITORIOS= [ 
 	'48' => 'Bizkaia',
@@ -124,17 +125,27 @@ class SoapErroldaService
 	'013' => 'Barakaldo',
 	'015' => 'Basauri',
 	'020' => 'Bilbo/Bilbao',
-	'340' => 'Amorebieta-Etxano',
+	'003' => 'Amorebieta-Etxano',
     ];
 
     public function peticionSincrona($peticion) {
 	$data = json_decode(json_encode($peticion), true);
 
 	$datosEntradaPadron = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosEntradaPadron'];
+	$datosConsulta = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosConsulta'];
 	$numDocumento = isset($datosEntradaPadron['NumDocumento']) ? $datosEntradaPadron['NumDocumento'] : null;
 	$tipoDocumento = isset($datosEntradaPadron['NumDocumento']) ? $datosEntradaPadron['TipoDocumento'] : null;
 	$habitantes = null;
 	$criteria = null;
+	
+	$territorio = $datosConsulta['Territorio'];
+	$municipio = $datosConsulta['Municipio'];
+	
+	// Si la consulta no es de amorebieta-etxano error
+	if ($territorio !== '48' || $municipio !== '003' ) {
+	    // Si la petición llega al ayuntamiento incorrecto qué respuesta enviamos?
+	}
+	
 	if ( $numDocumento != null && $numDocumento != '000000000' ) {
 	    if ( $tipoDocumento != 'Otros' ) {
 		$numDocumentoSinLetra = substr($numDocumento, 0, -1);
@@ -151,6 +162,7 @@ class SoapErroldaService
 	    $criteria = $this->__remove_blank_filters($criteria);
 	    $habitantes = $this->em->getRepository('AppBundle:Habitante')->findHabitantes($criteria);
 	}
+//	dump($criteria,$habitantes);die;
 	$atributos = $data['Atributos'];
 	$datosGenericos = $this->__generateDatosGenericos($data);
 	$fecha_certificado = $this->__getFechaParaTraza();
@@ -221,7 +233,7 @@ class SoapErroldaService
 	}
 	$habitantesNISAE2 = $this->__generateDatosSalidaPadronHabitantes($habitantesNISAE);
 	
-	return $habitantesNISAE2->g;
+	return $habitantesNISAE2;
     }
 
     
@@ -267,10 +279,26 @@ class SoapErroldaService
 	$datosEspecificos = new DatosEspecificos(null, $retorno);
 	return $datosEspecificos;
     }
+    
+    private function __obtenerTipoDocumento($numdocumento) {
+	$tipoDoc=Balidazioak::valida_nif_cif_nie($numdocumento);
+	$tipos = [
+	    1 => 'DNI', 
+	    2 => 'CIF', 
+	    3 => 'NIE'
+	];
+	if ($tipoDoc < 0 ) {
+	    $tipo = 'Otros';
+	} else {
+	    $tipo = $tipos[$tipoDoc];
+	}
+	return $tipo;
+    }
 
     private function __parseHabitante(Habitante $habitante, Vivienda $vivienda=null) {
 	$habitanteNISAE = new HabitanteNISAE();
-	$habitanteNISAE->setTipoDocumento('DNI');
+	$tipo=$this->__obtenerTipoDocumento($habitante->getNumDocumento().$habitante->getClaveDocumento());
+	$habitanteNISAE->setTipoDocumento($tipo);
 	$habitanteNISAE->setNumDocumento($habitante->getNumDocumento().$habitante->getClaveDocumento());
 	$habitanteNISAE->setNombre($habitante->getNombre());
 	$habitanteNISAE->setApellido1($habitante->getApellido1());
