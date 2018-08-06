@@ -697,7 +697,9 @@
 	    $direccionCompleta = $direccionCompleta.$this->kilometro;
 	    $direccionCompleta = (trim($this->bloque) != '' ? $direccionCompleta.trim($this->bloque) : $direccionCompleta);
 	    $direccionCompleta = ( is_numeric(trim($this->portal)) ? $direccionCompleta.' '.intval($this->portal) : $direccionCompleta.' '.trim($this->portal));
-	    $direccionCompleta = (trim($this->bis) == 'Y' ? $direccionCompleta.' BIS' : $direccionCompleta);
+	    if (trim($this->bis) !== '') {
+		$direccionCompleta = (trim($this->bis) == 'Y' ? $direccionCompleta.' BIS' : $direccionCompleta.'-'.trim($this->bis));
+	    }
 	    $direccionCompleta = $direccionCompleta.', ';
 	    $direccionCompleta = (trim($this->escalera) != '' ? $direccionCompleta.' ESK/ESC: '.trim($this->escalera) : $direccionCompleta);
 	    if (!is_numeric(trim($this->piso))) {
