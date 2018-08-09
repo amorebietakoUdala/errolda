@@ -31,6 +31,7 @@ class SoapErroldaServiceController extends Controller
         $soapServer->setObject($soapErroldaService);
 
         $response = new Response();
+	$response->headers->set('Content-Type', 'text/xml');
 
         ob_start();
         $soapServer->handle();
