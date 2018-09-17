@@ -43,7 +43,9 @@
 </div>
 <div>
     <table style="width: 100%">
-	<tr><td>{{'pdf.kolektiboa.inskripzio-datuak' | trans }}</td><td style="text-align: right;">{{'pdf.kolektiboa.personas' | trans }} <b> {{ habitantes | length | number_format(0, '.', ',') }}</b></td></tr>
+	<tr><td>{{'pdf.kolektiboa.personas' | trans }} <b> {{ habitantesTotales | number_format(0, '.', ',') }}</b></td></tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr><td>{{'pdf.kolektiboa.inskripzio-datuak' | trans }}</td></tr>
     </table>
     <hr/>
 </div>
@@ -108,6 +110,10 @@
 	<tr>
 	    <td style="width: 48%"><br/>{{'pdf.kolektiboa.oharra-eu' | trans }}</td>
 	    <td style="width: 48%"><br/>{{'pdf.kolektiboa.oharra-es' | trans }}</td>
+	</tr>
+	<tr>
+	    <td style="width: 48%"><br/>{{'pdf.kolektiboa.oharra2-eu' | trans }}</td>
+	    <td style="width: 48%"><br/>{{'pdf.kolektiboa.oharra2-es' | trans }}</td>
 	</tr>
     </table>
 </div>

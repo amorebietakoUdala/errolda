@@ -33,6 +33,8 @@ class ErroldaService {
 	$claveVivienda = $habitante->getClaveVivienda();
 	$bilaketa = ['municipio' => '003', 'claveVivienda' => $claveVivienda];
 	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
+	$habitantesTotales = count($habitantes);
+	$habitantes = $this->__eliminarHabitantesMayoresEdadMenosTitular($habitantes, $habitante);
 	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy($bilaketa);
 	$bilaketa = ['municipio' => $vivienda->getMunicipio(),'entidad' => $vivienda->getEntidad()]; // AMOREBIETA
 	$entidadesActivas = $em->getRepository('AppBundle:Entidad')->findAllActive($bilaketa);
@@ -46,6 +48,7 @@ class ErroldaService {
 	$emaitza = ['entidad' => $entidad,
 	    'vivienda' => $vivienda,
 	    'habitantes' => $habitantes,
+	    'habitantesTotales' => $habitantesTotales,
 	    'auditoria' => $auditoria,
 	    'variacionesVivienda' => $movimientos_parciales,
 	];
@@ -126,5 +129,37 @@ class ErroldaService {
 	    }
 	}
 	return $movimientos;
+    }
+    
+    /* Elimina todos los mayores de edad menos el titular que conviven en la misma vivienda
+     * 
+     * 
+     * @return habitantes
+     */
+    
+    private function __eliminarHabitantesMayoresEdadMenosTitular (Array $habitantes, Habitante $titular){
+	$habitantesFiltrados = [];
+	foreach ($habitantes as $habitante) {
+	    dump($habitante->getNumDocumento() !== $titular->getNumDocumento());
+	    if ($habitante->getNumDocumento() !== $titular->getNumDocumento()) {
+		$edad = $this->__calcularEdad($habitante);
+		if ($edad != null && $edad <= 17 ) {
+		    $habitantesFiltrados[] = $habitante;
+		}
+	    } else {
+		$habitantesFiltrados[] = $habitante;
+	    }
+	}
+	return $habitantesFiltrados;
+    }
+    
+    private function __calcularEdad (Habitante $habitante){
+	$hoy = new \DateTime();
+	$edadHabitante = null;
+	if ($habitante->getFechaNacimiento() !== null) {
+	    $fechaNacimiento = \DateTime::createFromFormat('Ymd H:i:s', $habitante->getFechaNacimiento(). " 00:00:00");
+	    $edadHabitante = date_diff($hoy, $fechaNacimiento);
+	}
+	return $edadHabitante->format("%y");
     }
 }
