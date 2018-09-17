@@ -55,6 +55,29 @@ class ErroldaService {
 	return $emaitza;
     }
 
+    public function erroldaAdingabekoak (Request $request, Habitante $habitante) {
+	$zertarako = $request->query->get('zertarako');
+	$em = $this->em;
+	$claveVivienda = $habitante->getClaveVivienda();
+	$bilaketa = ['municipio' => '003', 'claveVivienda' => $claveVivienda];
+	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
+	$menores = $this->__eliminarHabitantesMayoresEdad($habitantes);
+	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy($bilaketa);
+	$movimientos_parciales = [];
+	foreach ($menores as $menor) {
+	    $bilaketa = ['claveInicialHabitante' => $menor->getClaveInicialHabitante()];
+	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimoCambioDomicilio($menor);
+	}
+	$auditoria = $this->guardarRegistroAuditoria('menores',$habitante->getNumDocumento(),$zertarako);
+	$emaitza = [
+	    'vivienda' => $vivienda,
+	    'menores' => $menores,
+	    'auditoria' => $auditoria,
+	    'variacionesVivienda' => $movimientos_parciales,
+	];
+	return $emaitza;
+    }
+
     public function erroldaBanakoa (Request $request, Habitante $habitante){
 	$parametros = $request->query->all();
 	$em = $this->em;
@@ -152,7 +175,18 @@ class ErroldaService {
 	}
 	return $habitantesFiltrados;
     }
-    
+
+    private function __eliminarHabitantesMayoresEdad (Array $habitantes){
+	$habitantesFiltrados = [];
+	foreach ($habitantes as $habitante) {
+		$edad = $this->__calcularEdad($habitante);
+		if ($edad != null && $edad <= 17 ) {
+		    $habitantesFiltrados[] = $habitante;
+		}
+	}
+	return $habitantesFiltrados;
+    }
+
     private function __calcularEdad (Habitante $habitante){
 	$hoy = new \DateTime();
 	$edadHabitante = null;

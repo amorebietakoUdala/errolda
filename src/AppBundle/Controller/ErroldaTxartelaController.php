@@ -43,6 +43,33 @@ class ErroldaTxartelaController extends Controller {
     }
 
     /**
+     * @Route("/adingabekoak/{numDocumento}", name="errolda_kolektiboa"))
+     */
+    public function erroldaAdingabekoakAction (Request $request, $numDocumento, ErroldaService $erroldaService){
+	$em = $this->getDoctrine()->getManager();
+	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$bilaketa = ['numDocumento' => $zenbakia];
+	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
+	if ( $habitante == null ) {
+	    return $this->json([
+		'dni' => $numDocumento,
+		'msg' => 'Ez da herritarra aurkitu',
+		]);
+	}
+	$emaitza = $erroldaService->erroldaAdingabekoak($request, $habitante);
+	$adingabekoak = $emaitza["menores"];
+	$html = [];
+	$i = 0;
+	foreach ($adingabekoak as $adingabekoa) {
+	    $emaitza["habitante"] = $adingabekoa;
+	    $emaitza["variacion"] = $emaitza["variacionesVivienda"][$i];
+	    $html[] = $this->render('erroldaTxartela/erroldaAdingabekoa.html.twig', $emaitza);
+	    $i++;
+	}
+	$this->sortuPDFMulti($html);
+    }
+
+    /**
      * @Route("/banakoa/{numDocumento}", name="errolda_banakoa"))
      */
     public function erroldaBanakoaAction (Request $request, $numDocumento, ErroldaService $erroldaService ){
@@ -57,7 +84,6 @@ class ErroldaTxartelaController extends Controller {
 		]);
 	}
 	$emaitza = $erroldaService->erroldaBanakoa($request, $habitante);
-//	dump($emaitza);die;
 	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig',$emaitza);
 	$this->sortuPDFa($html);
     }
@@ -92,50 +118,58 @@ class ErroldaTxartelaController extends Controller {
     }
 
     private function sortuPDFa($html) {
-        $pdf = $this->get( "white_october.tcpdf" )->create(
-            'vertical',
-            PDF_UNIT,
-            PDF_PAGE_FORMAT,
-            true,
-            'UTF-8',
-            false
-        );
+	$htmls = [];
+	$htmls[] = $html;
+	return $this->sortuPDFMulti($htmls);
+    }
+
+    private function sortuPDFMulti(array $htmls) {
+	$pdf = $this->get( "white_october.tcpdf" )->create(
+	    'vertical',
+	    PDF_UNIT,
+	    PDF_PAGE_FORMAT,
+	    true,
+	    'UTF-8',
+	    false
+	);
 
 	$pdf->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
 	$pdf->SetHeaderMargin(0);
 	$pdf->SetFooterMargin(0);
 	$pdf->SetAutoPageBreak(TRUE, 0);
-        $pdf->SetAuthor( 'Amorebitako-Etxanoko Udala' );
-        $pdf->SetTitle( 'Errolda Ziurtagiria' );
-        $pdf->SetSubject( 'Errolda Ziurtagiria' );
+	$pdf->SetAuthor( 'Amorebitako-Etxanoko Udala' );
+	$pdf->SetTitle( 'Errolda Ziurtagiria' );
+	$pdf->SetSubject( 'Errolda Ziurtagiria' );
 	$pdf->setPrintHeader(false);
 	$pdf->setPrintFooter(true);
-        $pdf->setFontSubsetting( true );
-        $pdf->SetFont( 'helvetica', '', 11, '', true );
-        $pdf->AddPage();
+	$pdf->setFontSubsetting( true );
+	$pdf->SetFont( 'helvetica', '', 11, '', true );
+	$filename = 'ziurtagiria';
+	foreach ($htmls as $html) {
+	    $pdf->AddPage();
 
-        $filename = 'ziurtagiria';
 
-        $pdf->writeHTMLCell(
-            $w = 0,
-            $h = 0,
-            $x = '',
-            $y = '',
-            $html->getContent(),
-            $border = 0,
-            $ln = 1,
-            $fill = 0,
-            $reseth = false,
-            $align = '',
-            $autopadding = true
-        );
-	$sinatu = $this->getParameter('sign_pdf');
-	if ( $sinatu == TRUE ) {
-	    $pdf = $this->sinatuPDFa($pdf);
+	    $pdf->writeHTMLCell(
+		$w = 0,
+		$h = 0,
+		$x = '',
+		$y = '',
+		$html->getContent(),
+		$border = 0,
+		$ln = 1,
+		$fill = 0,
+		$reseth = false,
+		$align = '',
+		$autopadding = true
+	    );
+	    $sinatu = $this->getParameter('sign_pdf');
+	    if ( $sinatu == TRUE ) {
+		$pdf = $this->sinatuPDFa($pdf);
+	    }
 	}
-        $pdf->Output( $filename . ".pdf", 'I' );    
+        $pdf->Output( $filename . ".pdf", 'I' );
     }
-	
+
     private function sinatuPDFa ($pdf) {
 	$certificate = $this->getParameter('certificate_file');
 	// set additional information

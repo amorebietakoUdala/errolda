@@ -1,0 +1,91 @@
+{% extends 'pdf.html.twig' %}
+
+{% block title %}{{'orri.izenburua' | trans }}{% endblock %}
+
+{% block pdftitle %}{{'pdf.izenburua-eu' | trans }}<br/>{{'pdf.izenburua-es' | trans }}{% endblock %}
+
+{% block body %}
+<div>
+    <table>
+	<tr>
+	    <td style="width: 49%"></td>
+	    <td style="width: 49%;"><b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}</b><br/>
+		<b><b>{{ vivienda }}</b></b><br/>
+		{{ variacion.codigoPostal }} - {{ habitante.literalMunicipioNacimiento }}
+	    </td>
+	</tr>
+    </table>
+</div>
+
+<div>
+    <table>
+	<tr>
+	    <td style="width: 49%;">{{'pdf.taula-aurreko-testua-eu' | trans }}</td>
+	    <td style="width: 49%;">{{'pdf.taula-aurreko-testua-es' | trans }}</td>
+	</tr>
+    </table>
+</div>
+
+<hr/>
+
+<div class="container border-top p-2 mt-4 mb-4 border-bottom pb-2">
+    <table style="border-spacing: 7px;">
+
+	<tr>
+	    <th style="width: 25%;">{{'pdf.nan-eu' | trans }}<br/>{{'pdf.nan-es' | trans }}</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.numDocumento }} {{ habitante.claveDocumento }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">{{'pdf.izen-abizenak-eu' | trans }}<br/>{{'pdf.izen-abizenak-es' | trans }}</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.nombre }} {{ habitante.apellido1 }} {{ habitante.apellido2 }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">{{'pdf.helbidea-eu' | trans }}<br/>{{'pdf.helbidea-es' | trans }}</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ vivienda }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">{{'pdf.jaioteguna-eu' | trans }}<br/>{{'pdf.jaioteguna-es' | trans }}</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.fechaNacimiento[:4] }}-{{ habitante.fechaNacimiento|slice(-4,-2) }}-{{ habitante.fechaNacimiento|slice(-2) }}/{{ habitante.fechaNacimiento|slice(-2) }}-{{ habitante.fechaNacimiento|slice(-4,-2) }}-{{ habitante.fechaNacimiento[:4] }}</b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">{{'pdf.jaioterria-eu' | trans }}<br/>{{'pdf.jaioterria-es' | trans }}</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ habitante.literalMunicipioNacimiento | trim }}
+		    {% if habitante.paisNacimiento.id == '108' %}
+			({{ habitante.provinciaNacimiento.descripcionCas | trim }})
+		    {% else %}
+			({{ habitante.paisNacimiento.descripcionCas | trim }})
+		    {% endif %}
+	    </b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">{{'pdf.udalerrian-noiztik-eu' | trans }}<br/>{{'pdf.udalerrian-noiztik-es' | trans }}</th>
+	    <td style="width: 75%; background-color: #ddd"><b>
+		    {% if habitante.tipoAlta != 'AN' %}
+			{% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da
+			{% else %}
+			    {% if ( (variacion.fechaAltaHabitante| trim) != '' )%}
+				{{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da
+			    {% endif %}
+			{% endif %}
+		    {% else %}
+			{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da
+		    {% endif %}
+	    </b></td>
+	</tr>
+	<tr>
+	    <th style="width: 25%;">{{'pdf.eskariaren-zioa-eu' | trans }}<br/>{{'pdf.eskariaren-zioa-es' | trans }}</th>
+	    <td style="width: 75%; background-color: #ddd"><b>{{ auditoria.motivo }}</b></td>
+	</tr>
+    </table>
+</div>
+
+<hr/>
+<div>
+    <table style="padding-top: 10px;">
+	<tr>
+	    <td style="width: 49%;">{{'pdf.taula-atzeko-testua-eu' | trans }}</td>
+	    <td style="width: 49%;">{{'pdf.taula-atzeko-testua-es' | trans }}</td>
+	</tr>
+    </table>
+</div>
+{% endblock %}
