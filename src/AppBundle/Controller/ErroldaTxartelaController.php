@@ -43,7 +43,7 @@ class ErroldaTxartelaController extends Controller {
     }
 
     /**
-     * @Route("/adingabekoak/{numDocumento}", name="errolda_kolektiboa"))
+     * @Route("/adingabekoak/{numDocumento}", name="errolda_adingabekoak"))
      */
     public function erroldaAdingabekoakAction (Request $request, $numDocumento, ErroldaService $erroldaService){
 	$em = $this->getDoctrine()->getManager();
