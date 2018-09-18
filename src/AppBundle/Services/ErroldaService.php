@@ -163,7 +163,6 @@ class ErroldaService {
     private function __eliminarHabitantesMayoresEdadMenosTitular (Array $habitantes, Habitante $titular){
 	$habitantesFiltrados = [];
 	foreach ($habitantes as $habitante) {
-	    dump($habitante->getNumDocumento() !== $titular->getNumDocumento());
 	    if ($habitante->getNumDocumento() !== $titular->getNumDocumento()) {
 		$edad = $this->__calcularEdad($habitante);
 		if ($edad != null && $edad <= 17 ) {
