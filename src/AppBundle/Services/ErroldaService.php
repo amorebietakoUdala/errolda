@@ -66,7 +66,7 @@ class ErroldaService {
 	$movimientos_parciales = [];
 	foreach ($menores as $menor) {
 	    $bilaketa = ['claveInicialHabitante' => $menor->getClaveInicialHabitante()];
-	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimoCambioDomicilio($menor);
+	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimaVariacionHabitante($menor);
 	}
 	$auditoria = $this->guardarRegistroAuditoria('menores',$habitante->getNumDocumento(),$zertarako);
 	$emaitza = [
