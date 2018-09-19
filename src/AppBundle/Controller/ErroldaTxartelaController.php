@@ -66,7 +66,14 @@ class ErroldaTxartelaController extends Controller {
 	    $html[] = $this->render('erroldaTxartela/erroldaAdingabekoa.html.twig', $emaitza);
 	    $i++;
 	}
-	$this->sortuPDFMulti($html);
+	if ( count($adingabekoak) == 0 ) {
+	    return $this->json([
+		'dni' => $numDocumento,
+		'msg' => 'Ez da adingabekorik aurkitu',
+		]);
+	} else {
+	    $this->sortuPDFMulti($html);
+	}
     }
 
     /**
@@ -106,6 +113,21 @@ class ErroldaTxartelaController extends Controller {
 	$html = $this->render('erroldaTxartela/erroldaMugimenduak.html.twig', $emaitza);
 	$this->sortuPDFa($html);
     }
+    
+//     /**
+//     * @Route("/search", name=errolda_search", options={"expose" = true})
+//     */
+//    public function listAction (Request $request){
+//	$em = $this->getDoctrine()->getManager();
+//
+//	$bilatzaileaForm->handleRequest($request);
+//	if ( $bilatzaileaForm->isSubmitted() && $bilatzaileaForm->isValid() ) {
+//	    
+//	}
+//	return $this->render('/erroldaTxartela/search.html.twig', [
+//	    'bilatzaileaForm' => $form->createView()
+//	]);
+//    }
 
     private function getDNIZenbakia ($numDocumento) {
 	$zenbakia = substr($numDocumento, 0, -1);
