@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Services\ErroldaService;
+use AppBundle\Forms\HabitanteBilatzaileaForm;
 
 /**
  * Description of ErroldaTxartelaController
@@ -49,14 +50,14 @@ class ErroldaTxartelaController extends Controller {
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = $this->getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
-	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
+	$habitante = $em->getRepository('AppBundle:Habitante')->findHabitantes($bilaketa);
 	if ( $habitante == null ) {
 	    return $this->json([
 		'dni' => $numDocumento,
 		'msg' => 'Ez da herritarra aurkitu',
 		]);
 	}
-	$emaitza = $erroldaService->erroldaAdingabekoak($request, $habitante);
+	$emaitza = $erroldaService->erroldaAdingabekoak($request, $habitante[0]);
 	$adingabekoak = $emaitza["menores"];
 	$html = [];
 	$i = 0;
@@ -114,20 +115,6 @@ class ErroldaTxartelaController extends Controller {
 	$this->sortuPDFa($html);
     }
     
-//     /**
-//     * @Route("/search", name=errolda_search", options={"expose" = true})
-//     */
-//    public function listAction (Request $request){
-//	$em = $this->getDoctrine()->getManager();
-//
-//	$bilatzaileaForm->handleRequest($request);
-//	if ( $bilatzaileaForm->isSubmitted() && $bilatzaileaForm->isValid() ) {
-//	    
-//	}
-//	return $this->render('/erroldaTxartela/search.html.twig', [
-//	    'bilatzaileaForm' => $form->createView()
-//	]);
-//    }
 
     private function getDNIZenbakia ($numDocumento) {
 	$zenbakia = substr($numDocumento, 0, -1);
