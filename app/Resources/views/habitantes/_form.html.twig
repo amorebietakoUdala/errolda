@@ -1,0 +1,27 @@
+{{ form_start(bilatzaileaForm, {'attr': {'class': 'container form-group',
+					 'novalidate': 'novalidate'
+					} 
+	
+			       }) }}
+	<div class="row">
+            <div class="col-lg-3">
+		{{ form_label(bilatzaileaForm.nombre) }}
+		{{ form_widget(bilatzaileaForm.nombre, { 'attr': { 'class' : 'form-control' } }) }}
+	    </div>
+	    <div class="col-lg-3">
+		{{ form_label(bilatzaileaForm.apellido1) }}
+		{{ form_widget(bilatzaileaForm.apellido1, { 'attr': { 'class' : 'form-control' } }) }}
+	    </div>
+	    <div class="col-lg-3">
+		{{ form_label(bilatzaileaForm.apellido2) }}
+		{{ form_widget(bilatzaileaForm.apellido2, { 'attr': { 'class' : 'form-control' } }) }}
+	    </div>
+
+    {#	{{ form_widget(bilatzaileaForm.nombre, { 'attr' : {'class': 'form-control col-3'} }) }}
+	    {{ form_label(bilatzaileaForm.apellido1) }}
+	    {{ form_widget(bilatzaileaForm.apellido1, { 'attr' : {'class': 'form-control col-3'} }) }}
+	    {{ form_label(bilatzaileaForm.apellido2) }}
+	    {{ form_widget(bilatzaileaForm.apellido2, { 'attr' : {'class': 'form-control col-3'} }) }}
+    #}	    <button class="btn btn-primary" type="submit">{{'button.bidali' | trans}}</button>
+	</div>
+{{ form_end(bilatzaileaForm) }}

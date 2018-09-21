@@ -7,9 +7,25 @@ body {
 /*#header {
     border-bottom: #ddd solid thin;
 }*/
+header {
+    display: grid;
+    grid-template-columns: 150px auto 100px;
+    grid-template-areas: "logo titulo idioma";
+    justify-content: space-beetween;
+    text-align: center;
+    align-items: center;
+}
+
+main {
+    width: 100vw;
+}
 
 .logo {
-    height: 5rem;
+    height: 100px;
     width: auto;
 }
 
+.titulua {
+    display: flex;
+    text-align: center;
+}

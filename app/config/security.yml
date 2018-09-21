@@ -6,8 +6,9 @@ security:
 
     role_hierarchy:
         ROLE_API:         ROLE_API
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_API, ROLE_USER, ROLE_ADMIN]
+        ROLE_KONSULTA:    ROLE_KONTSULTA
+        ROLE_ADMIN:       ROLE_KONTSULTA, ROLE_ADMIN
+        ROLE_SUPER_ADMIN: [ROLE_API, ROLE_USER, ROLE_KONTSULTA, ROLE_ADMIN]
 
     providers:
         fos_userbundle:
@@ -26,6 +27,7 @@ security:
 
     access_control:
         - { path: ^/errolda-txartela, role: ROLE_API }
+        - { path: ^/[a-z]+/biztanleak, role: ROLE_KONTSULTA }
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

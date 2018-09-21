@@ -1,4 +1,4 @@
-"messages.aplikazioa": Errolda kontsulta zerbitzua
+"messages.aplikazioa": Consulta del padrón de habitantes
 "pdf.erreferentzia": "Erref./Ref.:"
 "orri.izenburua": Banako errolda-txartela/Volante de empadronamiento individual
 "orri.kolektiboa.izenburua": Errolda-Txartel kolektiboa/Volante de empadronamiento colectivo
@@ -71,3 +71,11 @@
 "AE": ALTA (ETORRERA ATZERRIRA)/ALTA (INMIGRACION EXTRANJERO)
 "BI": BAJA (INSKRIPZIOA OKER)/BAJA (INSCRIPCION INDEBIDA)
 "MI": CONFIRMACIÓN INSCRIPCIÓN PADRONAL EXTRANJERO
+
+"search.izenburua": Búsqueda en el padrón de habitantes
+"button.bidali": Enviar
+"messages.results0": No se han encontrado resultados
+"label.nombre": Nombre
+"label.apellido1": Primer Apellido
+"label.apellido2": Segundo Apellido
+"label.direccion": Dirección

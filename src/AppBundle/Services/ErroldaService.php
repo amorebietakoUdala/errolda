@@ -61,6 +61,7 @@ class ErroldaService {
 	$claveVivienda = $habitante->getClaveVivienda();
 	$bilaketa = ['municipio' => '003', 'claveVivienda' => $claveVivienda];
 	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
+//	dump($habitante, $habitantes);die;
 	$menores = $this->__eliminarHabitantesMayoresEdad($habitantes);
 	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy($bilaketa);
 	$movimientos_parciales = [];
