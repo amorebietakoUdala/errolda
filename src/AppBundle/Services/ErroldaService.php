@@ -31,6 +31,7 @@ class ErroldaService {
     
     public function erroldaKolektiboa (Request $request, Habitante $habitante, User $user) {
 	$zertarako = $request->query->get('zertarako');
+	$numDocumento = $habitante->getNumDocumento();
 	$em = $this->em;
 	$claveVivienda = $habitante->getClaveVivienda();
 	$bilaketa = ['municipio' => '003', 'claveVivienda' => $claveVivienda];
@@ -46,7 +47,7 @@ class ErroldaService {
 	    $bilaketa = ['claveInicialHabitante' => $habitante->getClaveInicialHabitante()];
 	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimoCambioDomicilio($habitante);
 	}
-	$auditoria = $this->guardarRegistroAuditoria('colectivo',$habitante->getNumDocumento(),$zertarako, null, $user);
+	$auditoria = $this->guardarRegistroAuditoria('colectivo',$numDocumento,$zertarako, null, $user);
 	$emaitza = ['entidad' => $entidad,
 	    'vivienda' => $vivienda,
 	    'habitantes' => $habitantes,
