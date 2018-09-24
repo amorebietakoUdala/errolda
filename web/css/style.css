@@ -4,13 +4,10 @@ body {
     margin-bottom: 2.5rem;
 }
 
-/*#header {
-    border-bottom: #ddd solid thin;
-}*/
 header {
     display: grid;
-    grid-template-columns: 150px auto 100px;
-    grid-template-areas: "logo titulo idioma";
+    grid-template-columns: 150px auto 200px 100px;
+    grid-template-areas: "logo titulo erabiltzailea idioma";
     justify-content: space-beetween;
     text-align: center;
     align-items: center;
@@ -28,4 +25,10 @@ main {
 .titulua {
     display: flex;
     text-align: center;
+}
+
+.avatar {
+    float: right;
+    height: 3rem;
+    border-radius: 3rem;
 }
