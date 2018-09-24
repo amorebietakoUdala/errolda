@@ -48,6 +48,7 @@ class ErroldaTxartelaController extends Controller {
      * @Route("/adingabekoak/{numDocumento}", name="errolda_adingabekoak"))
      */
     public function erroldaAdingabekoakAction (Request $request, $numDocumento, ErroldaService $erroldaService){
+	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = $this->getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
@@ -82,6 +83,7 @@ class ErroldaTxartelaController extends Controller {
      * @Route("/banakoa/{numDocumento}", name="errolda_banakoa"))
      */
     public function erroldaBanakoaAction (Request $request, $numDocumento, ErroldaService $erroldaService ){
+	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = $this->getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
@@ -101,6 +103,7 @@ class ErroldaTxartelaController extends Controller {
      * @Route("/mugimenduak/{numDocumento}", name="errolda_mugimenduak"))
      */
     public function erroldaMugimenduakAction (Request $request, $numDocumento, ErroldaService $erroldaService ){
+	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = $this->getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
