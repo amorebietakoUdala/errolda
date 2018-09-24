@@ -28,6 +28,7 @@ class ErroldaTxartelaController extends Controller {
      * @Route("/kolektiboa/{numDocumento}", name="errolda_kolektiboa"))
      */
     public function erroldaKoletiboaAction (Request $request, $numDocumento, ErroldaService $erroldaService){
+	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = $this->getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
@@ -38,7 +39,7 @@ class ErroldaTxartelaController extends Controller {
 		'msg' => 'Ez da herritarra aurkitu',
 		]);
 	}
-	$emaitza = $erroldaService->erroldaKolektiboa($request, $habitante);
+	$emaitza = $erroldaService->erroldaKolektiboa($request, $habitante, $user);
 	$html = $this->render('erroldaTxartela/erroldaKolektiboa.html.twig', $emaitza);
 	$this->sortuPDFa($html);
     }
@@ -57,7 +58,7 @@ class ErroldaTxartelaController extends Controller {
 		'msg' => 'Ez da herritarra aurkitu',
 		]);
 	}
-	$emaitza = $erroldaService->erroldaAdingabekoak($request, $habitante[0]);
+	$emaitza = $erroldaService->erroldaAdingabekoak($request, $habitante[0], $user);
 	$adingabekoak = $emaitza["menores"];
 	$html = [];
 	$i = 0;
@@ -91,7 +92,7 @@ class ErroldaTxartelaController extends Controller {
 		'msg' => 'Ez da herritarra aurkitu',
 		]);
 	}
-	$emaitza = $erroldaService->erroldaBanakoa($request, $habitante);
+	$emaitza = $erroldaService->erroldaBanakoa($request, $habitante, $user);
 	$html = $this->render('erroldaTxartela/erroldaBanakoa.html.twig',$emaitza);
 	$this->sortuPDFa($html);
     }
@@ -110,7 +111,7 @@ class ErroldaTxartelaController extends Controller {
 		'msg' => 'Ez da herritarra aurkitu',
 		]);
 	}
-	$emaitza = $erroldaService->erroldaMugimenduak($request, $habitantes, $zenbakia);
+	$emaitza = $erroldaService->erroldaMugimenduak($request, $habitantes, $zenbakia, $user);
 	$html = $this->render('erroldaTxartela/erroldaMugimenduak.html.twig', $emaitza);
 	$this->sortuPDFa($html);
     }

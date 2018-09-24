@@ -27,11 +27,11 @@ use AppBundle\Entity\Vivienda;
 
 class HabitantesController extends Controller {
 
-         /**
+     /**
      * @Route("/", name="biztanleak_search", options={"expose" = true})
      */
-    public function listAction (Request $request){
-//	$user = $this->get('security.token_storage')->getToken()->getUser();
+    public function listAction (Request $request, ErroldaService $erroldaService){
+	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
 	$bilatzaileaForm = $this->createForm(HabitanteBilatzaileaForm::class, [
 //	    'role' => $user->getRoles(),
@@ -39,17 +39,10 @@ class HabitantesController extends Controller {
 	]);
 	$bilatzaileaForm->handleRequest($request);
 	if ( $bilatzaileaForm->isSubmitted() && $bilatzaileaForm->isValid() ) {
-	    $consulta_habitante = $bilatzaileaForm->getData();
-	    $habitantes = $em->getRepository(Habitante::class)->findHabitantes($this->_remove_blank_filters($consulta_habitante));
-	    $viviendas = [];
-	    foreach ( $habitantes as $habitante) {
-		$vivienda = $em->getRepository(Vivienda::class)->findOneBy(['claveVivienda' => $habitante->getClaveVivienda()]);
-		$viviendas[] = $vivienda;
-	    }
-//	    dump($habitantes);die;
+	    $consulta_habitante = $this->_remove_blank_filters($bilatzaileaForm->getData());
+	    $emaitza = $erroldaService->listAction($request, $consulta_habitante, $user);
 	    return $this->render('/habitantes/search.html.twig', [
-		'habitantes' => $habitantes,
-		'viviendas' => $viviendas,
+		'emaitza' => $emaitza,
 		'bilatzaileaForm' => $bilatzaileaForm->createView(),
 	    ]);
 	}

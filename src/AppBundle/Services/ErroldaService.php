@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Habitante;
 use AppBundle\Entity\Auditoria;
+use AppBundle\Entity\Vivienda;
+use AppBundle\Entity\User;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,7 +29,7 @@ class ErroldaService {
         $this->em = $em;
     }
     
-    public function erroldaKolektiboa (Request $request, Habitante $habitante) {
+    public function erroldaKolektiboa (Request $request, Habitante $habitante, User $user) {
 	$zertarako = $request->query->get('zertarako');
 	$em = $this->em;
 	$claveVivienda = $habitante->getClaveVivienda();
@@ -44,7 +46,7 @@ class ErroldaService {
 	    $bilaketa = ['claveInicialHabitante' => $habitante->getClaveInicialHabitante()];
 	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimoCambioDomicilio($habitante);
 	}
-	$auditoria = $this->guardarRegistroAuditoria('colectivo',$habitante->getNumDocumento(),$zertarako);
+	$auditoria = $this->guardarRegistroAuditoria('colectivo',$habitante->getNumDocumento(),$zertarako, null, $user);
 	$emaitza = ['entidad' => $entidad,
 	    'vivienda' => $vivienda,
 	    'habitantes' => $habitantes,
@@ -55,7 +57,7 @@ class ErroldaService {
 	return $emaitza;
     }
 
-    public function erroldaAdingabekoak (Request $request, Habitante $habitante) {
+    public function erroldaAdingabekoak (Request $request, Habitante $habitante, User $user) {
 	$zertarako = $request->query->get('zertarako');
 	$em = $this->em;
 	$claveVivienda = $habitante->getClaveVivienda();
@@ -69,7 +71,7 @@ class ErroldaService {
 	    $bilaketa = ['claveInicialHabitante' => $menor->getClaveInicialHabitante()];
 	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimaVariacionHabitante($menor);
 	}
-	$auditoria = $this->guardarRegistroAuditoria('menores',$habitante->getNumDocumento(),$zertarako);
+	$auditoria = $this->guardarRegistroAuditoria('menores',$habitante->getNumDocumento(),$zertarako, null,  $user);
 	$emaitza = [
 	    'vivienda' => $vivienda,
 	    'menores' => $menores,
@@ -79,7 +81,7 @@ class ErroldaService {
 	return $emaitza;
     }
 
-    public function erroldaBanakoa (Request $request, Habitante $habitante){
+    public function erroldaBanakoa (Request $request, Habitante $habitante, User $user){
 	$parametros = $request->query->all();
 	$em = $this->em;
 	$zertarako = null;
@@ -93,7 +95,7 @@ class ErroldaService {
 	];
 	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
 	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy(['claveVivienda' => $claveVivienda]);
-	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako);
+	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako, null, $user);
 	$emaitza = [
 	    'variacion' => $ultimaVariacion,
 	    'vivienda' => $vivienda,
@@ -104,7 +106,7 @@ class ErroldaService {
 	return $emaitza;
     }
 
-    public function erroldaMugimenduak (Request $request, $habitantes, $numDocumento){
+    public function erroldaMugimenduak (Request $request, $habitantes, $numDocumento, User $user){
 	$parametros = $request->query->all();
 	$em = $this->em;
 	$zertarako = null;
@@ -124,7 +126,7 @@ class ErroldaService {
 	    $domicilios[$i] = $vivienda;
 	    $i = $i +1;
 	}
-	$auditoria = $this->guardarRegistroAuditoria('movimientos',$numDocumento,$zertarako);
+	$auditoria = $this->guardarRegistroAuditoria('movimientos',$numDocumento,$zertarako, null, $user);
 	$emaitza = [
 	    'movimientos' => $movimientos,
 	    'domicilios' => $domicilios,
@@ -133,14 +135,38 @@ class ErroldaService {
 	    ];
 	return $emaitza;
     }
+    
+    public function listAction (Request $request, Array $consulta_habitante, User $user) {
+	$em = $this->em;
+	$habitantes = $em->getRepository(Habitante::class)->findHabitantes($consulta_habitante);
+	$viviendas = [];
+	foreach ( $habitantes as $habitante) {
+	    $vivienda = $em->getRepository(Vivienda::class)->findOneBy(['claveVivienda' => $habitante->getClaveVivienda()]);
+	    $viviendas[] = $vivienda;
+	}
+	$auditoria = $this->guardarRegistroAuditoria('consulta',null,null,$consulta_habitante, $user);
+	$emaitza = [
+	    'habitantes' => $habitantes,
+	    'viviendas' => $viviendas,
+	    'auditoria' => $auditoria,
+	];
+	return $emaitza;
+    }
 
-    private function guardarRegistroAuditoria ($tipo, $dni, $motivo = null) {
+    private function guardarRegistroAuditoria ($tipo, $dni = null, $motivo = null, $consulta_habitantes = null, User $user ) {
 //	$this->em = $this->getDoctrine()->getManager();
 	$auditoria = new Auditoria();
 	$auditoria->setFecha(new \DateTime());
 	$auditoria->setTipo($tipo);
 	$auditoria->setDni($dni);
 	$auditoria->setMotivo($motivo);
+	if ($consulta_habitantes != null && array_key_exists("nombre",$consulta_habitantes))
+	    $auditoria->setNombre($consulta_habitantes['nombre']);
+	if ($consulta_habitantes != null && array_key_exists("apellido1",$consulta_habitantes))
+	    $auditoria->setApellido1($consulta_habitantes['apellido1']);
+	if ($consulta_habitantes != null && array_key_exists("apellido2",$consulta_habitantes))
+	    $auditoria->setApellido1($consulta_habitantes['apellido2']);
+	$auditoria->setUsuario($user);
 	$this->em->persist($auditoria);
 	$this->em->flush();
 	return $auditoria;

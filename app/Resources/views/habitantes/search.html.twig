@@ -9,7 +9,7 @@
     <link href="{{ asset('bower_components/fontawesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
-{% block mezuak %}
+{% block message %}
     {% for msg in app.session.flashBag.get('success') %}
 	<div class="alert alert-success margin-top-13">
 	    {{ msg | trans}}
@@ -41,13 +41,13 @@
 		    </tr>
 		</thead>
 		<tbody>
-		    {% if habitantes is defined and habitantes|length > 0 %}
-			{% for habitante in habitantes %}
+		    {% if emaitza.habitantes is defined and emaitza.habitantes|length > 0 %}
+			{% for habitante in emaitza.habitantes %}
 			<tr>
 			    <td>{{habitante.nombre }}</td>
 			    <td>{{habitante.apellido1 }}</td>
 			    <td>{{habitante.apellido2 }}</td>
-			    <td>{{viviendas[loop.index-1] }}</td>
+			    <td>{{emaitza.viviendas[loop.index-1] }}</td>
 			</tr>
 			{% endfor %}
 		    {% else %}
