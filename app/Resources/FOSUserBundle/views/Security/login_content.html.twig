@@ -15,9 +15,7 @@
 	<div class="col">
 	    <div class="container col-lg-5 col-md-5 p-3 border border-info rounded bg-light">
 		<form action="{{ path("fos_user_security_check") }}" method="post">
-		{% if csrf_token %}
 		    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-		{% endif %}
 
 		    <div class="form-group">
 			<label for="username">{{ 'security.login.username'| trans }}</label>
