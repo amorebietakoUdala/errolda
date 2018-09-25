@@ -31,7 +31,8 @@ class HabitantesController extends Controller {
      * @Route("/", name="biztanleak_search", options={"expose" = true})
      */
     public function listAction (Request $request, ErroldaService $erroldaService){
-	$user = $this->get('security.token_storage')->getToken()->getUser();
+//	dump($request->getSession(),$request->getLocale());die;
+//	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
 	$bilatzaileaForm = $this->createForm(HabitanteBilatzaileaForm::class, [
 //	    'role' => $user->getRoles(),

@@ -1,0 +1,8 @@
+security:   
+    login:  
+           invalid_credentials: 'El usuario y contraseña no son correctos'
+           system_error: 'Debido a un error del sistema, no se puede comprobar el usuario'
+           remember_password: 'Se te ha olvidado la contraseña?'
+    password:
+        resetted: 'La contraseña se ha cambiado'
+btn.loginera.itzuli: 'Volver a la página de login'

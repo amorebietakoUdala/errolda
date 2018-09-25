@@ -1,0 +1,18 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block body %}
+    <div class="container  bg-light border border-info rounded p-3">
+	<div class="d-flex flex-column mt-1">
+	    <h4 class="d-flex alert-heading">
+		{{ 'security.login.remember_password' | trans | capitalize  }}
+		<hr class="mt-1 mb-1">
+	    </h4>
+	    <div class="d-flex ">
+		{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+		    {{ form_widget(form) }}
+			<button class="btn btn-primary" type="submit" formnovalidate>{{ 'resetting.reset.submit' | trans | capitalize }}</button>
+		{{ form_end(form) }}
+	    </div>
+	</div>
+    </div>
+{% endblock %}
