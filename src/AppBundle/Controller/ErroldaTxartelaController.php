@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Services\ErroldaService;
 use AppBundle\Forms\HabitanteBilatzaileaForm;
+use AppBundle\Utils\Balidazioak;
 
 /**
  * Description of ErroldaTxartelaController
@@ -30,7 +31,7 @@ class ErroldaTxartelaController extends Controller {
     public function erroldaKoletiboaAction (Request $request, $numDocumento, ErroldaService $erroldaService){
 	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
-	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$zenbakia = Balidazioak::getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
 	if ( $habitante == null ) {
@@ -50,7 +51,7 @@ class ErroldaTxartelaController extends Controller {
     public function erroldaAdingabekoakAction (Request $request, $numDocumento, ErroldaService $erroldaService){
 	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
-	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$zenbakia = Balidazioak::getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findHabitantes($bilaketa);
 	if ( $habitante == null ) {
@@ -85,7 +86,7 @@ class ErroldaTxartelaController extends Controller {
     public function erroldaBanakoaAction (Request $request, $numDocumento, ErroldaService $erroldaService ){
 	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
-	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$zenbakia = Balidazioak::getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
 	if ($habitante == null ) {
@@ -105,7 +106,7 @@ class ErroldaTxartelaController extends Controller {
     public function erroldaMugimenduakAction (Request $request, $numDocumento, ErroldaService $erroldaService ){
 	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
-	$zenbakia = $this->getDNIZenbakia($numDocumento);
+	$zenbakia = Balidazioak::getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
 	$habitantes = $em->getRepository('AppBundle:Habitante')->findBy($bilaketa);
 	if ( count($habitantes) == 0 ) {
@@ -119,16 +120,6 @@ class ErroldaTxartelaController extends Controller {
 	$this->sortuPDFa($html);
     }
     
-
-    private function getDNIZenbakia ($numDocumento) {
-	$zenbakia = substr($numDocumento, 0, -1);
-	return $zenbakia;
-    }
-
-    private function getDNILetra ($numDocumento) {
-	$letra = substr($numDocumento, -1);
-	return $letra;
-    }
 
     private function sortuPDFa($html) {
 	$htmls = [];

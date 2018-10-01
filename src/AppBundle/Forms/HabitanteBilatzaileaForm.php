@@ -23,13 +23,18 @@ class HabitanteBilatzaileaForm extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
 	$builder
+	    ->add('numDocumento', null, [
+		'constraints' => [],
+		'label' => 'label.dni',
+		'translation_domain' => 'messages'
+	    ])
 	    ->add('nombre', null, [
-		'constraints' => [new NotBlank(),],
+		'constraints' => [],
 		'label' => 'label.nombre',
 		'translation_domain' => 'messages'
 	    ])
 	    ->add('apellido1', null, [
-		'constraints' => [new NotBlank(),],
+		'constraints' => [],
 		'label' => 'label.apellido1',
 		'translation_domain' => 'messages'
 	    ])

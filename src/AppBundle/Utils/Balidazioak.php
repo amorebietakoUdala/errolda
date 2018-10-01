@@ -84,4 +84,23 @@ class Balidazioak {
 	//si todavia no se ha verificado devuelve error
 	return 0;
     }
+    
+    
+    public static function getDNIZenbakia ($numDocumento) {
+	if (Balidazioak::getDNILetra($numDocumento) !== null) { 
+	    $zenbakia = substr($numDocumento, 0, -1);
+	    return $zenbakia;
+	}
+	else
+	    return $numDocumento;
+	
+    }
+
+    public static function getDNILetra ($numDocumento) {
+	$letra = substr($numDocumento, -1);
+	if (!is_numeric($letra)) {
+	    return $letra;
+	}
+	return null;
+    }
 }

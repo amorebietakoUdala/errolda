@@ -75,8 +75,10 @@
 "search.izenburua": Búsqueda en el padrón de habitantes
 "button.bidali": Enviar
 "messages.results0": No se han encontrado resultados
+"label.dni": DNI
 "label.nombre": Nombre
 "label.apellido1": Primer Apellido
 "label.apellido2": Segundo Apellido
 "label.direccion": Dirección
 "link.irten": Salir
+"nana_edo_izena_eta_lehenengo_abizena_sartu_behar_dira": Debe introducir un dni o nombre y primer apellido por lo menos

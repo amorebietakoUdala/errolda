@@ -15,6 +15,7 @@ use AppBundle\Services\ErroldaService;
 use AppBundle\Forms\HabitanteBilatzaileaForm;
 use AppBundle\Entity\Habitante;
 use AppBundle\Entity\Vivienda;
+use AppBundle\Utils\Balidazioak;
 
 /**
  * Description of ErroldaTxartelaController
@@ -32,7 +33,7 @@ class HabitantesController extends Controller {
      */
     public function listAction (Request $request, ErroldaService $erroldaService){
 //	dump($request->getSession(),$request->getLocale());die;
-//	$user = $this->get('security.token_storage')->getToken()->getUser();
+	$user = $this->get('security.token_storage')->getToken()->getUser();
 	$em = $this->getDoctrine()->getManager();
 	$bilatzaileaForm = $this->createForm(HabitanteBilatzaileaForm::class, [
 //	    'role' => $user->getRoles(),
@@ -40,12 +41,21 @@ class HabitantesController extends Controller {
 	]);
 	$bilatzaileaForm->handleRequest($request);
 	if ( $bilatzaileaForm->isSubmitted() && $bilatzaileaForm->isValid() ) {
-	    $consulta_habitante = $this->_remove_blank_filters($bilatzaileaForm->getData());
-	    $emaitza = $erroldaService->listAction($request, $consulta_habitante, $user);
-	    return $this->render('/habitantes/search.html.twig', [
-		'emaitza' => $emaitza,
-		'bilatzaileaForm' => $bilatzaileaForm->createView(),
-	    ]);
+	    $data = $bilatzaileaForm->getData();
+	    if ( $data[ 'numDocumento'] === null &&  ( $data[ 'nombre'] === null || $data[ 'apellido1'] === null ) ) {
+		$this->addFlash(
+		    'error',
+		    'nana_edo_izena_eta_lehenengo_abizena_sartu_behar_dira'
+		);
+	    } else {
+		$data['numDocumento'] = Balidazioak::getDNIZenbakia($data['numDocumento']);
+		$consulta_habitante = $this->_remove_blank_filters($data);
+		$emaitza = $erroldaService->listAction($request, $consulta_habitante, $user);
+		return $this->render('/habitantes/search.html.twig', [
+		    'emaitza' => $emaitza,
+		    'bilatzaileaForm' => $bilatzaileaForm->createView(),
+		]);
+	    }
 	}
 	return $this->render('/habitantes/search.html.twig', [
 	    'bilatzaileaForm' => $bilatzaileaForm->createView()
