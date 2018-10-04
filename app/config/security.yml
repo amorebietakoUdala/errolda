@@ -33,10 +33,11 @@ security:
                 check_path: fos_user_security_check
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-            logout:    true
+            logout:       true
             anonymous:    true
             remember_me:
                 secret: '%secret%'
+                lifetime: 604800 # 1 week in seconds
 
     access_control:
         - { path: ^/errolda-txartela, role: ROLE_API }
