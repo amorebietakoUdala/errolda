@@ -99,3 +99,18 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
+        
+fr3d_ldap:
+   driver:
+      host: '%ldap_host%'
+      username: '%ldap_user%'
+      password: '%ldap_password%'
+      accountDomainName: '%ldap_accountDomainName%'
+   user:
+      usernameAttribute: samaccountname
+      baseDn: '%ldap_users_dn%'
+      filter: (&(ObjectClass=Person))
+      attributes:
+         - { ldap_attr: samaccountname,  user_method: setUsername }
+         - { ldap_attr: mail, user_method: setEmail }
+         - { ldap_attr: cn, user_method: setName }

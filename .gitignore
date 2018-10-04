@@ -15,3 +15,8 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/sh/.dbcredentials
+/sh/export-errolda.sql.gz
+/sh/errolda.mdb
+/sh/errolda-schema.sql
+/sh/truncate-errolda.sql

@@ -18,6 +18,7 @@ class AppKernel extends Kernel
 	    new JMS\SerializerBundle\JMSSerializerBundle(),
 	    new FOS\RestBundle\FOSRestBundle(),
 	    new FOS\UserBundle\FOSUserBundle(),
+	    new FR3D\LdapBundle\FR3DLdapBundle(),
 	    new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
 	    new WhiteOctober\TCPDFBundle\WhiteOctoberTCPDFBundle(),
             new AppBundle\AppBundle(),

@@ -18,10 +18,23 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+    
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $name;
 
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+    
+    public function getName() {
+	return $this->name;
+    }
+
+    public function setName($name) {
+	$this->name = $name;
     }
 }
