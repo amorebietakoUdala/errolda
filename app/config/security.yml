@@ -33,8 +33,9 @@ security:
                 check_path: fos_user_security_check
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-            logout:       true
             anonymous:    true
+            logout:
+                path: /%locale%/logout
             remember_me:
                 secret: '%secret%'
                 lifetime: 604800 # 1 week in seconds
