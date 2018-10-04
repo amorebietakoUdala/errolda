@@ -1,0 +1,46 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+{% block message %}
+    {% if error %}
+	<div class="alert alert-danger margin-top-13">
+	    {{ error.messageKey|trans(error.messageData, 'security') | trans | capitalize }}
+	</div>
+    {% endif %}
+{% endblock %}
+
+
+{% block fos_user_content %}
+    <div class="container margin-top-13">
+	<div class="col">
+	    <div class="container col-lg-5 col-md-5 p-3 border border-info rounded bg-light">
+		<form action="{{ path("fos_user_security_check") }}" method="post">
+		    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+		    <div class="form-group">
+			<label for="username">{{ 'security.login.username'| trans }}</label>
+			<input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+		    </div>
+		
+
+		    <div class="form-group">
+			<label for="password">{{ 'security.login.password' | trans | capitalize }}</label>
+			<input class="form-control" type="password" id="password" name="_password" required="required" />
+		    </div>
+
+		    <div class="form-group form-inline">
+			<input type="checkbox" id="remember_me" name="_remember_me" value="on" />&nbsp;
+			<label for="remember_me">{{ 'security.login.remember_me'| trans | capitalize}}</label>
+		    </div>
+
+		    <div class="container-fluid row">
+			<div class="container-fuild col text-center">
+			    <button type="submit" class="btn btn-primary">{{ 'security.login.submit'| trans | capitalize}}</button>
+			</div>
+		    </div>
+		    <div class="mt-2"><a href="{{ path('fos_user_resetting_request') }}">{{ 'security.login.remember_password' | trans | capitalize  }}</a></div>
+		</form>
+	    </div>
+	</div>
+    </div>
+{% endblock %}

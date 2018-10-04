@@ -1,0 +1,20 @@
+<header class="mb-2">
+    <div><img class="logo" alt="Erantzunen logoa" src="{{ asset('images/udal-marka-betikala.jpg') }}"></div>
+    <div><h1>{{ "messages.aplikazioa" | trans }}</h1></div>
+	{% if is_granted('ROLE_USER') %}
+	<div id="span-erabiltzailea">
+	    <div class="dropdown">
+		<a class="dropdown-toggle" id="perfil_menua" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="user">{{ app.user.username }}</span>
+		    <img class="dropdown dropdown-toggle avatar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Erabiltzailea" src="{{ asset('images/default-avatar.png') }}">
+		</a>
+		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="perfil_menua">
+		    <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ "link.irten" | trans | capitalize }}</a>
+		</div>
+	    </div>
+	</div>
+	{% endif %}
+	{% set currentPath = path(app.request.attributes.get('_route'),
+                       app.request.attributes.get('_route_params')) %}
+    <div id="hizkuntza" class="text-black padding-top-18 margin-left-08"><a href="{{currentPath | replace ({'/eu/': '/es/'}) }}">es</a> / <a href="{{currentPath | replace ({'/es/': '/eu/'}) }}">eu</a></div>
+</header>

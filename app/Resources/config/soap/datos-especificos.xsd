@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- editado con XMLSpy v2015 (http://www.altova.com) por EJIE, S.A. (EJIE, S.A.) -->
+<xs:schema xmlns:tns="http://intermediacion.redsara.es/scsp/esquemas/datosespecificos" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://intermediacion.redsara.es/scsp/esquemas/datosespecificos" elementFormDefault="qualified" version="1.0">
+	<xs:element name="Consulta">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:DatosConsulta"/>
+				<xs:element ref="tns:DatosEntradaPadron"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DatosConsulta">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Territorio" type="xs:string"/>
+				<xs:element name="Municipio" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DatosEntradaPadron">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="TipoDocumento" type="xs:string"/>
+				<xs:element name="NumDocumento" type="xs:string" minOccurs="0"/>
+				<xs:element name="Nombre" type="xs:string"/>
+				<xs:element name="Apellido1" type="xs:string"/>
+				<xs:element name="Apellido2" type="xs:string" minOccurs="0"/>
+				<xs:element name="FechaNacimiento" type="xs:string" minOccurs="0"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DatosEspecificos" type="tns:DatosEspecificos"/>
+	<xs:element name="DatosTraza" type="tns:Traza"/>
+	<xs:element name="DatosSalidaPadron">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Habitantes" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DomicilioPadron">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="CodigoProvinciaResidencia" type="xs:string"/>
+				<xs:element name="NombreProvinciaResidencia" type="xs:string"/>
+				<xs:element name="CodigoMunicipioResidencia" type="xs:string"/>
+				<xs:element name="NombreMunicipioResidencia" type="xs:string"/>
+				<xs:element name="CodigoViaCalle" type="xs:string" minOccurs="0"/>
+				<xs:element name="NombreViaCastellano" type="xs:string"/>
+				<xs:element name="NombreViaEuskera" type="xs:string"/>
+				<xs:element name="Bloque" type="xs:string" minOccurs="0"/>
+				<xs:element name="Portal" type="xs:string" minOccurs="0"/>
+				<xs:element name="Bis" type="xs:string" minOccurs="0"/>
+				<xs:element name="Escalera" type="xs:string" minOccurs="0"/>
+				<xs:element name="Planta" type="xs:string" minOccurs="0"/>
+				<xs:element name="Puerta" type="xs:string" minOccurs="0"/>
+				<xs:element name="CodigoPostal" type="xs:string"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EstadoResultado">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Resultado" type="xs:string"/>
+				<xs:element name="Descripcion" type="xs:string"/>
+				<xs:element name="MotivosError" type="xs:string" minOccurs="0"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Habitantes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:Habitante" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Habitante">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="DatosInteres" type="xs:string" minOccurs="0"/>
+				<xs:element name="TipoDocumento" type="xs:string"/>
+				<xs:element name="NumDocumento" type="xs:string" minOccurs="0"/>
+				<xs:element name="Nombre" type="xs:string"/>
+				<xs:element name="Apellido1" type="xs:string"/>
+				<xs:element name="Apellido2" type="xs:string" minOccurs="0"/>
+				<xs:element name="FechaNacimiento" type="xs:string"/>
+				<xs:element name="CodigoPaisNacimiento" type="xs:string"/>
+				<xs:element name="NombrePaisNacimiento" type="xs:string"/>
+				<xs:element name="CodigoProvinciaNacimiento" type="xs:string" minOccurs="0"/>
+				<xs:element name="NombreProvinciaNacimiento" type="xs:string" minOccurs="0"/>
+				<xs:element name="CodigoMunicipioNacimiento" type="xs:string" minOccurs="0"/>
+				<xs:element name="NombreMunicipioNacimiento" type="xs:string" minOccurs="0"/>
+				<xs:element name="Sexo" type="xs:string"/>
+				<xs:element name="FechaAltaPadron" type="xs:string"/>
+				<xs:element ref="tns:DomicilioPadron" minOccurs="0"/>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Retorno">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tns:DatosTraza" minOccurs="0"/>
+				<xs:element ref="tns:DatosConsulta" minOccurs="0"/>
+				<xs:element ref="tns:EstadoResultado" minOccurs="0"/>
+				<xs:element ref="tns:DatosSalidaPadron" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="DatosEspecificos">
+		<xs:choice>
+			<xs:element ref="tns:Consulta"/>
+			<xs:element ref="tns:Retorno"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Traza">
+		<xs:all>
+			<xs:element name="IdTraza" type="xs:string"/>
+			<xs:element name="IdSolicitud" type="xs:string"/>
+			<xs:element name="FechaCertificado" type="xs:string"/>
+		</xs:all>
+	</xs:complexType>
+</xs:schema>

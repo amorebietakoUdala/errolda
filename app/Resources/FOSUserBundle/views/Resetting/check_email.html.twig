@@ -1,0 +1,17 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="container  bg-light border border-info rounded p-3">
+	    <div class="alert mt-1">
+		<h4 class="alert-heading">
+		    {{ 'security.login.remember_password' | trans | capitalize  }}
+		    <hr class="mt-1 mb-1">
+		</h4>
+		<div class="p-1">
+		    {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+		</div>
+	</div>
+    </div>
+{% endblock %}

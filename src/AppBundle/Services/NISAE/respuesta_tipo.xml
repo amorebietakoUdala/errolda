@@ -1,0 +1,105 @@
+<ns2:Respuesta xmlns="http://intermediacion.redsara.es/scsp/esquemas/V3/peticion" xmlns:ns2="http://intermediacion.redsara.es/scsp/esquemas/V3/respuesta">
+    <ns2:Atributos>
+        <ns2:IdPeticion>X53JI00000000201705230010</ns2:IdPeticion>
+        <ns2:NumElementos>1</ns2:NumElementos>
+        <ns2:TimeStamp>2017-05-23T10:35:41.127+02:00</ns2:TimeStamp>
+        <ns2:Estado>
+            <ns2:CodigoEstado>0003</ns2:CodigoEstado>
+            <ns2:LiteralError>BackOfficeV2-Petición procesada correctamente</ns2:LiteralError>
+        </ns2:Estado>
+        <ns2:CodigoCertificado>SWIOPPINDAYTO</ns2:CodigoCertificado>
+    </ns2:Atributos>
+    <ns2:Transmisiones Id="?">
+        <ns2:TransmisionDatos>
+            <ns2:DatosGenericos>
+                <ns2:Emisor>
+                    <ns2:NifEmisor>P00000000</ns2:NifEmisor>
+                    <ns2:NombreEmisor>EAEko Udalak – Ayuntamientos CAPV</ns2:NombreEmisor>
+                </ns2:Emisor>
+                <ns2:Solicitante>
+                    <ns2:IdentificadorSolicitante>S4833001C</ns2:IdentificadorSolicitante>
+                    <ns2:NombreSolicitante>EJGV</ns2:NombreSolicitante>
+                    <ns2:UnidadTramitadora>PCI. TELETRAMITACION</ns2:UnidadTramitadora>
+                    <ns2:Procedimiento>
+                        <ns2:CodProcedimiento>TEST_DESA_IOP</ns2:CodProcedimiento>
+                        <ns2:NombreProcedimiento>Procedimiento Pruebas NISAE</ns2:NombreProcedimiento>
+                    </ns2:Procedimiento>
+                    <ns2:Finalidad>Procedimiento de pruebas de integración</ns2:Finalidad>
+                    <ns2:Consentimiento>Si</ns2:Consentimiento>
+                    <ns2:Funcionario>
+                        <ns2:NombreCompletoFuncionario>Tramitador NISAE</ns2:NombreCompletoFuncionario>
+                        <ns2:NifFuncionario>12345678Z</ns2:NifFuncionario>
+                    </ns2:Funcionario>
+                    <ns2:IdExpediente>X53JI/IDEXP-2017-0007</ns2:IdExpediente>
+                </ns2:Solicitante>
+                <ns2:Titular>
+                    <ns2:TipoDocumentacion>DNI</ns2:TipoDocumentacion>
+                    <ns2:Documentacion>16346178D</ns2:Documentacion>
+                    <ns2:NombreCompleto>MARIA GARCIA FERNANDEZ</ns2:NombreCompleto>
+                    <ns2:Nombre>MARIA</ns2:Nombre>
+                    <ns2:Apellido1>GARCIA</ns2:Apellido1>
+                    <ns2:Apellido2>FERNANDEZ</ns2:Apellido2>
+                </ns2:Titular>
+                <ns2:Transmision>
+                    <ns2:CodigoCertificado>SWIOPPINDAYTO</ns2:CodigoCertificado>
+                    <ns2:IdSolicitud>X53JI00000000201705230010</ns2:IdSolicitud>
+                    <ns2:IdTransmision>X53JI00000000201705230010TR</ns2:IdTransmision>
+                    <ns2:FechaGeneracion>2017-05-23T10:35:43.402+02:00</ns2:FechaGeneracion>
+                </ns2:Transmision>
+            </ns2:DatosGenericos>
+            <dat:DatosEspecificos xmlns:dat="http://intermediacion.redsara.es/scsp/esquemas/datosespecificos">
+                <dat:Retorno>
+                    <dat:DatosTraza>
+                        <dat:IdTraza>x53jiX53JI0000000020170523001020170523103538625T0</dat:IdTraza>
+                        <dat:IdSolicitud>X53JI00000000201705230010</dat:IdSolicitud>
+                        <dat:FechaCertificado>2017-05-23T10:35:43.402+02:00</dat:FechaCertificado>
+                    </dat:DatosTraza>
+                    <dat:DatosConsulta>
+                        <dat:Territorio>Araba/Álava</dat:Territorio>
+                        <dat:Municipio>Vitoria-Gasteiz</dat:Municipio>
+                    </dat:DatosConsulta>
+                    <dat:EstadoResultado>
+                        <dat:Resultado>S</dat:Resultado>
+                        <dat:Descripcion>Si se han encontrado habitantes.</dat:Descripcion>
+                    </dat:EstadoResultado>
+                    <dat:DatosSalidaPadron xsi:type="dat:datosSalidaPadron" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                        <dat:Habitantes>
+                            <dat:Habitante>
+                                <dat:DatosInteres/>
+                                <dat:TipoDocumento>DNI</dat:TipoDocumento>
+                                <dat:NumDocumento>16346178D</dat:NumDocumento>
+                                <dat:Nombre>MARIA</dat:Nombre>
+                                <dat:Apellido1>GARCIA</dat:Apellido1>
+                                <dat:Apellido2>FERNANDEZ</dat:Apellido2>
+                                <dat:FechaNacimiento>19210426</dat:FechaNacimiento>
+                                <dat:CodigoPaisNacimiento>108</dat:CodigoPaisNacimiento>
+                                <dat:NombrePaisNacimiento>ESPAÑA</dat:NombrePaisNacimiento>
+                                <dat:CodigoProvinciaNacimiento>01</dat:CodigoProvinciaNacimiento>
+                                <dat:NombreProvinciaNacimiento>ARABA/ÁLAVA</dat:NombreProvinciaNacimiento>
+                                <dat:CodigoMunicipioNacimiento>902</dat:CodigoMunicipioNacimiento>
+                                <dat:NombreMunicipioNacimiento>LANTARÓN</dat:NombreMunicipioNacimiento>
+                                <dat:Sexo>M</dat:Sexo>
+                                <dat:FechaAltaPadron>19910301</dat:FechaAltaPadron>
+                                <dat:DomicilioPadron>
+                                    <dat:CodigoProvinciaResidencia>01</dat:CodigoProvinciaResidencia>
+                                    <dat:NombreProvinciaResidencia>ARABA/ÁLAVA</dat:NombreProvinciaResidencia>
+                                    <dat:CodigoMunicipioResidencia>059</dat:CodigoMunicipioResidencia>
+                                    <dat:NombreMunicipioResidencia>VITORIA-GASTEIZ</dat:NombreMunicipioResidencia>
+                                    <dat:CodigoViaCalle>00620</dat:CodigoViaCalle>
+                                    <dat:NombreViaCastellano>BILBAO, PLAZA DE</dat:NombreViaCastellano>
+                                    <dat:NombreViaEuskera>BILBO PLAZA</dat:NombreViaEuskera>
+                                    <dat:Bloque/>
+                                    <dat:Portal>0001</dat:Portal>
+                                    <dat:Bis/>
+                                    <dat:Escalera/>
+                                    <dat:Planta>06</dat:Planta>
+                                    <dat:Puerta>IZ</dat:Puerta>
+                                    <dat:CodigoPostal>01002</dat:CodigoPostal>
+                                </dat:DomicilioPadron>
+                            </dat:Habitante>
+                        </dat:Habitantes>
+                    </dat:DatosSalidaPadron>
+                </dat:Retorno>
+            </dat:DatosEspecificos>
+        </ns2:TransmisionDatos>
+    </ns2:Transmisiones>

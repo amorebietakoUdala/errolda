@@ -9,8 +9,9 @@ security:
 
     role_hierarchy:
         ROLE_API:         ROLE_API
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_API, ROLE_USER, ROLE_ADMIN]
+        ROLE_KONSULTA:    ROLE_KONTSULTA
+        ROLE_ADMIN:       ROLE_KONTSULTA, ROLE_ADMIN
+        ROLE_SUPER_ADMIN: [ROLE_API, ROLE_USER, ROLE_KONTSULTA, ROLE_ADMIN]
 
     providers:
         chain_provider:
@@ -28,15 +29,17 @@ security:
             fr3d_ldap_httpbasic: ~
             fr3d_ldap:  ~
             form_login:
+                login_path: /%locale%/login
+                check_path: fos_user_security_check
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-
-            logout:       true
             anonymous:    true
+            remember_me:
+                secret: '%secret%'
 
     access_control:
         - { path: ^/errolda-txartela, role: ROLE_API }
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/[a-z]+/biztanleak, role: ROLE_KONTSULTA }
+        - { path: ^/[a-z]+/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }

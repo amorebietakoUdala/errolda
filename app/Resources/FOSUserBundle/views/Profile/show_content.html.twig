@@ -1,0 +1,12 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="container  bg-light border border-info rounded p-3 mt-1">
+    <h4 class="alert-heading">
+	{{ 'security.login.remember_password' | trans | capitalize  }}
+	<hr class="mt-1 mb-1">
+    </h4>
+    <div class="p-1">
+	<p>{{ 'security.password.resetted' | trans }}</p>
+	<a class="btn btn-primary" href="{{ path("fos_user_security_login") }}">{{ 'btn.loginera.itzuli' | trans }}</a>
+    </div>
+</div>

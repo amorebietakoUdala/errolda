@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Habitante;
 use AppBundle\Entity\Auditoria;
+use AppBundle\Entity\Vivienda;
+use AppBundle\Entity\User;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -27,12 +29,15 @@ class ErroldaService {
         $this->em = $em;
     }
     
-    public function erroldaKolektiboa (Request $request, Habitante $habitante) {
+    public function erroldaKolektiboa (Request $request, Habitante $habitante, User $user) {
 	$zertarako = $request->query->get('zertarako');
+	$numDocumento = $habitante->getNumDocumento();
 	$em = $this->em;
 	$claveVivienda = $habitante->getClaveVivienda();
 	$bilaketa = ['municipio' => '003', 'claveVivienda' => $claveVivienda];
 	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
+	$habitantesTotales = count($habitantes);
+	$habitantes = $this->__eliminarHabitantesMayoresEdadMenosTitular($habitantes, $habitante);
 	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy($bilaketa);
 	$bilaketa = ['municipio' => $vivienda->getMunicipio(),'entidad' => $vivienda->getEntidad()]; // AMOREBIETA
 	$entidadesActivas = $em->getRepository('AppBundle:Entidad')->findAllActive($bilaketa);
@@ -42,17 +47,42 @@ class ErroldaService {
 	    $bilaketa = ['claveInicialHabitante' => $habitante->getClaveInicialHabitante()];
 	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimoCambioDomicilio($habitante);
 	}
-	$auditoria = $this->guardarRegistroAuditoria('colectivo',$habitante->getNumDocumento(),$zertarako);
+	$auditoria = $this->guardarRegistroAuditoria('colectivo',$numDocumento,$zertarako, null, $user);
 	$emaitza = ['entidad' => $entidad,
 	    'vivienda' => $vivienda,
 	    'habitantes' => $habitantes,
+	    'habitantesTotales' => $habitantesTotales,
 	    'auditoria' => $auditoria,
 	    'variacionesVivienda' => $movimientos_parciales,
 	];
 	return $emaitza;
     }
 
-    public function erroldaBanakoa (Request $request, Habitante $habitante){
+    public function erroldaAdingabekoak (Request $request, Habitante $habitante, User $user) {
+	$zertarako = $request->query->get('zertarako');
+	$em = $this->em;
+	$claveVivienda = $habitante->getClaveVivienda();
+	$bilaketa = ['municipio' => '003', 'claveVivienda' => $claveVivienda];
+	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantesActuales($bilaketa);
+//	dump($habitante, $habitantes);die;
+	$menores = $this->__eliminarHabitantesMayoresEdad($habitantes);
+	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy($bilaketa);
+	$movimientos_parciales = [];
+	foreach ($menores as $menor) {
+	    $bilaketa = ['claveInicialHabitante' => $menor->getClaveInicialHabitante()];
+	    $movimientos_parciales[] = $em->getRepository('AppBundle:Variacion')->findUltimaVariacionHabitante($menor);
+	}
+	$auditoria = $this->guardarRegistroAuditoria('menores',$habitante->getNumDocumento(),$zertarako, null,  $user);
+	$emaitza = [
+	    'vivienda' => $vivienda,
+	    'menores' => $menores,
+	    'auditoria' => $auditoria,
+	    'variacionesVivienda' => $movimientos_parciales,
+	];
+	return $emaitza;
+    }
+
+    public function erroldaBanakoa (Request $request, Habitante $habitante, User $user){
 	$parametros = $request->query->all();
 	$em = $this->em;
 	$zertarako = null;
@@ -60,18 +90,24 @@ class ErroldaService {
 	    $zertarako = $parametros['zertarako'];
 	}
 	$claveVivienda = $habitante->getClaveVivienda();
-	$bilaketa = ['claveVivienda' => $claveVivienda];
+	$bilaketa = [
+	    'claveVivienda' => $claveVivienda,
+	    'claveInicialHabitante' => $habitante->getClaveInicialHabitante(),
+	];
 	$ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacion($bilaketa);
-	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako);
+	$vivienda = $em->getRepository('AppBundle:Vivienda')->findOneBy(['claveVivienda' => $claveVivienda]);
+	$auditoria = $this->guardarRegistroAuditoria('individual',$habitante->getNumDocumento(),$zertarako, null, $user);
 	$emaitza = [
 	    'variacion' => $ultimaVariacion,
+	    'vivienda' => $vivienda,
 	    'habitante' => $habitante,
 	    'auditoria' => $auditoria,
 	];
+//	dump($emaitza);die;
 	return $emaitza;
     }
 
-    public function erroldaMugimenduak (Request $request, $habitantes, $numDocumento){
+    public function erroldaMugimenduak (Request $request, $habitantes, $numDocumento, User $user){
 	$parametros = $request->query->all();
 	$em = $this->em;
 	$zertarako = null;
@@ -91,7 +127,7 @@ class ErroldaService {
 	    $domicilios[$i] = $vivienda;
 	    $i = $i +1;
 	}
-	$auditoria = $this->guardarRegistroAuditoria('movimientos',$numDocumento,$zertarako);
+	$auditoria = $this->guardarRegistroAuditoria('movimientos',$numDocumento,$zertarako, null, $user);
 	$emaitza = [
 	    'movimientos' => $movimientos,
 	    'domicilios' => $domicilios,
@@ -100,14 +136,38 @@ class ErroldaService {
 	    ];
 	return $emaitza;
     }
+    
+    public function listAction (Request $request, Array $consulta_habitante, User $user) {
+	$em = $this->em;
+	$habitantes = $em->getRepository(Habitante::class)->findHabitantes($consulta_habitante);
+	$viviendas = [];
+	foreach ( $habitantes as $habitante) {
+	    $vivienda = $em->getRepository(Vivienda::class)->findOneBy(['claveVivienda' => $habitante->getClaveVivienda()]);
+	    $viviendas[] = $vivienda;
+	}
+	$auditoria = $this->guardarRegistroAuditoria('consulta',null,null,$consulta_habitante, $user);
+	$emaitza = [
+	    'habitantes' => $habitantes,
+	    'viviendas' => $viviendas,
+	    'auditoria' => $auditoria,
+	];
+	return $emaitza;
+    }
 
-    private function guardarRegistroAuditoria ($tipo, $dni, $motivo = null) {
+    private function guardarRegistroAuditoria ($tipo, $dni = null, $motivo = null, $consulta_habitantes = null, User $user ) {
 //	$this->em = $this->getDoctrine()->getManager();
 	$auditoria = new Auditoria();
 	$auditoria->setFecha(new \DateTime());
 	$auditoria->setTipo($tipo);
 	$auditoria->setDni($dni);
 	$auditoria->setMotivo($motivo);
+	if ($consulta_habitantes != null && array_key_exists("nombre",$consulta_habitantes))
+	    $auditoria->setNombre($consulta_habitantes['nombre']);
+	if ($consulta_habitantes != null && array_key_exists("apellido1",$consulta_habitantes))
+	    $auditoria->setApellido1($consulta_habitantes['apellido1']);
+	if ($consulta_habitantes != null && array_key_exists("apellido2",$consulta_habitantes))
+	    $auditoria->setApellido1($consulta_habitantes['apellido2']);
+	$auditoria->setUsuario($user);
 	$this->em->persist($auditoria);
 	$this->em->flush();
 	return $auditoria;
@@ -120,5 +180,47 @@ class ErroldaService {
 	    }
 	}
 	return $movimientos;
+    }
+    
+    /* Elimina todos los mayores de edad menos el titular que conviven en la misma vivienda
+     * 
+     * 
+     * @return habitantes
+     */
+    
+    private function __eliminarHabitantesMayoresEdadMenosTitular (Array $habitantes, Habitante $titular){
+	$habitantesFiltrados = [];
+	foreach ($habitantes as $habitante) {
+	    if ($habitante->getNumDocumento() !== $titular->getNumDocumento()) {
+		$edad = $this->__calcularEdad($habitante);
+		if ($edad != null && $edad <= 17 ) {
+		    $habitantesFiltrados[] = $habitante;
+		}
+	    } else {
+		$habitantesFiltrados[] = $habitante;
+	    }
+	}
+	return $habitantesFiltrados;
+    }
+
+    private function __eliminarHabitantesMayoresEdad (Array $habitantes){
+	$habitantesFiltrados = [];
+	foreach ($habitantes as $habitante) {
+		$edad = $this->__calcularEdad($habitante);
+		if ($edad != null && $edad <= 17 ) {
+		    $habitantesFiltrados[] = $habitante;
+		}
+	}
+	return $habitantesFiltrados;
+    }
+
+    private function __calcularEdad (Habitante $habitante){
+	$hoy = new \DateTime();
+	$edadHabitante = null;
+	if ($habitante->getFechaNacimiento() !== null) {
+	    $fechaNacimiento = \DateTime::createFromFormat('Ymd H:i:s', $habitante->getFechaNacimiento(). " 00:00:00");
+	    $edadHabitante = date_diff($hoy, $fechaNacimiento);
+	}
+	return $edadHabitante->format("%y");
     }
 }

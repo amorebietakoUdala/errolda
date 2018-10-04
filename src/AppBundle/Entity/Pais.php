@@ -61,6 +61,8 @@
 	    $this->descripcionEustat = $descripcionEustat;
 	}
 
-
+	public function __toString() {
+	    return $this->descripcionCas;
+	}
 
 }

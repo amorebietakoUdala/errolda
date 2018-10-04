@@ -38,7 +38,7 @@ class Auditoria
     /**
      * @var string
      *
-     * @ORM\Column(name="dni", type="string", length=10)
+     * @ORM\Column(name="dni", type="string", length=10, nullable=true)
      */
     private $dni;
 
@@ -49,6 +49,32 @@ class Auditoria
      */
     private $motivo;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="apellido1", type="string", length=255, nullable=true)
+     */
+    private $apellido1;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="apellido2", type="string", length=255, nullable=true)
+     */
+    private $apellido2;
+
+    /**
+    * @ORM\ManyToOne (targetEntity="User")
+    */
+    private $usuario;
+    
     /**
      * Get id
      *
@@ -152,6 +178,37 @@ class Auditoria
 	return $this;
     }
 
+    public function getNombre() {
+	return $this->nombre;
+    }
+
+    public function getApellido1() {
+	return $this->apellido1;
+    }
+
+    public function getApellido2() {
+	return $this->apellido2;
+    }
+
+    public function setNombre($nombre) {
+	$this->nombre = $nombre;
+    }
+
+    public function setApellido1($apellido1) {
+	$this->apellido1 = $apellido1;
+    }
+
+    public function setApellido2($apellido2) {
+	$this->apellido2 = $apellido2;
+    }
+
+    public function getUsuario() {
+	return $this->usuario;
+    }
+
+    public function setUsuario($usuario) {
+	$this->usuario = $usuario;
+    }
 
 }
 

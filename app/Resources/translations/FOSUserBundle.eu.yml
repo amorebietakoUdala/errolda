@@ -1,0 +1,8 @@
+security:   
+    login:  
+           invalid_credentials: 'Pasahitza eta erabiltzailea ez dira zuzenak'
+           system_error: 'Sistema akatsa dela eta, ezin izan da erabiltzailea konprobatu'
+           remember_password: 'Pasa hitza ahaztu zaizu?'
+    password:
+        resetted: 'Pasahitza aldatu egin da'
+btn.loginera.itzuli: 'Login orrialdera itzuli'

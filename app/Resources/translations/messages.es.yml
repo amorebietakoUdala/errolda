@@ -1,4 +1,4 @@
-"messages.aplikazioa": Errolda kontsulta zerbitzua
+"messages.aplikazioa": Consulta del padrón de habitantes
 "pdf.erreferentzia": "Erref./Ref.:"
 "orri.izenburua": Banako errolda-txartela/Volante de empadronamiento individual
 "orri.kolektiboa.izenburua": Errolda-Txartel kolektiboa/Volante de empadronamiento colectivo
@@ -53,13 +53,15 @@
 "pdf.barrutia": "Barrutia / Distrito:"
 "pdf.atala": "Atala / Seccion:"
 "pdf.jaiotza": "Jaiotza / Nacimiento:"
-"pdf.kolektiboa.personas": "Personas:"
+"pdf.kolektiboa.personas": "Etxebizitzan bizi diren pertsona kopurua: / Número de personas residentes en la vivienda:"
 "pdf.kolektiboa.udal-identi": "Udal ident. / Identi. Ayto:"
 "pdf.kolektiboa.egoitza-noiztik": "Egoitza (e)tik / Residencia Desde:"
 "pdf.kolektiboa.bizilekua-noiztik": "Bizilekua (e)tik / Domicilio Desde:"
 "pdf.kolektiboa.zertarako": "ZERTARAKO LUZATZEN DEN / EFECTO PARA EL QUE SE EXPIDE"
-"pdf.kolektiboa.oharra-eu": "OHARRA: agiri hau argibideak emateko, Udalerri honetako ohiko egoitzari eta helbideari dagokienean."
-"pdf.kolektiboa.oharra-es": "NOTA: Este documento tiene caracter informativo en relación con la residencia y el domicilio habitual en este municipio."
+"pdf.kolektiboa.oharra-eu": "OHARRA: agiri hau argibideak emateko, Udalerri honetako ohiko egoitzari eta helbideari dagokienean.Errolda-txartel honentan bakarrik agertzen zerrendatuta dira etxebizitza horretan bizi diren adingabekoak eta eskatzailea."
+"pdf.kolektiboa.oharra-es": "NOTA: Este documento tiene caracter informativo en relación con la residencia y el domicilio habitual en este municipio. En este volante aparece únicamente listados los menores de edad residentes en esa vivienda junto al solicitante."
+"pdf.kolektiboa.oharra2-eu": "Errolda-txartel honetan etxebizitza horretan bizi diren adingabekoak eta eskatzailea agertzen dira zerrendatuta bakarrik."
+"pdf.kolektiboa.oharra2-es": "En este volante aparece únicamente listados los menores de edad residentes en esa vivienda junto al solicitante."
 "Ez da herritarra aurkitu": "No se ha encontrado el habitante con DNI: {{dni}}"
 "MC": HELBIDE ALDAKETA/CAMBIOS DE DOMICLIO
 "AN": ALTA (JAIOTZA)/ALTA (NACIMIENTO)
@@ -69,3 +71,14 @@
 "AE": ALTA (ETORRERA ATZERRIRA)/ALTA (INMIGRACION EXTRANJERO)
 "BI": BAJA (INSKRIPZIOA OKER)/BAJA (INSCRIPCION INDEBIDA)
 "MI": CONFIRMACIÓN INSCRIPCIÓN PADRONAL EXTRANJERO
+
+"search.izenburua": Búsqueda en el padrón de habitantes
+"button.bidali": Enviar
+"messages.results0": No se han encontrado resultados
+"label.dni": DNI
+"label.nombre": Nombre
+"label.apellido1": Primer Apellido
+"label.apellido2": Segundo Apellido
+"label.direccion": Dirección
+"link.irten": Salir
+"nana_edo_izena_eta_lehenengo_abizena_sartu_behar_dira": Debe introducir un dni o nombre y primer apellido por lo menos
