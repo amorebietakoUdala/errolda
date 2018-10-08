@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0784aea8c7c086afc29516f178503bc2",
+    "content-hash": "c10de89f0141b2d031902a2ad1451c61",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -60,7 +60,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2017-12-01T09:37:01+00:00"
+            "time": "2018-08-08T08:57:40+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -409,7 +409,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2017-07-22T20:45:23+00:00"
+            "time": "2018-04-02T10:40:57+00:00"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -494,7 +494,7 @@
                 "orm",
                 "persistence"
             ],
-            "time": "2017-12-02T15:47:16+00:00"
+            "time": "2018-09-12T19:54:02+00:00"
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
@@ -585,7 +585,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2017-10-28T22:24:26+00:00"
+            "time": "2018-09-12T18:57:31+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -706,7 +706,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2015-06-14T21:17:01+00:00"
+            "time": "2018-09-01T02:07:49+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -766,7 +766,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-07-24T09:37:08+00:00"
+            "time": "2018-09-01T01:23:47+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -842,7 +842,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2017-11-27T23:36:27+00:00"
+            "time": "2017-12-17T03:03:07+00:00"
         },
         {
             "name": "fig/link-util",
@@ -1057,7 +1057,7 @@
             "keywords": [
                 "rest"
             ],
-            "time": "2017-11-28T07:59:44+00:00"
+            "time": "2018-09-13T20:39:51+00:00"
         },
         {
             "name": "friendsofsymfony/user-bundle",
@@ -1184,7 +1184,7 @@
             "keywords": [
                 "parameters management"
             ],
-            "time": "2015-11-10T17:04:01+00:00"
+            "time": "2018-02-13T18:05:56+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1292,7 +1292,7 @@
                 "xml",
                 "yaml"
             ],
-            "time": "2018-05-21 07:07:05"
+            "time": "2018-05-21T07:07:05+00:00"
         },
         {
             "name": "jms/parser-lib",
@@ -1485,7 +1485,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2017-12-04T10:38:52+00:00"
+            "time": "2018-09-19T09:16:33+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -1609,7 +1609,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-06-19T01:22:40+00:00"
+            "time": "2018-06-19T07:22:34+00:00"
         },
         {
             "name": "nelmio/api-doc-bundle",
@@ -1694,7 +1694,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2017-12-05T06:14:09+00:00"
+            "time": "2018-04-09T07:14:18+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1736,7 +1736,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2018-08-07 13:07:48"
+            "time": "2018-08-07T13:07:48+00:00"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -2026,7 +2026,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-04-03T15:59:15+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2126,7 +2126,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2017-08-25T16:55:44+00:00"
+            "time": "2018-06-07T06:22:12+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -2196,7 +2196,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2017-10-12T17:37:20+00:00"
+            "time": "2018-09-03T11:21:17+00:00"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -2241,7 +2241,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2017-10-29T18:48:08+00:00"
+            "time": "2018-09-04T07:01:31+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2295,7 +2295,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2017-11-23T14:49:16+00:00"
+            "time": "2018-07-31T09:26:32+00:00"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -2358,7 +2358,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2017-11-06T16:02:17+00:00"
+            "time": "2018-06-04T05:55:43+00:00"
         },
         {
             "name": "symfony/polyfill-apcu",
@@ -2414,7 +2414,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2472,7 +2472,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-05-17T18:32:56+00:00"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/polyfill-intl-icu",
@@ -2530,7 +2530,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2589,7 +2589,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/polyfill-php56",
@@ -2645,7 +2645,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/polyfill-php70",
@@ -2704,7 +2704,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/polyfill-util",
@@ -2756,7 +2756,7 @@
                 "polyfill",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-08-06T14:22:27+00:00"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -2970,20 +2970,20 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-05-22T17:17:49+00:00"
+            "time": "2018-09-20T07:47:32+00:00"
         },
         {
-            "name": "tecnickcom/tcpdf",
+            "name": "tecnick.com/tcpdf",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "ac6e92fccc7d9383dfd787056831349621b1aca2"
+                "reference": "a5135e2cf02f8c935b71e9e7d676f0f1d31b1b9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/ac6e92fccc7d9383dfd787056831349621b1aca2",
-                "reference": "ac6e92fccc7d9383dfd787056831349621b1aca2",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/a5135e2cf02f8c935b71e9e7d676f0f1d31b1b9d",
+                "reference": "a5135e2cf02f8c935b71e9e7d676f0f1d31b1b9d",
                 "shasum": ""
             },
             "require": {
@@ -3032,7 +3032,8 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2018-02-24T11:48:20+00:00"
+            "abandoned": "tecnickcom/tcpdf",
+            "time": "2018-09-23T07:52:24+00:00"
         },
         {
             "name": "twbs/bootstrap",
@@ -3138,7 +3139,7 @@
                 "i18n",
                 "text"
             ],
-            "time": "2018-03-07T15:44:35+00:00"
+            "time": "2018-05-22T13:26:07+00:00"
         },
         {
             "name": "twig/twig",
@@ -3205,27 +3206,27 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-11-12T18:48:08+00:00"
+            "time": "2018-07-31T09:41:48+00:00"
         },
         {
             "name": "whiteoctober/tcpdf-bundle",
-            "version": "dev-master",
+            "version": "1.0.1",
             "target-dir": "WhiteOctober/TCPDFBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/whiteoctober/WhiteOctoberTCPDFBundle.git",
-                "reference": "605843ea96e8bf30c539f3e22ca8483fea23e2c3"
+                "reference": "349a327c34afce6c1a9e6e5fbbdad431a66b416e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberTCPDFBundle/zipball/605843ea96e8bf30c539f3e22ca8483fea23e2c3",
-                "reference": "605843ea96e8bf30c539f3e22ca8483fea23e2c3",
+                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberTCPDFBundle/zipball/349a327c34afce6c1a9e6e5fbbdad431a66b416e",
+                "reference": "349a327c34afce6c1a9e6e5fbbdad431a66b416e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "symfony/framework-bundle": ">=2.0",
-                "tecnickcom/tcpdf": "*"
+                "tecnick.com/tcpdf": "*"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -3249,7 +3250,7 @@
                 "TCPDF",
                 "pdf"
             ],
-            "time": "2017-09-11T08:47:14+00:00"
+            "time": "2014-05-27T11:08:33+00:00"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -3527,7 +3528,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2017-12-02T16:31:17+00:00"
+            "time": "2017-12-07T15:36:41+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
@@ -3593,7 +3594,69 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-12-04T20:24:15+00:00"
+            "time": "2018-09-18T16:51:13+00:00"
+        },
+        {
+            "name": "tecnickcom/tcpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "ac6e92fccc7d9383dfd787056831349621b1aca2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/ac6e92fccc7d9383dfd787056831349621b1aca2",
+                "reference": "ac6e92fccc7d9383dfd787056831349621b1aca2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2018-09-14T15:26:29+00:00"
         }
     ],
     "aliases": [],
@@ -3604,7 +3667,6 @@
         "nelmio/api-doc-bundle": 20,
         "symfony/translation": 20,
         "twig/extensions": 20,
-        "whiteoctober/tcpdf-bundle": 20,
         "wiz/pdodblib-bundle": 20,
         "symfony/phpunit-bridge": 20
     },

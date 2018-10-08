@@ -34,7 +34,7 @@
         "twbs/bootstrap": "4.1.1",
         "twig/extensions": "^1.5@dev",
         "twig/twig": "^1.0||^2.0",
-        "whiteoctober/tcpdf-bundle": "dev-master",
+        "whiteoctober/tcpdf-bundle": "1.0.1",
         "wiz/pdodblib-bundle": "dev-master"
     },
     "require-dev": {
