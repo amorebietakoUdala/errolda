@@ -43,7 +43,7 @@ class ErroldaTxartelaController extends Controller {
 	$emaitza = $erroldaService->erroldaKolektiboa($request, $habitante, $user);
 	$html = $this->render('erroldaTxartela/erroldaKolektiboa.html.twig', $emaitza);
 //	return ($html);
-	$this->sortuPDFa($html);
+	return $this->sortuPDFa($html);
     }
 
     /**

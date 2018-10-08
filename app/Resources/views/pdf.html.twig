@@ -40,7 +40,7 @@
 	    <table>
 		<tr><td style="width: 60%"></td><td class="text-right" style="width: 40%">{{ 'pdf.erreferentzia' | trans }} {{auditoria.fecha | date('YmdHis','Europe/Madrid')}}-{{'%08d'|format(auditoria.id)}}</td></tr>
 		<tr>
-		    <td class="text-center" style="width: 30%"><img class="logo" alt="Amorebieta-Etxanoko Armarria" src="{{ asset('/images/armarriabn.jpg') }}"></td>
+		    <td class="text-center" style="width: 30%"><img class="logo" alt="Amorebieta-Etxanoko Armarria" src="http://errolda.amorebieta-etxano.eus/images/armarriabn.jpg"></td>
 		    <td style="width: 80%;"><span  style="vertical-align: middle"><h1 class="h5 text-center text-uppercase">{% block pdftitle %}{% endblock %}</h1></span></td>
 		</tr>
 	    </table>
@@ -50,7 +50,7 @@
 	    {% block body %}{% endblock %}
 	    <table>
 		<tr><td class="text-center">{{ 'pdf.non-eu' | trans }} {{ "now" | date ('Y-m-d') }}.<br/>{{ 'pdf.non-es' | trans }} {{ "now" |date ("d-m-Y")}}</td>
-		<td class="text-center"><img style="height: 80px;" alt="Amorebieta-Etxanoko Zigilua" src="{{ asset('/images/zigilua.jpg') }}"></td>
+		<td class="text-center"><img style="height: 80px;" alt="Amorebieta-Etxanoko Zigilua" src="http://errolda.amorebieta-etxano.eus/images/zigilua.jpg"></td>
 		</tr>
 	    </table>
 	</main>
