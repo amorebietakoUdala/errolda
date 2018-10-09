@@ -40,13 +40,13 @@ class SoapErroldaServiceController extends Controller
         return $response;
     }
     
-        /**
+     /**
      * @Route("/banakakoaNoSOAP", name="soap_errolda_banakakoaNoSOAP")
      */
     public function soapErroldaBanakakoaNoSOAPAction(Request $request, SoapErroldaService $soapErroldaService)
     {
         $response = new JsonResponse();
-	dump($soapErroldaService->peticionSincronaNoSOAP($request));die;
+	$soapErroldaService->peticionSincronaNoSOAP($request);
         $response->setContent($soapErroldaService->peticionSincronaNoSOAP($request));
         return $response;
     }

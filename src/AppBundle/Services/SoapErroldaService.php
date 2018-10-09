@@ -127,23 +127,35 @@ class SoapErroldaService
 	'020' => 'Bilbo/Bilbao',
 	'003' => 'Amorebieta-Etxano',
     ];
+    
+    const TIPOS_DOCUMENTO = [
+	'NIF','DNI','NIE','Pasaporte','Otros'
+    ];
 
     public function peticionSincrona($peticion) {
 	$data = json_decode(json_encode($peticion), true);
-
 	$datosEntradaPadron = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosEntradaPadron'];
-	$datosConsulta = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosConsulta'];
 	$numDocumento = isset($datosEntradaPadron['NumDocumento']) ? $datosEntradaPadron['NumDocumento'] : null;
-	$tipoDocumento = isset($datosEntradaPadron['NumDocumento']) ? $datosEntradaPadron['TipoDocumento'] : null;
+	$tipoDocumento = isset($datosEntradaPadron['TipoDocumento']) ? $datosEntradaPadron['TipoDocumento'] : null;
 	$habitantes = null;
 	$criteria = null;
 	
-	$territorio = $datosConsulta['Territorio'];
-	$municipio = $datosConsulta['Municipio'];
-	
-	// Si la consulta no es de amorebieta-etxano error
-	if ($territorio !== '48' || $municipio !== '003' ) {
-	    // Si la petición llega al ayuntamiento incorrecto qué respuesta enviamos?
+	$errores = $this->__validate($data);
+//	if ( !in_array($tipoDocumento, self::TIPOS_DOCUMENTO) ) {
+//	    $errores[] = ['00' => $this::MOTIVOS['00']];
+//	    return $this->__generateRespuesta ($errores, $data);
+//	}
+//	if ( $numDocumento != "000000000" ) {
+//	    if ( $tipoDocumento == 'DNI' || $tipoDocumento == 'NIE' ) {
+//		$result = Balidazioak::valida_nif_cif_nie($numDocumento);
+//		if ($result != 1 && $result != 3) {
+//		    $errores[] = ['01' => $this::MOTIVOS['01']];
+//		    return $this->__generateRespuesta ($errores, $data);
+//		}
+//	    }
+//	}
+	if ( count($errores) > 0 ) {
+	    return $this->__generateRespuesta ($errores, $data);
 	}
 	
 	if ( $numDocumento != null && $numDocumento != '000000000' ) {
@@ -159,16 +171,9 @@ class SoapErroldaService
 	    $criteria = $this->__generateQueryFilters($datosEntradaPadron);
 	    unset($criteria['numDocumento']);
 	    unset($criteria['tipoDocumento']);
-	    $criteria = $this->__remove_blank_filters($criteria);
-	    $habitantes = $this->em->getRepository('AppBundle:Habitante')->findHabitantes($criteria);
+	    $habitantes = $this->em->getRepository('AppBundle:Habitante')->findHabitantes($this->__remove_blank_filters($criteria));
 	}
-//	dump($criteria,$habitantes);die;
-	$atributos = $data['Atributos'];
-	$datosGenericos = $this->__generateDatosGenericos($data);
-	$fecha_certificado = $this->__getFechaParaTraza();
-	$datosTraza = new DatosTraza($atributos['IdPeticion'].$fecha_certificado,$atributos['IdPeticion'],date('c'));
-	$datosConsulta = new DatosConsulta(self::TERRITORIOS[self::TERRITORIO], self::MUNICIPIOS[self::MUNICIPIO]);
-
+	
 	$habitantesArray = [];
 	$i=0;
 	if ( $habitantes != null && !empty($habitantes)) {
@@ -178,74 +183,30 @@ class SoapErroldaService
 		$habitantesArray[$i]['vivienda'] = $vivienda;
 		$i++;
 	    }
-	    $datosSalidaPadron2 = $this->__generateDatosSalidaPadronHabitantes($habitantesArray);
-	    $estadoResultado = new EstadoResultado('S', self::ESTADOS_RESULTADO['S'], null);
-	    $datosEspecificos = $this->__generateDatosEspecificos($datosTraza,$datosConsulta,$estadoResultado,$datosSalidaPadron2);
-	    $transmisionDatos = new TransmisionDatos($datosGenericos, $datosEspecificos);
-	    $trasmisiones = new Transmisiones($transmisionDatos);
-	    $estado = new Estado('0003', null, self::ESTADOS['0003'],null);
-	    $atributos_response = new Atributos($atributos['IdPeticion'], $atributos['NumElementos'], date('c'), $estado, $atributos['CodigoCertificado']);
 	}
-	else {
-	    $estadoResultado = new EstadoResultado('N', self::ESTADOS_RESULTADO['N'], null);
-	    $datosEspecificos = $this->__generateDatosEspecificos($datosTraza,$datosConsulta,$estadoResultado,null);
-	    $transmisionDatos = new TransmisionDatos($datosGenericos, $datosEspecificos);
-	    $trasmisiones = new Transmisiones($transmisionDatos);
-	    $estado = new Estado('0003', null, self::ESTADOS['0003'],null);
-	    $atributos_response = new Atributos($atributos['IdPeticion'], $atributos['NumElementos'], date('c'), $estado, $atributos['CodigoCertificado']);
-	}
-	$response = [
-	    'Atributos' => $atributos_response,
-	    'Transmisiones' => $trasmisiones,
-	    ];
-	return $response;
+	return $this->__generateRespuesta($errores, $data, $habitantesArray);
     }
 
-    public function peticionSincronaNoSOAP(Request $request) {
-	$numDocumento = $request->query->get('numDocumento');
-	$tipoDocumento = $request->query->get('tipoDocumento');
-	if ( $numDocumento != null && $numDocumento != '000000000' ) {
-	    if ( $tipoDocumento != 'Otros') {
-		$numDocumentoSinLetra = substr($numDocumento, 0, -1);
-		$criteria = [ 'numDocumento' => $numDocumentoSinLetra ];
-	    } else {
-		$criteria = [ 'numDocumento' => $numDocumento ];
+    private function __validate($data) {
+	$errores = [];
+	$datosEntradaPadron = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosEntradaPadron'];
+	$numDocumento = isset($datosEntradaPadron['NumDocumento']) ? $datosEntradaPadron['NumDocumento'] : null;
+	$tipoDocumento = isset($datosEntradaPadron['TipoDocumento']) ? $datosEntradaPadron['TipoDocumento'] : null;
+	if ( !in_array($tipoDocumento, self::TIPOS_DOCUMENTO) ) {
+	    $errores[] = ['00' => $this::MOTIVOS['00']];
+	} else if ($numDocumento != '000000000' && ($tipoDocumento == 'DNI' || $tipoDocumento == 'NIE') ) {
+		$result = Balidazioak::valida_nif_cif_nie($numDocumento);
+		if ($result != 1 && $result != 3) {
+		    $errores[] = ['01' => $this::MOTIVOS['01']];
+		}
 	    }
-	} else {
-	    $criteria = $request->query->all();
-	    unset($criteria['numDocumento']);
-	    unset($criteria['tipoDocumento']);
-	    $criteria = $this->__remove_blank_filters($criteria);
-	}
-
-	$habitantes = $this->em->getRepository('AppBundle:Habitante')->findHabitantes($criteria);
-//	dump($habitantes);die;
-	$habitantesNISAE = [];
-	$i=0;
-	if ( $habitantes != null && !empty($habitantes)) {
-	    foreach ($habitantes as $habitante) {
-		$vivienda = $this->em->getRepository('AppBundle:Vivienda')->findOneBy(['claveVivienda' => $habitante->getClaveVivienda()]);
-		$habitantesNISAE[$i]['habitante'] = $habitante;
-		$habitantesNISAE[$i]['vivienda'] = $vivienda;
-		$i++;
-	    }
-	    //dump($habitantesNISAE);die;
-	}
-	$habitantesNISAE2 = $this->__generateDatosSalidaPadronHabitantes($habitantesNISAE);
-	
-	return $habitantesNISAE2;
+	return $errores;
     }
-
     
-    private function __getFechaParaTraza() {
-	$t = microtime(true);
-	$micro = sprintf("%03d",($t - floor($t)) * 1000000);
-	$date = new \DateTime(date('Y-m-d H:i:s.'.$micro, $t));
-	$fecha_certificado = $date->format('Ymdhis').substr($date->format('u'),1,3).'T0';
-	return $fecha_certificado;
-    }
-
-    private function __generateDatosSalidaPadronHabitantes (Array $habitantesArray) {
+    private function __generateDatosSalidaPadronHabitantes ($habitantesArray) {
+	if ( $habitantesArray == null ) {
+	    return null;
+	}
 	$habitantesNISAE = [];
 	foreach ( $habitantesArray as $elemento ) {
 	    $habitante = $elemento['habitante'];
@@ -280,11 +241,54 @@ class SoapErroldaService
 	return $datosEspecificos;
     }
     
+    private function __generateRespuesta (Array $errores, $data, $habitantesArray = null) {
+	if ( count($errores) > 0 ) {
+	    $key = array_keys($errores[0])[0];
+	    $estadoResultado = new EstadoResultado('E', $this::ESTADOS_RESULTADO['E'], $this::MOTIVOS[$key]);
+	} else if ( $habitantesArray !== null && count ($habitantesArray) > 0 ) {
+	    $estadoResultado = new EstadoResultado('S', self::ESTADOS_RESULTADO['S'], null);
+	} else {
+	    $estadoResultado = new EstadoResultado('N', self::ESTADOS_RESULTADO['N'], null);
+	}
+	$datosConsulta = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosConsulta'];
+	$territorio = $datosConsulta['Territorio'];
+	$municipio = $datosConsulta['Municipio'];
+	$datosGenericos = $this->__generateDatosGenericos($data);
+	$datosTraza = $this->__generateDatosTraza($data);
+	$datosEspecificos = $this->__generateDatosEspecificos($datosTraza,new DatosConsulta($this::TERRITORIOS[$territorio], $this::MUNICIPIOS[$municipio]),$estadoResultado,$this->__generateDatosSalidaPadronHabitantes($habitantesArray));
+	$transmisionDatos = new TransmisionDatos($datosGenericos, $datosEspecificos);
+	$trasmisiones = new Transmisiones($transmisionDatos);
+	$estado = new Estado('0003', null, self::ESTADOS['0003'],null);
+	$atributos_response = new Atributos($atributos['IdPeticion'], $atributos['NumElementos'], date('c'), $estado, $atributos['CodigoCertificado']);
+	$response = [
+	    'Atributos' => $atributos_response,
+	    'Transmisiones' => $trasmisiones,
+	    ];
+	return $response;
+
+    }
+
+    private function __getFechaParaTraza() {
+	$t = microtime(true);
+	$micro = sprintf("%03d",($t - floor($t)) * 1000000);
+	$date = new \DateTime(date('Y-m-d H:i:s.'.$micro, $t));
+	$fecha_certificado = $date->format('Ymdhis').substr($date->format('u'),1,3).'T0';
+	return $fecha_certificado;
+    }
+
+    private function __generateDatosTraza ($data) {
+	$atributos = $data['Atributos'];
+	$fecha_certificado = $this->__getFechaParaTraza();
+	$datosTraza = new DatosTraza($atributos['IdPeticion'].$fecha_certificado,$atributos['IdPeticion'],date('c'));
+	return $datosTraza;
+    }
+    
     private function __obtenerTipoDocumento($numdocumento) {
 	$tipoDoc=Balidazioak::valida_nif_cif_nie($numdocumento);
 	$tipos = [
+	    0 => 'Otros',
 	    1 => 'DNI', 
-	    2 => 'CIF', 
+	    2 => 'NIF', 
 	    3 => 'NIE'
 	];
 	if ($tipoDoc < 0 ) {
@@ -311,10 +315,11 @@ class SoapErroldaService
 	$habitanteNISAE->setCodigoMunicipioNacimiento($habitante->getMunicipioNacimiento());
 	$habitanteNISAE->setNombreMunicipioNacimiento($habitante->getLiteralMunicipioNacimiento());
 	$habitanteNISAE->setSexo($habitante->getSexo());
-	if (trim($habitante->getFechaAlta()) != '')
+	if (trim($habitante->getFechaAlta()) != '') {
 	    $habitanteNISAE->setFechaAltaPadron($habitante->getFechaAlta());
-	else 
+	} else {
 	    $habitanteNISAE->setFechaAltaPadron($habitante->getFechaNacimiento());
+	}
 	$domicilioPadron = $this->__parseVivienda($vivienda);
 	$habitanteNISAE->setDomicilioPadron($domicilioPadron);
 	
@@ -350,7 +355,6 @@ class SoapErroldaService
     private function __generateQueryFilters ($datosEntradaPadron) {
 	$tipoDocumento = isset($datosEntradaPadron['TipoDocumento']) ? $datosEntradaPadron['TipoDocumento'] : null;
 	$numDocumento = isset($datosEntradaPadron['NumDocumento']) ? $datosEntradaPadron['NumDocumento'] : null;
-//	$claveDocumento = substr($numDocumento, -1);
 	if ( $tipoDocumento != null && $tipoDocumento !== 'Otros' ) {
 	    $numDocumento = substr($numDocumento, 0, -1);
 	}
@@ -368,8 +372,7 @@ class SoapErroldaService
 	return $bilaketa;
     }
     
-    
-        private function __remove_blank_filters ($criteria) {
+    private function __remove_blank_filters ($criteria) {
 	$new_criteria = [];
 	foreach ($criteria as $key => $value) {
 	    if (!empty($value))
