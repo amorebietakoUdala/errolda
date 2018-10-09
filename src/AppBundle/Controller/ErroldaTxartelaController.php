@@ -33,7 +33,7 @@ class ErroldaTxartelaController extends Controller {
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = Balidazioak::getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
-	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
+	$habitante = $em->getRepository('AppBundle:Habitante')->findHabitantes($bilaketa);
 	if ( $habitante == null ) {
 	    return $this->json([
 		'dni' => $numDocumento,
@@ -89,7 +89,7 @@ class ErroldaTxartelaController extends Controller {
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = Balidazioak::getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
-	$habitante = $em->getRepository('AppBundle:Habitante')->findOneBy($bilaketa);
+	$habitante = $em->getRepository('AppBundle:Habitante')->findHabitantes($bilaketa);
 	if ($habitante == null ) {
 	    return $this->json([
 		'dni' => $numDocumento,
@@ -109,7 +109,7 @@ class ErroldaTxartelaController extends Controller {
 	$em = $this->getDoctrine()->getManager();
 	$zenbakia = Balidazioak::getDNIZenbakia($numDocumento);
 	$bilaketa = ['numDocumento' => $zenbakia];
-	$habitantes = $em->getRepository('AppBundle:Habitante')->findBy($bilaketa);
+	$habitantes = $em->getRepository('AppBundle:Habitante')->findHabitantes($bilaketa);
 	if ( count($habitantes) == 0 ) {
 	    return $this->json([
 		'dni' => $numDocumento,
