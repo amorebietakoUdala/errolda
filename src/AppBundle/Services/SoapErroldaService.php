@@ -141,19 +141,6 @@ class SoapErroldaService
 	$criteria = null;
 	
 	$errores = $this->__validate($data);
-//	if ( !in_array($tipoDocumento, self::TIPOS_DOCUMENTO) ) {
-//	    $errores[] = ['00' => $this::MOTIVOS['00']];
-//	    return $this->__generateRespuesta ($errores, $data);
-//	}
-//	if ( $numDocumento != "000000000" ) {
-//	    if ( $tipoDocumento == 'DNI' || $tipoDocumento == 'NIE' ) {
-//		$result = Balidazioak::valida_nif_cif_nie($numDocumento);
-//		if ($result != 1 && $result != 3) {
-//		    $errores[] = ['01' => $this::MOTIVOS['01']];
-//		    return $this->__generateRespuesta ($errores, $data);
-//		}
-//	    }
-//	}
 	if ( count($errores) > 0 ) {
 	    return $this->__generateRespuesta ($errores, $data);
 	}
@@ -327,7 +314,6 @@ class SoapErroldaService
     }
     
     private function __parseVivienda (Vivienda $vivienda) {
-//	dump($vivienda);die;
 	$domicilioPadron = new DomicilioPadron();
 	$domicilioPadron->setCodigoProvinciaResidencia(self::TERRITORIO);
 	$provincia = $this->em->getRepository('AppBundle:Provincia')->findOneById('48');
