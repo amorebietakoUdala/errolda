@@ -179,14 +179,27 @@ class SoapErroldaService
 	$datosEntradaPadron = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosEntradaPadron'];
 	$numDocumento = isset($datosEntradaPadron['NumDocumento']) ? $datosEntradaPadron['NumDocumento'] : null;
 	$tipoDocumento = isset($datosEntradaPadron['TipoDocumento']) ? $datosEntradaPadron['TipoDocumento'] : null;
+	$nombre = isset($datosEntradaPadron['Nombre']) ? $datosEntradaPadron['Nombre'] : null;
+	$apellido1 = isset($datosEntradaPadron['Apellido1']) ? $datosEntradaPadron['Apellido1'] : null;
 	if ( !in_array($tipoDocumento, self::TIPOS_DOCUMENTO) ) {
-	    $errores[] = ['00' => $this::MOTIVOS['00']];
-	} else if ($numDocumento != '000000000' && ($tipoDocumento == 'DNI' || $tipoDocumento == 'NIE') ) {
-		$result = Balidazioak::valida_nif_cif_nie($numDocumento);
-		if ($result != 1 && $result != 3) {
-		    $errores[] = ['01' => $this::MOTIVOS['01']];
-		}
+	    $errores[] = ['00' => self::MOTIVOS['00']];
+	    return $errores;
+	}
+	if ($numDocumento != '000000000' && ($tipoDocumento == 'DNI' || $tipoDocumento == 'NIE') ) {
+	    $result = Balidazioak::valida_nif_cif_nie($numDocumento);
+	    if ($result != 1 && $result != 3) {
+		$errores[] = ['01' => self::MOTIVOS['01']];
+		return $errores;
 	    }
+	}
+	if ( $tipoDocumento == 'Otros' && ( $nombre == null || $apellido1 == null || $nombre == '' || $apellido1 == '' ) ) {
+	    $errores[] = ['03' => self::MOTIVOS['03']];
+	    return $errores;
+	}
+	if ( ( $numDocumento == '000000000' && ( $tipoDocumento == 'DNI' || $tipoDocumento == 'NIE' ) ) && ( $nombre == null || $apellido1 == null || $nombre == '' || $apellido1 == '' ) ) {
+	    $errores[] = ['03' => self::MOTIVOS['03']];
+	    return $errores;
+	}
 	return $errores;
     }
     
