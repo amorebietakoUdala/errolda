@@ -1,8 +1,11 @@
 #!/bin/bash
 
+MOUNTPATH=/media/errolda
 SCPATH=/var/www/errolda/sh
+mount -l "$MOUNTPATH"
+
 cd "$SCPATH"
-cp "/media/errolda/DBWPAYTO.MDB" "$SCPATH/errolda.mdb"
+cp "$MOUNTPATH/DBWPAYTO.MDB" "$SCPATH/errolda.mdb"
 mdb-schema "$SCPATH/errolda.mdb" mysql > "$SCPATH/errolda-schema.sql"
 
 rm "$SCPATH/export-errolda.sql.gz"
