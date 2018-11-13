@@ -6,6 +6,7 @@ mount -l "$MOUNTPATH"
 
 cd "$SCPATH"
 cp "$MOUNTPATH/DBWPAYTO.MDB" "$SCPATH/errolda.mdb"
+umount "$MOUNTPATH"
 mdb-schema "$SCPATH/errolda.mdb" mysql > "$SCPATH/errolda-schema.sql"
 
 rm "$SCPATH/export-errolda.sql.gz"
