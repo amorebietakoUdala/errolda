@@ -144,8 +144,9 @@ class SoapErroldaService
 	$tipoDocumento = isset($datosEntradaPadron['TipoDocumento']) ? $datosEntradaPadron['TipoDocumento'] : null;
 	$habitantes = null;
 	$criteria = null;
-	
-	$auditoria = $this->__guardarRegistroAuditoria('Individual', $numDocumento, 'Interoperabilidad',null, $this->user);
+
+	$consulta_habitantes = $this->__datosEntradaToArray($datosEntradaPadron);
+	$this->__guardarRegistroAuditoria('Individual', $numDocumento, 'Interoperabilidad',$consulta_habitantes, $this->user);
 	$errores = $this->__validate($data);
 	if ( count($errores) > 0 ) {
 	    return $this->__generateRespuesta ($errores, $data);
@@ -180,6 +181,17 @@ class SoapErroldaService
 	return $this->__generateRespuesta($errores, $data, $habitantesArray);
     }
 
+    private function __datosEntradaToArray ($datosEntrada) {
+	$consulta_habitantes = [];
+	if ($datosEntrada != null && array_key_exists("Nombre",$datosEntrada))
+	    $consulta_habitantes['nombre'] = $datosEntrada['Nombre'];
+	if ($datosEntrada != null && array_key_exists("Apellido1",$datosEntrada))
+	    $consulta_habitantes['apellido1'] = $datosEntrada['Apellido1'];
+	if ($datosEntrada != null && array_key_exists("Apellido2",$datosEntrada))
+	    $consulta_habitantes['apellido2'] = $datosEntrada['Apellido2'];
+	return $consulta_habitantes;
+    }
+    
     private function __guardarRegistroAuditoria ($tipo, $dni = null, $motivo = null, $consulta_habitantes = null, User $user ) {
 //	$this->em = $this->getDoctrine()->getManager();
 	$auditoria = new Auditoria();
