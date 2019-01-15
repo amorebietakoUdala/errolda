@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 
+use AppBundle\Entity\User;
+
 namespace AppBundle\Services;
 
 use AppBundle\Services\NISAE\Atributos;
@@ -35,14 +37,17 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Utils\Balidazioak;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Auditoria;
 
 class SoapErroldaService
 {
 
     private $em = null;
     
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, User $user) {
         $this->em = $em;
+	$this->user = $user;
     }
     
     const ESTADOS = [
@@ -140,6 +145,7 @@ class SoapErroldaService
 	$habitantes = null;
 	$criteria = null;
 	
+	$auditoria = $this->__guardarRegistroAuditoria('Individual', $numDocumento, 'Interoperabilidad',null, $this->user);
 	$errores = $this->__validate($data);
 	if ( count($errores) > 0 ) {
 	    return $this->__generateRespuesta ($errores, $data);
@@ -174,6 +180,25 @@ class SoapErroldaService
 	return $this->__generateRespuesta($errores, $data, $habitantesArray);
     }
 
+    private function __guardarRegistroAuditoria ($tipo, $dni = null, $motivo = null, $consulta_habitantes = null, User $user ) {
+//	$this->em = $this->getDoctrine()->getManager();
+	$auditoria = new Auditoria();
+	$auditoria->setFecha(new \DateTime());
+	$auditoria->setTipo($tipo);
+	$auditoria->setDni($dni);
+	$auditoria->setMotivo($motivo);
+	if ($consulta_habitantes != null && array_key_exists("nombre",$consulta_habitantes))
+	    $auditoria->setNombre($consulta_habitantes['nombre']);
+	if ($consulta_habitantes != null && array_key_exists("apellido1",$consulta_habitantes))
+	    $auditoria->setApellido1($consulta_habitantes['apellido1']);
+	if ($consulta_habitantes != null && array_key_exists("apellido2",$consulta_habitantes))
+	    $auditoria->setApellido1($consulta_habitantes['apellido2']);
+	$auditoria->setUsuario($user);
+	$this->em->persist($auditoria);
+	$this->em->flush();
+	return $auditoria;
+    }
+    
     private function __validate($data) {
 	$errores = [];
 	$datosEntradaPadron = $data['Solicitudes']['SolicitudTransmision']['DatosEspecificos']['Consulta']['DatosEntradaPadron'];
@@ -242,6 +267,7 @@ class SoapErroldaService
     }
     
     private function __generateRespuesta (Array $errores, $data, $habitantesArray = null) {
+	$atributos = $data['Atributos'];
 	if ( count($errores) > 0 ) {
 	    $key = array_keys($errores[0])[0];
 	    $estadoResultado = new EstadoResultado('E', $this::ESTADOS_RESULTADO['E'], $this::MOTIVOS[$key]);

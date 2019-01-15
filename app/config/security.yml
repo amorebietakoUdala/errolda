@@ -46,6 +46,7 @@ security:
 
     access_control:
         - { path: ^/errolda-txartela, role: ROLE_API }
+        - { path: ^/soap, role: ROLE_API }        
         - { path: ^/[a-z]+/biztanleak, role: ROLE_KONTSULTA }
         - { path: ^/[a-z]+/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
