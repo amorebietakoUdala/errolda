@@ -167,6 +167,8 @@ class ErroldaService {
 	    $auditoria->setApellido1($consulta_habitantes['apellido1']);
 	if ($consulta_habitantes != null && array_key_exists("apellido2",$consulta_habitantes))
 	    $auditoria->setApellido1($consulta_habitantes['apellido2']);
+	if ($dni == null && $consulta_habitantes != null && array_key_exists("numDocumento",$consulta_habitantes))
+	    $auditoria->setDni($consulta_habitantes['numDocumento']);
 	$auditoria->setUsuario($user);
 	$this->em->persist($auditoria);
 	$this->em->flush();
