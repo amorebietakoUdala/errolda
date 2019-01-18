@@ -140,13 +140,24 @@ class ErroldaService {
     public function listAction (Request $request, Array $consulta_habitante, User $user) {
 	$em = $this->em;
 	$habitantes = $em->getRepository(Habitante::class)->findHabitantes($consulta_habitante);
+//	dump($habitantes);die;
 	$viviendas = [];
+	$numHabitantesVivienda = [];
+	$variaciones = [];
 	foreach ( $habitantes as $habitante) {
 	    $vivienda = $em->getRepository(Vivienda::class)->findOneBy(['claveVivienda' => $habitante->getClaveVivienda()]);
 	    $viviendas[] = $vivienda;
+	    $habitantesVivienda = $em->getRepository(Habitante::class)->findHabitantesActuales(['claveVivienda' => $habitante->getClaveVivienda()]);
+	    $numHabitantesVivienda[] = count($habitantesVivienda);
+	    $ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacionHabitante($habitante);
+	    $variaciones[] = $ultimaVariacion;
+//	    dump($habitantesVivienda);die;
 	}
+	
 	$auditoria = $this->guardarRegistroAuditoria('consulta',null,null,$consulta_habitante, $user);
 	$emaitza = [
+	    'variaciones' => $variaciones,
+	    'numHabitantesVivienda' => $numHabitantesVivienda,
 	    'habitantes' => $habitantes,
 	    'viviendas' => $viviendas,
 	    'auditoria' => $auditoria,

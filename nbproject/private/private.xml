@@ -12,25 +12,15 @@
             <file>file:/C:/Netbeans/Padron-MySql/src/AppBundle/Services/NISAE/Habitante.php</file>
         </group>
         <group name="Local">
-            <file>file://garapenak/symfony_projects/errolda/composer.json</file>
-            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Services/NISAE/EstadoResultado.php</file>
-            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Repository/HabitanteRepository.php</file>
-            <file>file://garapenak/symfony_projects/errolda/app/config/routing.yml</file>
-            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Utils/Balidazioak.php</file>
-            <file>file://garapenak/symfony_projects/errolda/app/config/services.yml</file>
-            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Services/ErroldaService.php</file>
             <file>file://garapenak/symfony_projects/errolda/app/config/config.yml</file>
-            <file>file://garapenak/symfony_projects/errolda/app/Resources/views/erroldaTxartela/erroldaAdingabekoa.html.twig</file>
-            <file>file://garapenak/symfony_projects/errolda/app/Resources/views/erroldaTxartela/error.html.twig</file>
-            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Services/NISAE/Retorno.php</file>
+            <file>file://garapenak/symfony_projects/errolda/app/config/parameters.yml</file>
             <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Controller/ErroldaTxartelaController.php</file>
-            <file>file://garapenak/symfony_projects/errolda/app/Resources/views/erroldaTxartela/erroldaKolektiboa.html.twig</file>
-            <file>file://garapenak/symfony_projects/errolda/app/Resources/views/erroldaTxartela/erroldaMugimenduak.html.twig</file>
+            <file>file://garapenak/symfony_projects/errolda/sh/export-errolda2.sh</file>
+            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Controller/DefaultController.php</file>
             <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Services/SoapErroldaService.php</file>
-            <file>file://garapenak/symfony_projects/errolda/app/Resources/views/erroldaTxartela/erroldaBanakoa.html.twig</file>
-            <file>file://garapenak/symfony_projects/errolda/app/Resources/views/pdf.html.twig</file>
             <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Controller/SoapErroldaServiceController.php</file>
-            <file>file://garapenak/symfony_projects/errolda/app/AppKernel.php</file>
+            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Entity/User.php</file>
+            <file>file://garapenak/symfony_projects/errolda/app/config/security.yml</file>
         </group>
     </open-files>
 </project-private>

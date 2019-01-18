@@ -10,7 +10,7 @@ security:
     role_hierarchy:
         ROLE_API:         ROLE_API
         ROLE_KONSULTA:    ROLE_KONTSULTA
-        ROLE_ADMIN:       ROLE_KONTSULTA, ROLE_ADMIN
+        ROLE_ADMIN:       ROLE_KONTSULTA, ROLE_ADMIN, ROLE_API
         ROLE_SUPER_ADMIN: [ROLE_API, ROLE_USER, ROLE_KONTSULTA, ROLE_ADMIN]
 
     providers:

@@ -38,6 +38,8 @@
 			<th data-sortable="true">{{"label.apellido1" | trans | capitalize}}</th>
 			<th data-sortable="true">{{"label.apellido2" | trans | capitalize}}</th>
 			<th data-sortable="true">{{"label.direccion" | trans | capitalize}}</th>
+			<th data-sortable="true">{{"label.numHabitantes" | trans | capitalize}}</th>
+			<th data-sortable="true">{{"label.anoLlegada" | trans | capitalize}}</th>
 		    </tr>
 		</thead>
 		<tbody>
@@ -48,10 +50,23 @@
 			    <td>{{habitante.apellido1 }}</td>
 			    <td>{{habitante.apellido2 }}</td>
 			    <td>{{emaitza.viviendas[loop.index-1] }}</td>
+			    <td>{{emaitza.numHabitantesVivienda[loop.index-1] }}</td>
+			    <td>{%set variacion = emaitza.variaciones[loop.index-1] %}
+				{% if habitante.tipoAlta != 'AN' %}
+				    {% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da
+				    {% else %}
+					{% if ( (variacion.fechaAltaHabitante| trim) != '' )%}
+					    {{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da
+					{% endif %}
+				    {% endif %}
+				{% else %}
+				    {{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da
+				{% endif %}
+			    </td>
 			</tr>
 			{% endfor %}
 		    {% else %}
-			<tr><td colspan="4">{{"messages.results0" | trans }}</td></tr>
+			<tr><td colspan="6">{{"messages.results0" | trans }}</td></tr>
 		    {% endif %}
 		</tbody>
 	    </table>
