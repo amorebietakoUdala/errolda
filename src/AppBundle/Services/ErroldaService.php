@@ -195,7 +195,7 @@ class ErroldaService {
 	return $movimientos;
     }
     
-    /* Elimina todos los mayores de edad menos el titular que conviven en la misma vivienda
+    /* Elimina todos los mayores de 16 años menos el titular que conviven en la misma vivienda
      * 
      * 
      * @return habitantes
@@ -206,7 +206,7 @@ class ErroldaService {
 	foreach ($habitantes as $habitante) {
 	    if ($habitante->getNumDocumento() !== $titular->getNumDocumento()) {
 		$edad = $this->__calcularEdad($habitante);
-		if ($edad != null && $edad <= 17 ) {
+		if ($edad != null && $edad <= 15 ) {
 		    $habitantesFiltrados[] = $habitante;
 		}
 	    } else {
@@ -220,7 +220,7 @@ class ErroldaService {
 	$habitantesFiltrados = [];
 	foreach ($habitantes as $habitante) {
 		$edad = $this->__calcularEdad($habitante);
-		if ($edad != null && $edad <= 17 ) {
+		if ($edad != null && $edad <= 15 ) {
 		    $habitantesFiltrados[] = $habitante;
 		}
 	}
