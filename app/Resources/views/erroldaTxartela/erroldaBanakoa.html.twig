@@ -60,7 +60,7 @@
 	<tr>
 	    <th style="width: 25%;">{{'pdf.udalerrian-noiztik-eu' | trans }}<br/>{{'pdf.udalerrian-noiztik-es' | trans }}</th>
 	    <td style="width: 75%; background-color: #ddd"><b>
-		    {% if habitante.tipoAlta != 'AN' %}
+		    {% if habitante.tipoAlta != 'AN' and habitante.tipoAlta != 'AM' %}
 			{% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da
 			{% else %}
 			    {% if ( (variacion.fechaAltaHabitante| trim) != '' )%}
@@ -68,7 +68,7 @@
 			    {% endif %}
 			{% endif %}
 		    {% else %}
-			{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da
+		    {{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da
 		    {% endif %}
 	    </b></td>
 	</tr>
