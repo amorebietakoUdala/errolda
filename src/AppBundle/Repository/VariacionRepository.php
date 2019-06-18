@@ -35,7 +35,9 @@ class VariacionRepository extends EntityRepository
 	$qb->setParameter( 'tipoVariacion', 'BM' );
         $result = $qb->getQuery()->getResult();
 //	dump($result);die;
-	return $result[0];
+	if (count($result) > 0) {
+	    return $result[0];
+	} else return null;
     }
 
     public function findUltimaVariacionHabitante ( Habitante $habitante )
@@ -51,8 +53,9 @@ class VariacionRepository extends EntityRepository
 	$qb->setParameter( 'tipoVariacion', 'MD' );
 	$qb->setParameter( 'claveInicialHabitante', $claveInicialHabitante );
         $result = $qb->getQuery()->getResult();
-//	dump($result[0]);die;
-	return $result[0];
+	if (count($result) > 0) {
+	    return $result[0];
+	} else return null;
     }
 
     public function findUltimoCambioDomicilio ( Habitante $habitante )

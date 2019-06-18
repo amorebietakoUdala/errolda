@@ -28,3 +28,5 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
+
+    WhiteOctober\TCPDFBundle\Controller\TCPDFController: '@white_october.tcpdf'

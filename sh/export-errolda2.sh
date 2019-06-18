@@ -1,8 +1,12 @@
 #!/bin/bash
 
+MOUNTPATH=/media/errolda
 SCPATH=/var/www/errolda/sh
+mount -l "$MOUNTPATH"
+
 cd "$SCPATH"
-cp "/media/errolda/DBWPAYTO.MDB" "$SCPATH/errolda.mdb"
+cp "$MOUNTPATH/DBWPAYTO.MDB" "$SCPATH/errolda.mdb"
+umount "$MOUNTPATH"
 mdb-schema "$SCPATH/errolda.mdb" mysql > "$SCPATH/errolda-schema.sql"
 
 rm "$SCPATH/export-errolda.sql.gz"
@@ -22,7 +26,7 @@ mysql --defaults-extra-file=$SCPATH/export-errolda2.cnf errolda < $SCPATH/export
 mysql --defaults-extra-file=$SCPATH/export-errolda2.cnf errolda < $SCPATH/inserts_adaptacion.sql
 
 FILESIZE=$(( $( stat -c '%s' "$SCPATH/export-errolda.sql" ) / 1024 / 1024 ))
-printf "export-errolda.sql (Normalean 258 MB): $FILESIZE MB\n"
+printf "export-errolda.sql (Normalean 270 MB): $FILESIZE MB\n"
 
 gzip $SCPATH/export-errolda.sql
 FILESIZE=$(( $( stat -c '%s' "$SCPATH/export-errolda.sql.gz" ) / 1024 / 1024 ))

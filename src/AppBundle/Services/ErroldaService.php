@@ -140,13 +140,24 @@ class ErroldaService {
     public function listAction (Request $request, Array $consulta_habitante, User $user) {
 	$em = $this->em;
 	$habitantes = $em->getRepository(Habitante::class)->findHabitantes($consulta_habitante);
+//	dump($habitantes);die;
 	$viviendas = [];
+	$numHabitantesVivienda = [];
+	$variaciones = [];
 	foreach ( $habitantes as $habitante) {
 	    $vivienda = $em->getRepository(Vivienda::class)->findOneBy(['claveVivienda' => $habitante->getClaveVivienda()]);
 	    $viviendas[] = $vivienda;
+	    $habitantesVivienda = $em->getRepository(Habitante::class)->findHabitantesActuales(['claveVivienda' => $habitante->getClaveVivienda()]);
+	    $numHabitantesVivienda[] = count($habitantesVivienda);
+	    $ultimaVariacion = $em->getRepository('AppBundle:Variacion')->findUltimaVariacionHabitante($habitante);
+	    $variaciones[] = $ultimaVariacion;
+//	    dump($habitantesVivienda);die;
 	}
+	
 	$auditoria = $this->guardarRegistroAuditoria('consulta',null,null,$consulta_habitante, $user);
 	$emaitza = [
+	    'variaciones' => $variaciones,
+	    'numHabitantesVivienda' => $numHabitantesVivienda,
 	    'habitantes' => $habitantes,
 	    'viviendas' => $viviendas,
 	    'auditoria' => $auditoria,
@@ -167,6 +178,8 @@ class ErroldaService {
 	    $auditoria->setApellido1($consulta_habitantes['apellido1']);
 	if ($consulta_habitantes != null && array_key_exists("apellido2",$consulta_habitantes))
 	    $auditoria->setApellido1($consulta_habitantes['apellido2']);
+	if ($dni == null && $consulta_habitantes != null && array_key_exists("numDocumento",$consulta_habitantes))
+	    $auditoria->setDni($consulta_habitantes['numDocumento']);
 	$auditoria->setUsuario($user);
 	$this->em->persist($auditoria);
 	$this->em->flush();
@@ -182,7 +195,7 @@ class ErroldaService {
 	return $movimientos;
     }
     
-    /* Elimina todos los mayores de edad menos el titular que conviven en la misma vivienda
+    /* Elimina todos los mayores de 16 años menos el titular que conviven en la misma vivienda
      * 
      * 
      * @return habitantes
@@ -193,7 +206,7 @@ class ErroldaService {
 	foreach ($habitantes as $habitante) {
 	    if ($habitante->getNumDocumento() !== $titular->getNumDocumento()) {
 		$edad = $this->__calcularEdad($habitante);
-		if ($edad != null && $edad <= 17 ) {
+		if ($edad != null && $edad <= 15 ) {
 		    $habitantesFiltrados[] = $habitante;
 		}
 	    } else {
@@ -207,7 +220,7 @@ class ErroldaService {
 	$habitantesFiltrados = [];
 	foreach ($habitantes as $habitante) {
 		$edad = $this->__calcularEdad($habitante);
-		if ($edad != null && $edad <= 17 ) {
+		if ($edad != null && $edad <= 15 ) {
 		    $habitantesFiltrados[] = $habitante;
 		}
 	}

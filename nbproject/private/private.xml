@@ -11,5 +11,16 @@
             <file>file:/C:/Netbeans/Padron-MySql/src/AppBundle/Services/NISAE/Habitantes.php</file>
             <file>file:/C:/Netbeans/Padron-MySql/src/AppBundle/Services/NISAE/Habitante.php</file>
         </group>
+        <group name="Local">
+            <file>file://garapenak/symfony_projects/errolda/app/config/config.yml</file>
+            <file>file://garapenak/symfony_projects/errolda/app/config/parameters.yml</file>
+            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Controller/ErroldaTxartelaController.php</file>
+            <file>file://garapenak/symfony_projects/errolda/sh/export-errolda2.sh</file>
+            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Controller/DefaultController.php</file>
+            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Services/SoapErroldaService.php</file>
+            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Controller/SoapErroldaServiceController.php</file>
+            <file>file://garapenak/symfony_projects/errolda/src/AppBundle/Entity/User.php</file>
+            <file>file://garapenak/symfony_projects/errolda/app/config/security.yml</file>
+        </group>
     </open-files>
 </project-private>

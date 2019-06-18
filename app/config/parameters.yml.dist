@@ -25,3 +25,9 @@ parameters:
     certificate_reason: Firma PDF
     certificate_contactInfo: informatika@amorebieta.eus
     sign_pdf: FALSE
+
+    ldap_host: ldap.local.com
+    ldap_user: ldap_user
+    ldap_password: ldap_password
+    ldap_users_dn: OU=Users,DC=COMPANY,DC=com
+    ldap_accountDomainName: COMPANY

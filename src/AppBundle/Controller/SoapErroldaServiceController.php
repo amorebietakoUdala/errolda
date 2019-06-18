@@ -25,8 +25,11 @@ class SoapErroldaServiceController extends Controller
     /**
      * @Route("/banakakoa", name="soap_errolda_banakakoa")
      */
-    public function soapErroldaBanakakoaAction(SoapErroldaService $soapErroldaService)
+    public function soapErroldaBanakakoaAction()
     {
+	$user = $this->get('security.token_storage')->getToken()->getUser();
+	$em = $this->getDoctrine()->getManager();
+	$soapErroldaService = new SoapErroldaService ($em,$user);
         $soapServer = new \SoapServer($this->get('kernel')->getRootDir().'/Resources/config/soap/x53jiServicioIntermediacion.wsdl');
         $soapServer->setObject($soapErroldaService);
 
@@ -40,13 +43,13 @@ class SoapErroldaServiceController extends Controller
         return $response;
     }
     
-        /**
+     /**
      * @Route("/banakakoaNoSOAP", name="soap_errolda_banakakoaNoSOAP")
      */
     public function soapErroldaBanakakoaNoSOAPAction(Request $request, SoapErroldaService $soapErroldaService)
     {
         $response = new JsonResponse();
-	dump($soapErroldaService->peticionSincronaNoSOAP($request));die;
+	$soapErroldaService->peticionSincronaNoSOAP($request);
         $response->setContent($soapErroldaService->peticionSincronaNoSOAP($request));
         return $response;
     }
