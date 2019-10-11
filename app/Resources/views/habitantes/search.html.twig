@@ -51,17 +51,21 @@
 			    <td>{{habitante.apellido2 }}</td>
 			    <td>{{emaitza.viviendas[loop.index-1] }}</td>
 			    <td>{{emaitza.numHabitantesVivienda[loop.index-1] }}</td>
-			    <td>{%set variacion = emaitza.variaciones[loop.index-1] %}
-				{% if habitante.tipoAlta != 'AN' %}
-				    {% if (( habitante.anoLlegada | trim ) != '0000') %}{{ habitante.anoLlegada }}- tik bizi da
-				    {% else %}
-					{% if ( (variacion.fechaAltaHabitante| trim) != '' )%}
-					    {{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da
+			    <td>
+					{%set variacion = emaitza.variaciones[loop.index-1] %}
+					{% if habitante.tipoAlta != 'AN' %}
+						{% if (( habitante.anoLlegada | trim ) != '0000') %}
+							{{ habitante.anoLlegada }}- tik bizi da
+						{% else %}
+							{% if ( (variacion.fechaAltaHabitante| trim) != '' )%}
+								{{ variacion.fechaAltaHabitante[:4] }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante|slice(-2) }}/{{ variacion.fechaAltaHabitante|slice(-2) }}-{{ variacion.fechaAltaHabitante|slice(-4,-2) }}-{{ variacion.fechaAltaHabitante[:4] }}- tik bizi da
+							{% else %}
+								{{ '1996a baino lehen' | trans }}
+							{% endif %}
+						{% endif %}
+					{% else %}
+						{{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da
 					{% endif %}
-				    {% endif %}
-				{% else %}
-				    {{ habitante.fechaAlta[:4] }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta|slice(-2) }}/{{ habitante.fechaAlta|slice(-2) }}-{{ habitante.fechaAlta|slice(-4,-2) }}-{{ habitante.fechaAlta[:4] }}- tik bizi da
-				{% endif %}
 			    </td>
 			</tr>
 			{% endfor %}
