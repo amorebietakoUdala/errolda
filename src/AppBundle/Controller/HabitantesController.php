@@ -49,8 +49,6 @@ class HabitantesController extends Controller
                 $data['numDocumento'] = Balidazioak::getDNIZenbakia($data['numDocumento']);
                 $consulta_habitante = $this->_remove_blank_filters($data);
                 $emaitza = $erroldaService->listAction($request, $consulta_habitante, $user);
-//                dump($emaitza);
-//                die;
 
                 return $this->render('/habitantes/search.html.twig', [
             'emaitza' => $emaitza,
